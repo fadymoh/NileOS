@@ -1,0 +1,1953 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+virtualMemoryService
+                    0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+sharedMemoryService
+                    0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+ipiService          0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+physicalMemoryService
+                    0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+interruptDescriptorTablePointer
+                    0x10              /home/admin/Desktop/Sandbox/objects/KernelMain.o
+apicManagerService  0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+globalDescriptorTablePointer
+                    0x6               /home/admin/Desktop/Sandbox/objects/KernelMain.o
+hamadaStruct_object
+                    0xc               /home/admin/Desktop/Sandbox/objects/KernelMain.o
+pciService          0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+consoleService      0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+kernel              0x17750           /home/admin/Desktop/Sandbox/objects/KernelMain.o
+interruptService    0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+service1_object     0xc               /home/admin/Desktop/Sandbox/objects/KernelMain.o
+service1Service     0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+hamadaStructService
+                    0x810             /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.text           0x0000000000000000    0x25a08
+ KernelWrapper.o(.text)
+ .text          0x0000000000000000       0x35 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+                0x0000000000000000                _start
+ gdt.o(.text)
+ *fill*         0x0000000000000035        0xb 
+ .text          0x0000000000000040       0x23 /home/admin/Desktop/Sandbox/objects/gdt.o
+                0x0000000000000040                gdtInit
+                0x000000000000005b                tssFlush
+ idt.o(.text)
+ *fill*         0x0000000000000063        0xd 
+ .text          0x0000000000000070      0xb72 /home/admin/Desktop/Sandbox/objects/idt.o
+                0x0000000000000070                idtInit
+                0x0000000000000079                isr0
+                0x0000000000000083                isr1
+                0x000000000000008d                isr2
+                0x0000000000000097                isr3
+                0x00000000000000a1                isr4
+                0x00000000000000ab                isr5
+                0x00000000000000b5                isr6
+                0x00000000000000bf                isr7
+                0x00000000000000c9                isr8
+                0x00000000000000d1                isr9
+                0x00000000000000db                isr10
+                0x00000000000000e3                isr11
+                0x00000000000000eb                isr12
+                0x00000000000000f3                isr13
+                0x00000000000000fb                isr14
+                0x0000000000000103                isr15
+                0x000000000000010d                isr16
+                0x0000000000000117                isr17
+                0x0000000000000121                isr18
+                0x000000000000012b                isr19
+                0x0000000000000135                isr20
+                0x000000000000013f                isr21
+                0x0000000000000149                isr22
+                0x0000000000000153                isr23
+                0x000000000000015d                isr24
+                0x0000000000000167                isr25
+                0x0000000000000171                isr26
+                0x000000000000017b                isr27
+                0x0000000000000185                isr28
+                0x000000000000018f                isr29
+                0x0000000000000199                isr30
+                0x00000000000001a3                isr31
+                0x00000000000001ad                irq0
+                0x00000000000001b7                irq1
+                0x00000000000001c1                irq2
+                0x00000000000001cb                irq3
+                0x00000000000001d5                irq4
+                0x00000000000001df                irq5
+                0x00000000000001e9                irq6
+                0x00000000000001f3                irq7
+                0x00000000000001fd                irq8
+                0x0000000000000207                irq9
+                0x0000000000000211                irq10
+                0x000000000000021b                irq11
+                0x0000000000000225                irq12
+                0x000000000000022f                irq13
+                0x0000000000000239                irq14
+                0x0000000000000243                irq15
+                0x000000000000024d                irq16
+                0x0000000000000257                irq17
+                0x0000000000000261                irq18
+                0x000000000000026b                irq19
+                0x0000000000000275                irq20
+                0x000000000000027f                irq21
+                0x0000000000000289                irq22
+                0x0000000000000293                irq23
+                0x000000000000029d                irq24
+                0x00000000000002a7                irq25
+                0x00000000000002b1                irq26
+                0x00000000000002bb                irq27
+                0x00000000000002c5                irq28
+                0x00000000000002cf                irq29
+                0x00000000000002d9                irq30
+                0x00000000000002e3                irq31
+                0x00000000000002ed                irq32
+                0x00000000000002f7                irq33
+                0x0000000000000301                irq34
+                0x000000000000030b                irq35
+                0x0000000000000315                irq36
+                0x000000000000031f                irq37
+                0x0000000000000329                irq38
+                0x0000000000000333                irq39
+                0x000000000000033d                irq40
+                0x0000000000000347                irq41
+                0x0000000000000351                irq42
+                0x000000000000035b                irq43
+                0x0000000000000365                irq44
+                0x000000000000036f                irq45
+                0x0000000000000379                irq46
+                0x0000000000000383                irq47
+                0x000000000000038d                irq48
+                0x0000000000000397                irq49
+                0x00000000000003a1                irq50
+                0x00000000000003ab                irq51
+                0x00000000000003b5                irq52
+                0x00000000000003bf                irq53
+                0x00000000000003c9                irq54
+                0x00000000000003d3                irq55
+                0x00000000000003dd                irq56
+                0x00000000000003e7                irq57
+                0x00000000000003f1                irq58
+                0x00000000000003fb                irq59
+                0x0000000000000405                irq60
+                0x000000000000040f                irq61
+                0x0000000000000419                irq62
+                0x0000000000000423                irq63
+                0x000000000000042d                apirq0
+                0x0000000000000437                apirq1
+                0x0000000000000441                apirq2
+                0x000000000000044b                apirq3
+                0x0000000000000455                apirq4
+                0x000000000000045f                apirq5
+                0x0000000000000469                apirq6
+                0x0000000000000473                apirq7
+                0x000000000000047d                apirq8
+                0x0000000000000487                apirq9
+                0x0000000000000491                apirq10
+                0x000000000000049b                apirq11
+                0x00000000000004a5                apirq12
+                0x00000000000004af                apirq13
+                0x00000000000004b9                apirq14
+                0x00000000000004c3                apirq15
+                0x00000000000004cd                apirq16
+                0x00000000000004d7                apirq17
+                0x00000000000004e1                apirq18
+                0x00000000000004eb                apirq19
+                0x00000000000004f5                apirq20
+                0x00000000000004ff                apirq21
+                0x0000000000000509                apirq22
+                0x0000000000000513                apirq23
+                0x000000000000051d                apirq24
+                0x0000000000000527                apirq25
+                0x0000000000000531                apirq26
+                0x000000000000053b                apirq27
+                0x0000000000000545                apirq28
+                0x000000000000054f                apirq29
+                0x0000000000000559                apirq30
+                0x0000000000000563                apirq31
+                0x000000000000056d                swirq0
+                0x000000000000057a                swirq1
+                0x0000000000000587                swirq2
+                0x0000000000000594                swirq3
+                0x00000000000005a1                swirq4
+                0x00000000000005ae                swirq5
+                0x00000000000005bb                swirq6
+                0x00000000000005c8                swirq7
+                0x00000000000005d5                swirq8
+                0x00000000000005e2                swirq9
+                0x00000000000005ef                swirq10
+                0x00000000000005fc                swirq11
+                0x0000000000000609                swirq12
+                0x0000000000000616                swirq13
+                0x0000000000000623                swirq14
+                0x0000000000000630                swirq15
+                0x000000000000063d                swirq16
+                0x000000000000064a                swirq17
+                0x0000000000000657                swirq18
+                0x0000000000000664                swirq19
+                0x0000000000000671                swirq20
+                0x000000000000067e                swirq21
+                0x000000000000068b                swirq22
+                0x0000000000000698                swirq23
+                0x00000000000006a5                swirq24
+                0x00000000000006b2                swirq25
+                0x00000000000006bf                swirq26
+                0x00000000000006cc                swirq27
+                0x00000000000006d9                swirq28
+                0x00000000000006e6                swirq29
+                0x00000000000006f3                swirq30
+                0x0000000000000700                swirq31
+                0x000000000000070d                swirq32
+                0x000000000000071a                swirq33
+                0x0000000000000727                swirq34
+                0x0000000000000734                swirq35
+                0x0000000000000741                swirq36
+                0x000000000000074e                swirq37
+                0x000000000000075b                swirq38
+                0x0000000000000768                swirq39
+                0x0000000000000775                swirq40
+                0x0000000000000782                swirq41
+                0x000000000000078f                swirq42
+                0x000000000000079c                swirq43
+                0x00000000000007a9                swirq44
+                0x00000000000007b6                swirq45
+                0x00000000000007c3                swirq46
+                0x00000000000007d0                swirq47
+                0x00000000000007dd                swirq48
+                0x00000000000007ea                swirq49
+                0x00000000000007f7                swirq50
+                0x0000000000000804                swirq51
+                0x0000000000000811                swirq52
+                0x000000000000081e                swirq53
+                0x000000000000082b                swirq54
+                0x0000000000000838                swirq55
+                0x0000000000000845                swirq56
+                0x0000000000000852                swirq57
+                0x000000000000085f                swirq58
+                0x000000000000086c                swirq59
+                0x0000000000000879                swirq60
+                0x0000000000000886                swirq61
+                0x0000000000000893                swirq62
+                0x00000000000008a0                swirq63
+                0x00000000000008ad                swirq64
+                0x00000000000008ba                swirq65
+                0x00000000000008c7                swirq66
+                0x00000000000008d4                swirq67
+                0x00000000000008e1                swirq68
+                0x00000000000008ee                swirq69
+                0x00000000000008fb                swirq70
+                0x0000000000000908                swirq71
+                0x0000000000000915                swirq72
+                0x0000000000000922                swirq73
+                0x000000000000092f                swirq74
+                0x000000000000093c                swirq75
+                0x0000000000000949                swirq76
+                0x0000000000000956                swirq77
+                0x0000000000000963                swirq78
+                0x0000000000000970                swirq79
+                0x000000000000097d                swirq80
+                0x000000000000098a                swirq81
+                0x0000000000000997                swirq82
+                0x00000000000009a4                swirq83
+                0x00000000000009b1                swirq84
+                0x00000000000009be                swirq85
+                0x00000000000009cb                swirq86
+                0x00000000000009d8                swirq87
+                0x00000000000009e5                swirq88
+                0x00000000000009f2                swirq89
+                0x00000000000009ff                swirq90
+                0x0000000000000a0c                swirq91
+                0x0000000000000a19                swirq92
+                0x0000000000000a26                swirq93
+                0x0000000000000a33                swirq94
+                0x0000000000000a40                swirq95
+                0x0000000000000a4d                swirq96
+                0x0000000000000a5a                swirq97
+                0x0000000000000a67                swirq98
+                0x0000000000000a74                swirq99
+                0x0000000000000a81                swirq100
+                0x0000000000000a8e                swirq101
+                0x0000000000000a9b                swirq102
+                0x0000000000000aa8                swirq103
+                0x0000000000000ab5                swirq104
+                0x0000000000000ac2                swirq105
+                0x0000000000000acf                swirq106
+                0x0000000000000adc                swirq107
+                0x0000000000000ae9                swirq108
+                0x0000000000000af6                swirq109
+                0x0000000000000b03                swirq110
+                0x0000000000000b10                swirq111
+                0x0000000000000b1d                swirq112
+                0x0000000000000b2a                swirq113
+                0x0000000000000b37                swirq114
+                0x0000000000000b44                swirq115
+                0x0000000000000b51                swirq116
+                0x0000000000000b5e                swirq117
+                0x0000000000000b6b                swirq118
+                0x0000000000000b78                swirq119
+                0x0000000000000b85                swirq120
+                0x0000000000000b92                swirq121
+                0x0000000000000b9f                swirq122
+                0x0000000000000bac                swirq123
+                0x0000000000000bb9                swirq124
+                0x0000000000000bc6                swirq125
+                0x0000000000000bd3                swirq126
+                0x0000000000000be0                isr255
+ isr.o(.text)
+ *fill*         0x0000000000000be2        0xe 
+ .text          0x0000000000000bf0       0x45 /home/admin/Desktop/Sandbox/objects/isr.o
+                0x0000000000000bf0                idt_common_stub
+ pit.o(.text)
+ *fill*         0x0000000000000c35        0xb 
+ .text          0x0000000000000c40      0x2ee /home/admin/Desktop/Sandbox/objects/pit.o
+                0x0000000000000c40                setTimer
+                0x0000000000000c50                pit_sleep
+                0x0000000000000d50                initializePit
+                0x0000000000000d60                setFrequencyTimer
+                0x0000000000000d70                pit_fire
+ PhysicalMemory.o(.text)
+ *fill*         0x0000000000000f2e        0x2 
+ .text          0x0000000000000f30      0xa8a /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+                0x0000000000000f30                isAddress
+                0x0000000000000f80                isUsableAddress
+                0x0000000000000ff0                getVirtualAddress
+                0x0000000000001040                addPhysicalMemoryEntry
+                0x00000000000010c0                printPhysicalMemory
+                0x0000000000001180                deallocatePhysicalFrame
+                0x0000000000001230                createPhysicalPagesBitMap
+                0x0000000000001380                initializePhysicalMemoryFrame
+                0x0000000000001440                initializePhysicalMemory
+                0x0000000000001610                getReservedAndUsableMemorySize
+                0x0000000000001620                set_bit
+                0x0000000000001650                clear_bit
+                0x0000000000001680                get_bit
+                0x00000000000016b0                allocateOnePhysicalFrame
+                0x00000000000017a0                allocatePhysicalFrames
+                0x0000000000001810                deallocateOnePhysicalFrameCollection
+                0x0000000000001890                allocateOnePhysicalFrameCollection
+                0x00000000000019a0                AllocateUsableCollection
+ MemoryUtilities_asm.o(.text)
+ *fill*         0x00000000000019ba        0x6 
+ .text          0x00000000000019c0      0x5fe /home/admin/Desktop/Sandbox/objects/MemoryUtilities_asm.o
+                0x00000000000019c0                memcpy8
+                0x00000000000019c0                memcpy
+                0x00000000000019c0                memcpyc
+                0x00000000000019e4                memcpy16
+                0x0000000000001a0c                memcpy32
+                0x0000000000001a34                memcpy64
+                0x0000000000001a44                memmove
+                0x0000000000001a44                memmovec
+                0x0000000000001a44                memmove8
+                0x0000000000001a65                memmove16
+                0x0000000000001a8b                memmove32
+                0x0000000000001ab1                memmove64
+                0x0000000000001ad8                memset8
+                0x0000000000001ad8                memset
+                0x0000000000001ad8                memsetc
+                0x0000000000001aef                memset16
+                0x0000000000001b05                memset32
+                0x0000000000001b19                memset64
+                0x0000000000001b2c                memcmp8
+                0x0000000000001b2c                memcmp
+                0x0000000000001b2c                memcmpc
+                0x0000000000001b6a                memcmp16
+                0x0000000000001baa                memcmp32
+                0x0000000000001bf1                memcmp64
+                0x0000000000001c0e                rmemcmp8
+                0x0000000000001c0e                rmemcmpc
+                0x0000000000001c0e                rmemcmp
+                0x0000000000001c80                rmemcmp16
+                0x0000000000001d01                rmemcmp32
+                0x0000000000001d8f                rmemcmp64
+                0x0000000000001de4                scanc
+                0x0000000000001de4                scan8
+                0x0000000000001e0a                scan16
+                0x0000000000001e30                scan32
+                0x0000000000001e54                scan64
+                0x0000000000001e77                rscanc
+                0x0000000000001e77                rscan8
+                0x0000000000001ea3                rscan16
+                0x0000000000001ed3                rscan32
+                0x0000000000001f07                rscan64
+                0x0000000000001f46                strlen
+                0x0000000000001f65                strcmp_sse42
+                0x0000000000001f9d                strlen_sse42
+ ClockUtils.o(.text)
+ *fill*         0x0000000000001fbe        0x2 
+ .text          0x0000000000001fc0      0x5ef /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+                0x0000000000001fc0                getUpdateInProgressFlag
+                0x0000000000002000                getRTCRegister
+                0x0000000000002030                timeStamp32
+                0x0000000000002160                timeStamp64
+                0x0000000000002190                getRTCTimeStamp32
+                0x0000000000002370                getRTCTimeStamp64
+                0x0000000000002550                RTCSleep
+                0x0000000000002580                random
+ MemoryUtilities.o(.text)
+ *fill*         0x00000000000025af        0x1 
+ .text          0x00000000000025b0      0x384 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+                0x00000000000025b0                strstr
+                0x0000000000002690                scanmem
+                0x0000000000002750                strncat
+                0x0000000000002790                strcat
+                0x00000000000027e0                strncpy
+                0x00000000000027f0                strcpy
+                0x0000000000002830                strcmp
+                0x00000000000028b0                lstrcmp
+ memcpy_asm.o(.text)
+ *fill*         0x0000000000002934        0xc 
+ .text          0x0000000000002940     0x772d /home/admin/Desktop/Sandbox/objects/memcpy_asm.o
+                0x0000000000002940                fast_memcpy1
+                0x000000000000294a                fast_memcpy2
+                0x0000000000002956                fast_memcpy3
+                0x0000000000002968                fast_memcpy4
+                0x0000000000002972                fast_memcpy5
+                0x0000000000002982                fast_memcpy6
+                0x0000000000002994                fast_memcpy7
+                0x00000000000029ac                fast_memcpy8
+                0x00000000000029b8                fast_memcpy9
+                0x00000000000029ca                fast_memcpy10
+                0x00000000000029de                fast_memcpy11
+                0x00000000000029f8                fast_memcpy12
+                0x0000000000002a0a                fast_memcpy13
+                0x0000000000002a22                fast_memcpy14
+                0x0000000000002a3c                fast_memcpy15
+                0x0000000000002a5c                fast_memcpy16
+                0x0000000000002a6a                fast_memcpy17
+                0x0000000000002a7e                fast_memcpy18
+                0x0000000000002a94                fast_memcpy19
+                0x0000000000002ab0                fast_memcpy20
+                0x0000000000002ac4                fast_memcpy21
+                0x0000000000002ade                fast_memcpy22
+                0x0000000000002afa                fast_memcpy23
+                0x0000000000002b1c                fast_memcpy24
+                0x0000000000002b32                fast_memcpy25
+                0x0000000000002b4e                fast_memcpy26
+                0x0000000000002b6c                fast_memcpy27
+                0x0000000000002b90                fast_memcpy28
+                0x0000000000002bac                fast_memcpy29
+                0x0000000000002bce                fast_memcpy30
+                0x0000000000002bf2                fast_memcpy31
+                0x0000000000002c1c                fast_memcpy32
+                0x0000000000002c34                fast_memcpy33
+                0x0000000000002c52                fast_memcpy34
+                0x0000000000002c72                fast_memcpy35
+                0x0000000000002c98                fast_memcpy36
+                0x0000000000002cb6                fast_memcpy37
+                0x0000000000002cda                fast_memcpy38
+                0x0000000000002d00                fast_memcpy39
+                0x0000000000002d2c                fast_memcpy40
+                0x0000000000002d4c                fast_memcpy41
+                0x0000000000002d72                fast_memcpy42
+                0x0000000000002d9a                fast_memcpy43
+                0x0000000000002dc8                fast_memcpy44
+                0x0000000000002dee                fast_memcpy45
+                0x0000000000002e1a                fast_memcpy46
+                0x0000000000002e48                fast_memcpy47
+                0x0000000000002e7c                fast_memcpy48
+                0x0000000000002e9e                fast_memcpy49
+                0x0000000000002ec6                fast_memcpy50
+                0x0000000000002ef0                fast_memcpy51
+                0x0000000000002f20                fast_memcpy52
+                0x0000000000002f48                fast_memcpy53
+                0x0000000000002f76                fast_memcpy54
+                0x0000000000002fa6                fast_memcpy55
+                0x0000000000002fdc                fast_memcpy56
+                0x0000000000003006                fast_memcpy57
+                0x0000000000003036                fast_memcpy58
+                0x0000000000003068                fast_memcpy59
+                0x00000000000030a0                fast_memcpy60
+                0x00000000000030d0                fast_memcpy61
+                0x0000000000003106                fast_memcpy62
+                0x000000000000313e                fast_memcpy63
+                0x000000000000317c                fast_memcpy64
+                0x00000000000031a8                fast_memcpy65
+                0x00000000000031da                fast_memcpy66
+                0x000000000000320e                fast_memcpy67
+                0x0000000000003248                fast_memcpy68
+                0x000000000000327a                fast_memcpy69
+                0x00000000000032b2                fast_memcpy70
+                0x00000000000032ec                fast_memcpy71
+                0x000000000000332c                fast_memcpy72
+                0x0000000000003360                fast_memcpy73
+                0x000000000000339a                fast_memcpy74
+                0x00000000000033d6                fast_memcpy75
+                0x0000000000003418                fast_memcpy76
+                0x0000000000003452                fast_memcpy77
+                0x0000000000003492                fast_memcpy78
+                0x00000000000034d4                fast_memcpy79
+                0x000000000000351c                fast_memcpy80
+                0x0000000000003552                fast_memcpy81
+                0x000000000000358e                fast_memcpy82
+                0x00000000000035cc                fast_memcpy83
+                0x0000000000003610                fast_memcpy84
+                0x000000000000364c                fast_memcpy85
+                0x000000000000368e                fast_memcpy86
+                0x00000000000036d2                fast_memcpy87
+                0x000000000000371c                fast_memcpy88
+                0x000000000000375a                fast_memcpy89
+                0x000000000000379e                fast_memcpy90
+                0x00000000000037e4                fast_memcpy91
+                0x0000000000003830                fast_memcpy92
+                0x0000000000003874                fast_memcpy93
+                0x00000000000038be                fast_memcpy94
+                0x000000000000390a                fast_memcpy95
+                0x000000000000395c                fast_memcpy96
+                0x000000000000399c                fast_memcpy97
+                0x00000000000039e2                fast_memcpy98
+                0x0000000000003a2a                fast_memcpy99
+                0x0000000000003a78                fast_memcpy100
+                0x0000000000003abe                fast_memcpy101
+                0x0000000000003b0a                fast_memcpy102
+                0x0000000000003b58                fast_memcpy103
+                0x0000000000003bac                fast_memcpy104
+                0x0000000000003bf4                fast_memcpy105
+                0x0000000000003c42                fast_memcpy106
+                0x0000000000003c92                fast_memcpy107
+                0x0000000000003ce8                fast_memcpy108
+                0x0000000000003d36                fast_memcpy109
+                0x0000000000003d8a                fast_memcpy110
+                0x0000000000003de0                fast_memcpy111
+                0x0000000000003e3c                fast_memcpy112
+                0x0000000000003e86                fast_memcpy113
+                0x0000000000003ed6                fast_memcpy114
+                0x0000000000003f28                fast_memcpy115
+                0x0000000000003f80                fast_memcpy116
+                0x0000000000003fd0                fast_memcpy117
+                0x0000000000004026                fast_memcpy118
+                0x000000000000407e                fast_memcpy119
+                0x00000000000040dc                fast_memcpy120
+                0x000000000000412e                fast_memcpy121
+                0x0000000000004186                fast_memcpy122
+                0x00000000000041e0                fast_memcpy123
+                0x0000000000004240                fast_memcpy124
+                0x0000000000004298                fast_memcpy125
+                0x00000000000042f6                fast_memcpy126
+                0x0000000000004356                fast_memcpy127
+                0x00000000000043bc                fast_memcpy128
+                0x0000000000004410                fast_memcpy129
+                0x0000000000004470                fast_memcpy130
+                0x00000000000044d2                fast_memcpy131
+                0x0000000000004540                fast_memcpy132
+                0x00000000000045a0                fast_memcpy133
+                0x000000000000460c                fast_memcpy134
+                0x000000000000467a                fast_memcpy135
+                0x00000000000046f4                fast_memcpy136
+                0x0000000000004756                fast_memcpy137
+                0x00000000000047c4                fast_memcpy138
+                0x0000000000004834                fast_memcpy139
+                0x00000000000048b0                fast_memcpy140
+                0x000000000000491e                fast_memcpy141
+                0x0000000000004998                fast_memcpy142
+                0x0000000000004a14                fast_memcpy143
+                0x0000000000004a9c                fast_memcpy144
+                0x0000000000004b02                fast_memcpy145
+                0x0000000000004b74                fast_memcpy146
+                0x0000000000004be8                fast_memcpy147
+                0x0000000000004c68                fast_memcpy148
+                0x0000000000004cda                fast_memcpy149
+                0x0000000000004d58                fast_memcpy150
+                0x0000000000004dd8                fast_memcpy151
+                0x0000000000004e64                fast_memcpy152
+                0x0000000000004ed8                fast_memcpy153
+                0x0000000000004f58                fast_memcpy154
+                0x0000000000004fda                fast_memcpy155
+                0x0000000000005068                fast_memcpy156
+                0x00000000000050e8                fast_memcpy157
+                0x0000000000005174                fast_memcpy158
+                0x0000000000005202                fast_memcpy159
+                0x000000000000529c                fast_memcpy160
+                0x0000000000005314                fast_memcpy161
+                0x0000000000005398                fast_memcpy162
+                0x000000000000541e                fast_memcpy163
+                0x00000000000054b0                fast_memcpy164
+                0x0000000000005534                fast_memcpy165
+                0x00000000000055c4                fast_memcpy166
+                0x0000000000005656                fast_memcpy167
+                0x00000000000056f4                fast_memcpy168
+                0x000000000000577a                fast_memcpy169
+                0x000000000000580c                fast_memcpy170
+                0x00000000000058a0                fast_memcpy171
+                0x0000000000005940                fast_memcpy172
+                0x00000000000059d2                fast_memcpy173
+                0x0000000000005a70                fast_memcpy174
+                0x0000000000005b10                fast_memcpy175
+                0x0000000000005bbc                fast_memcpy176
+                0x0000000000005c46                fast_memcpy177
+                0x0000000000005cdc                fast_memcpy178
+                0x0000000000005d74                fast_memcpy179
+                0x0000000000005e18                fast_memcpy180
+                0x0000000000005eae                fast_memcpy181
+                0x0000000000005f50                fast_memcpy182
+                0x0000000000005ff4                fast_memcpy183
+                0x00000000000060a4                fast_memcpy184
+                0x000000000000613c                fast_memcpy185
+                0x00000000000061e0                fast_memcpy186
+                0x0000000000006286                fast_memcpy187
+                0x0000000000006338                fast_memcpy188
+                0x00000000000063dc                fast_memcpy189
+                0x000000000000648c                fast_memcpy190
+                0x000000000000653e                fast_memcpy191
+                0x00000000000065fc                fast_memcpy192
+                0x0000000000006698                fast_memcpy193
+                0x0000000000006740                fast_memcpy194
+                0x00000000000067ea                fast_memcpy195
+                0x00000000000068a0                fast_memcpy196
+                0x0000000000006948                fast_memcpy197
+                0x00000000000069fc                fast_memcpy198
+                0x0000000000006ab2                fast_memcpy199
+                0x0000000000006b74                fast_memcpy200
+                0x0000000000006c1e                fast_memcpy201
+                0x0000000000006cd4                fast_memcpy202
+                0x0000000000006d8c                fast_memcpy203
+                0x0000000000006e50                fast_memcpy204
+                0x0000000000006f06                fast_memcpy205
+                0x0000000000006fc8                fast_memcpy206
+                0x000000000000708c                fast_memcpy207
+                0x000000000000715c                fast_memcpy208
+                0x000000000000720a                fast_memcpy209
+                0x00000000000072c4                fast_memcpy210
+                0x0000000000007380                fast_memcpy211
+                0x0000000000007448                fast_memcpy212
+                0x0000000000007502                fast_memcpy213
+                0x00000000000075c8                fast_memcpy214
+                0x0000000000007690                fast_memcpy215
+                0x0000000000007764                fast_memcpy216
+                0x0000000000007820                fast_memcpy217
+                0x00000000000078e8                fast_memcpy218
+                0x00000000000079b2                fast_memcpy219
+                0x0000000000007a88                fast_memcpy220
+                0x0000000000007b50                fast_memcpy221
+                0x0000000000007c24                fast_memcpy222
+                0x0000000000007cfa                fast_memcpy223
+                0x0000000000007ddc                fast_memcpy224
+                0x0000000000007e9c                fast_memcpy225
+                0x0000000000007f68                fast_memcpy226
+                0x0000000000008036                fast_memcpy227
+                0x0000000000008110                fast_memcpy228
+                0x00000000000081dc                fast_memcpy229
+                0x00000000000082b4                fast_memcpy230
+                0x000000000000838e                fast_memcpy231
+                0x0000000000008474                fast_memcpy232
+                0x0000000000008542                fast_memcpy233
+                0x000000000000861c                fast_memcpy234
+                0x00000000000086f8                fast_memcpy235
+                0x00000000000087e0                fast_memcpy236
+                0x00000000000088ba                fast_memcpy237
+                0x00000000000089a0                fast_memcpy238
+                0x0000000000008a88                fast_memcpy239
+                0x0000000000008b7c                fast_memcpy240
+                0x0000000000008c4e                fast_memcpy241
+                0x0000000000008d2c                fast_memcpy242
+                0x0000000000008e0c                fast_memcpy243
+                0x0000000000008ef8                fast_memcpy244
+                0x0000000000008fd6                fast_memcpy245
+                0x00000000000090c0                fast_memcpy246
+                0x00000000000091ac                fast_memcpy247
+                0x00000000000092a4                fast_memcpy248
+                0x0000000000009384                fast_memcpy249
+                0x0000000000009470                fast_memcpy250
+                0x000000000000955e                fast_memcpy251
+                0x0000000000009658                fast_memcpy252
+                0x0000000000009744                fast_memcpy253
+                0x000000000000983c                fast_memcpy254
+                0x0000000000009936                fast_memcpy255
+                0x0000000000009a3c                fast_memcpy256
+                0x0000000000009b20                fast_ndfs_full_packet_copy
+ memcpy.o(.text)
+ *fill*         0x000000000000a06d        0x3 
+ .text          0x000000000000a070     0x1131 /home/admin/Desktop/Sandbox/objects/memcpy.o
+                0x000000000000a070                init_fast_memcpy_handlers
+                0x000000000000b150                fast_memcpy
+ memswap_asm.o(.text)
+ *fill*         0x000000000000b1a1        0xf 
+ .text          0x000000000000b1b0     0xdca0 /home/admin/Desktop/Sandbox/objects/memswap_asm.o
+                0x000000000000b1b0                fast_memswap1
+                0x000000000000b1c2                fast_memswap2
+                0x000000000000b1d8                fast_memswap3
+                0x000000000000b1fe                fast_memswap4
+                0x000000000000b210                fast_memswap5
+                0x000000000000b232                fast_memswap6
+                0x000000000000b258                fast_memswap7
+                0x000000000000b28e                fast_memswap8
+                0x000000000000b2a0                fast_memswap9
+                0x000000000000b2c2                fast_memswap10
+                0x000000000000b2e8                fast_memswap11
+                0x000000000000b31e                fast_memswap12
+                0x000000000000b340                fast_memswap13
+                0x000000000000b372                fast_memswap14
+                0x000000000000b3a8                fast_memswap15
+                0x000000000000b3ee                fast_memswap16
+                0x000000000000b404                fast_memswap17
+                0x000000000000b42a                fast_memswap18
+                0x000000000000b454                fast_memswap19
+                0x000000000000b48e                fast_memswap20
+                0x000000000000b4b4                fast_memswap21
+                0x000000000000b4ea                fast_memswap22
+                0x000000000000b524                fast_memswap23
+                0x000000000000b56e                fast_memswap24
+                0x000000000000b594                fast_memswap25
+                0x000000000000b5ca                fast_memswap26
+                0x000000000000b604                fast_memswap27
+                0x000000000000b64e                fast_memswap28
+                0x000000000000b684                fast_memswap29
+                0x000000000000b6ca                fast_memswap30
+                0x000000000000b714                fast_memswap31
+                0x000000000000b76e                fast_memswap32
+                0x000000000000b798                fast_memswap33
+                0x000000000000b7d2                fast_memswap34
+                0x000000000000b810                fast_memswap35
+                0x000000000000b85e                fast_memswap36
+                0x000000000000b898                fast_memswap37
+                0x000000000000b8e2                fast_memswap38
+                0x000000000000b930                fast_memswap39
+                0x000000000000b98e                fast_memswap40
+                0x000000000000b9c8                fast_memswap41
+                0x000000000000ba12                fast_memswap42
+                0x000000000000ba60                fast_memswap43
+                0x000000000000babe                fast_memswap44
+                0x000000000000bb08                fast_memswap45
+                0x000000000000bb62                fast_memswap46
+                0x000000000000bbc0                fast_memswap47
+                0x000000000000bc2e                fast_memswap48
+                0x000000000000bc6c                fast_memswap49
+                0x000000000000bcba                fast_memswap50
+                0x000000000000bd0c                fast_memswap51
+                0x000000000000bd6e                fast_memswap52
+                0x000000000000bdbc                fast_memswap53
+                0x000000000000be1a                fast_memswap54
+                0x000000000000be7c                fast_memswap55
+                0x000000000000beee                fast_memswap56
+                0x000000000000bf3c                fast_memswap57
+                0x000000000000bf9a                fast_memswap58
+                0x000000000000bffc                fast_memswap59
+                0x000000000000c06e                fast_memswap60
+                0x000000000000c0cc                fast_memswap61
+                0x000000000000c13a                fast_memswap62
+                0x000000000000c1ac                fast_memswap63
+                0x000000000000c22e                fast_memswap64
+                0x000000000000c280                fast_memswap65
+                0x000000000000c2e2                fast_memswap66
+                0x000000000000c348                fast_memswap67
+                0x000000000000c3be                fast_memswap68
+                0x000000000000c420                fast_memswap69
+                0x000000000000c492                fast_memswap70
+                0x000000000000c508                fast_memswap71
+                0x000000000000c58e                fast_memswap72
+                0x000000000000c5f0                fast_memswap73
+                0x000000000000c662                fast_memswap74
+                0x000000000000c6d8                fast_memswap75
+                0x000000000000c75e                fast_memswap76
+                0x000000000000c7d0                fast_memswap77
+                0x000000000000c852                fast_memswap78
+                0x000000000000c8d8                fast_memswap79
+                0x000000000000c96e                fast_memswap80
+                0x000000000000c9d4                fast_memswap81
+                0x000000000000ca4a                fast_memswap82
+                0x000000000000cac4                fast_memswap83
+                0x000000000000cb4e                fast_memswap84
+                0x000000000000cbc4                fast_memswap85
+                0x000000000000cc4a                fast_memswap86
+                0x000000000000ccd4                fast_memswap87
+                0x000000000000cd6e                fast_memswap88
+                0x000000000000cde4                fast_memswap89
+                0x000000000000ce6a                fast_memswap90
+                0x000000000000cef4                fast_memswap91
+                0x000000000000cf8e                fast_memswap92
+                0x000000000000d014                fast_memswap93
+                0x000000000000d0aa                fast_memswap94
+                0x000000000000d144                fast_memswap95
+                0x000000000000d1ee                fast_memswap96
+                0x000000000000d268                fast_memswap97
+                0x000000000000d2f2                fast_memswap98
+                0x000000000000d380                fast_memswap99
+                0x000000000000d41e                fast_memswap100
+                0x000000000000d4a8                fast_memswap101
+                0x000000000000d542                fast_memswap102
+                0x000000000000d5e0                fast_memswap103
+                0x000000000000d68e                fast_memswap104
+                0x000000000000d718                fast_memswap105
+                0x000000000000d7b2                fast_memswap106
+                0x000000000000d850                fast_memswap107
+                0x000000000000d8fe                fast_memswap108
+                0x000000000000d998                fast_memswap109
+                0x000000000000da42                fast_memswap110
+                0x000000000000daf0                fast_memswap111
+                0x000000000000dbae                fast_memswap112
+                0x000000000000dc3c                fast_memswap113
+                0x000000000000dcda                fast_memswap114
+                0x000000000000dd7c                fast_memswap115
+                0x000000000000de2e                fast_memswap116
+                0x000000000000decc                fast_memswap117
+                0x000000000000df7a                fast_memswap118
+                0x000000000000e02c                fast_memswap119
+                0x000000000000e0ee                fast_memswap120
+                0x000000000000e18c                fast_memswap121
+                0x000000000000e23a                fast_memswap122
+                0x000000000000e2ec                fast_memswap123
+                0x000000000000e3ae                fast_memswap124
+                0x000000000000e45c                fast_memswap125
+                0x000000000000e51a                fast_memswap126
+                0x000000000000e5dc                fast_memswap127
+                0x000000000000e6ae                fast_memswap128
+                0x000000000000e750                fast_memswap129
+                0x000000000000e80e                fast_memswap130
+                0x000000000000e8d0                fast_memswap131
+                0x000000000000e9ae                fast_memswap132
+                0x000000000000ea6c                fast_memswap133
+                0x000000000000eb46                fast_memswap134
+                0x000000000000ec24                fast_memswap135
+                0x000000000000ed1e                fast_memswap136
+                0x000000000000eddc                fast_memswap137
+                0x000000000000eeb6                fast_memswap138
+                0x000000000000ef94                fast_memswap139
+                0x000000000000f08e                fast_memswap140
+                0x000000000000f168                fast_memswap141
+                0x000000000000f25e                fast_memswap142
+                0x000000000000f358                fast_memswap143
+                0x000000000000f46e                fast_memswap144
+                0x000000000000f530                fast_memswap145
+                0x000000000000f60e                fast_memswap146
+                0x000000000000f6f0                fast_memswap147
+                0x000000000000f7ee                fast_memswap148
+                0x000000000000f8cc                fast_memswap149
+                0x000000000000f9c6                fast_memswap150
+                0x000000000000fac4                fast_memswap151
+                0x000000000000fbde                fast_memswap152
+                0x000000000000fcbc                fast_memswap153
+                0x000000000000fdb6                fast_memswap154
+                0x000000000000feb4                fast_memswap155
+                0x000000000000ffce                fast_memswap156
+                0x00000000000100c8                fast_memswap157
+                0x00000000000101de                fast_memswap158
+                0x00000000000102f8                fast_memswap159
+                0x000000000001042e                fast_memswap160
+                0x0000000000010510                fast_memswap161
+                0x000000000001060e                fast_memswap162
+                0x0000000000010710                fast_memswap163
+                0x000000000001082e                fast_memswap164
+                0x000000000001092c                fast_memswap165
+                0x0000000000010a46                fast_memswap166
+                0x0000000000010b64                fast_memswap167
+                0x0000000000010c9e                fast_memswap168
+                0x0000000000010d9c                fast_memswap169
+                0x0000000000010eb6                fast_memswap170
+                0x0000000000010fd4                fast_memswap171
+                0x000000000001110e                fast_memswap172
+                0x0000000000011228                fast_memswap173
+                0x000000000001135e                fast_memswap174
+                0x0000000000011498                fast_memswap175
+                0x00000000000115ee                fast_memswap176
+                0x00000000000116f0                fast_memswap177
+                0x000000000001180e                fast_memswap178
+                0x0000000000011930                fast_memswap179
+                0x0000000000011a6e                fast_memswap180
+                0x0000000000011b8c                fast_memswap181
+                0x0000000000011cc6                fast_memswap182
+                0x0000000000011e04                fast_memswap183
+                0x0000000000011f5e                fast_memswap184
+                0x000000000001207c                fast_memswap185
+                0x00000000000121b6                fast_memswap186
+                0x00000000000122f4                fast_memswap187
+                0x000000000001244e                fast_memswap188
+                0x0000000000012588                fast_memswap189
+                0x00000000000126de                fast_memswap190
+                0x0000000000012838                fast_memswap191
+                0x00000000000129ae                fast_memswap192
+                0x0000000000012ad0                fast_memswap193
+                0x0000000000012c0e                fast_memswap194
+                0x0000000000012d50                fast_memswap195
+                0x0000000000012eae                fast_memswap196
+                0x0000000000012fec                fast_memswap197
+                0x0000000000013146                fast_memswap198
+                0x00000000000132a4                fast_memswap199
+                0x000000000001341e                fast_memswap200
+                0x000000000001355c                fast_memswap201
+                0x00000000000136b6                fast_memswap202
+                0x0000000000013814                fast_memswap203
+                0x000000000001398e                fast_memswap204
+                0x0000000000013ae8                fast_memswap205
+                0x0000000000013c5e                fast_memswap206
+                0x0000000000013dd8                fast_memswap207
+                0x0000000000013f6e                fast_memswap208
+                0x00000000000140b0                fast_memswap209
+                0x000000000001420e                fast_memswap210
+                0x0000000000014370                fast_memswap211
+                0x00000000000144ee                fast_memswap212
+                0x000000000001464c                fast_memswap213
+                0x00000000000147c6                fast_memswap214
+                0x0000000000014944                fast_memswap215
+                0x0000000000014ade                fast_memswap216
+                0x0000000000014c3c                fast_memswap217
+                0x0000000000014db6                fast_memswap218
+                0x0000000000014f34                fast_memswap219
+                0x00000000000150ce                fast_memswap220
+                0x0000000000015248                fast_memswap221
+                0x00000000000153de                fast_memswap222
+                0x0000000000015578                fast_memswap223
+                0x000000000001572e                fast_memswap224
+                0x0000000000015890                fast_memswap225
+                0x0000000000015a0e                fast_memswap226
+                0x0000000000015b90                fast_memswap227
+                0x0000000000015d2e                fast_memswap228
+                0x0000000000015eac                fast_memswap229
+                0x0000000000016046                fast_memswap230
+                0x00000000000161e4                fast_memswap231
+                0x000000000001639e                fast_memswap232
+                0x000000000001651c                fast_memswap233
+                0x00000000000166b6                fast_memswap234
+                0x0000000000016854                fast_memswap235
+                0x0000000000016a0e                fast_memswap236
+                0x0000000000016ba8                fast_memswap237
+                0x0000000000016d5e                fast_memswap238
+                0x0000000000016f18                fast_memswap239
+                0x00000000000170ee                fast_memswap240
+                0x0000000000017270                fast_memswap241
+                0x000000000001740e                fast_memswap242
+                0x00000000000175b0                fast_memswap243
+                0x000000000001776e                fast_memswap244
+                0x000000000001790c                fast_memswap245
+                0x0000000000017ac6                fast_memswap246
+                0x0000000000017c84                fast_memswap247
+                0x0000000000017e5e                fast_memswap248
+                0x0000000000017ffc                fast_memswap249
+                0x00000000000181b6                fast_memswap250
+                0x0000000000018374                fast_memswap251
+                0x000000000001854e                fast_memswap252
+                0x0000000000018708                fast_memswap253
+                0x00000000000188de                fast_memswap254
+                0x0000000000018ab8                fast_memswap255
+                0x0000000000018cae                fast_memswap256
+ checksum_asm.o(.text)
+ .text          0x0000000000018e50       0xe0 /home/admin/Desktop/Sandbox/objects/checksum_asm.o
+                0x0000000000018e50                ip_hdr_checksum
+ memswap.o(.text)
+ .text          0x0000000000018f30     0x1131 /home/admin/Desktop/Sandbox/objects/memswap.o
+                0x0000000000018f30                init_fast_memswap_handlers
+                0x000000000001a010                fast_memswap
+ ipi.o(.text)
+ *fill*         0x000000000001a061        0xf 
+ .text          0x000000000001a070       0x56 /home/admin/Desktop/Sandbox/objects/ipi.o
+                0x000000000001a070                sendIPI
+                0x000000000001a0a0                InitializeIPI
+ Terminal.o(.text)
+ *fill*         0x000000000001a0c6        0xa 
+ .text          0x000000000001a0d0      0x592 /home/admin/Desktop/Sandbox/objects/Terminal.o
+                0x000000000001a0d0                terminal_initialize
+                0x000000000001a160                terminal_putCharacterAt
+                0x000000000001a1a0                terminal_putCharacter
+                0x000000000001a1e0                terminal_putCharacterAndAdvanceString
+                0x000000000001a2e0                terminal_putString
+                0x000000000001a340                terminal_putHexa
+                0x000000000001a480                terminal_putHexa128
+                0x000000000001a5d0                terminal_setPosition
+                0x000000000001a5e0                terminal_clearScreen
+                0x000000000001a640                terminal_getViewPort
+ Console.o(.text)
+ *fill*         0x000000000001a662        0xe 
+ .text          0x000000000001a670      0x38f /home/admin/Desktop/Sandbox/objects/Console.o
+                0x000000000001a670                console_writeToTerminal
+                0x000000000001a6d0                console_addStringToCurrentTerminal
+                0x000000000001a760                console_switchTerminal
+                0x000000000001a7d0                console_addHexaToCurrentTerminal
+                0x000000000001a860                console_addHexa128ToCurrentTerminal
+                0x000000000001a8f0                console_preInialize
+ ACPI.o(.text)
+ *fill*         0x000000000001a9ff        0x1 
+ .text          0x000000000001aa00      0x3dd /home/admin/Desktop/Sandbox/objects/ACPI.o
+                0x000000000001aa00                parseAPIC
+                0x000000000001ab30                parseAPICV1
+                0x000000000001abc0                parseAPICV2
+                0x000000000001aca0                parseACPIHeader
+                0x000000000001ad10                parseRSDT
+                0x000000000001ad40                init_acpi
+ APIC.o(.text)
+ *fill*         0x000000000001addd        0x3 
+ .text          0x000000000001ade0      0x5d9 /home/admin/Desktop/Sandbox/objects/APIC.o
+                0x000000000001ade0                ioapicRead
+                0x000000000001adf0                ioapicWrite
+                0x000000000001ae00                initialize_apic
+                0x000000000001b0b0                initAPICIO
+                0x000000000001b100                sendFixedIPI
+                0x000000000001b150                disableAPICTimer
+                0x000000000001b170                enableAPICTimer
+                0x000000000001b280                sendAPICEOI
+                0x000000000001b2a0                mapAPICIRQ
+                0x000000000001b2f0                startup
+ ATADisk.o(.text)
+ *fill*         0x000000000001b3b9        0x7 
+ .text          0x000000000001b3c0     0x15d3 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+                0x000000000001b3c0                writePIODiskSectors
+                0x000000000001b6f0                readPIODiskSectors
+                0x000000000001b9b0                writeDMADiskSectors
+                0x000000000001bf30                readDMADiskSectors
+                0x000000000001c3f0                initATADisk
+                0x000000000001c5e0                ide_400ns_delay
+                0x000000000001c610                readATAStatus
+                0x000000000001c630                writeDiskSectors
+                0x000000000001c670                readDiskSectors
+                0x000000000001c6b0                readDMADisk
+                0x000000000001c7f0                writeDMADisk
+                0x000000000001c970                copyDMABuffer
+ ATAManager.o(.text)
+ *fill*         0x000000000001c993        0xd 
+ .text          0x000000000001c9a0     0x10c7 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+                0x000000000001c9a0                getDiskPCIDevice
+                0x000000000001ca00                getDeviceTypeName
+                0x000000000001ca50                selectDrive
+                0x000000000001ca70                identifyDisk
+                0x000000000001cb30                identifyPCI
+                0x000000000001cd90                initATAManager
+                0x000000000001d0d0                detectATADisks
+                0x000000000001d2c0                getATADisk
+                0x000000000001d2e0                ata_400ns_delay
+                0x000000000001d310                ataHandleReadInterrupt
+                0x000000000001d620                ataHandleWriteInterrupt
+                0x000000000001d9e0                ataHandleInterrupt
+ TSSDescriptor.o(.text)
+ *fill*         0x000000000001da67        0x9 
+ .text          0x000000000001da70       0xe5 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+                0x000000000001da70                setTSSDescriptorLimit
+                0x000000000001da90                setTSSDescriptorBase
+                0x000000000001dad0                initializeTSSDescriptor
+ GlobalDescriptorTableEntry.o(.text)
+ *fill*         0x000000000001db55        0xb 
+ .text          0x000000000001db60       0x63 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+                0x000000000001db60                setGlobalDescriptorTableEntry
+ GlobalDescriptorTable.o(.text)
+ *fill*         0x000000000001dbc3        0xd 
+ .text          0x000000000001dbd0      0x2a3 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+                0x000000000001dbd0                initGlobalDescriptorTable
+ InterruptManager.o(.text)
+ *fill*         0x000000000001de73        0xd 
+ .text          0x000000000001de80      0x103 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+                0x000000000001de80                registerInterrupt
+                0x000000000001ded0                serviceInterrupt
+                0x000000000001df40                initializeInterruptManager
+ InterruptDescriptorTable.o(.text)
+ *fill*         0x000000000001df83        0xd 
+ .text          0x000000000001df90     0x3ea2 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+                0x000000000001df90                irqSetMask
+                0x000000000001e000                irqClearMask
+                0x000000000001e070                setInterruptDescriptorTableEntry
+                0x000000000001e0c0                registerExceptions
+                0x000000000001e870                registerIRQs
+                0x000000000001f790                registerAPIRQs
+                0x000000000001ff40                registerSWIRQs
+                0x0000000000021d60                setupInterruptDescriptorTable
+ isr_stub.o(.text)
+ *fill*         0x0000000000021e32        0xe 
+ .text          0x0000000000021e40       0xc0 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+                0x0000000000021e40                idt_handler
+ APICManager.o(.text)
+ .text          0x0000000000021f00      0x38b /home/admin/Desktop/Sandbox/objects/APICManager.o
+                0x0000000000021f00                startupAPIC
+                0x0000000000021f60                getCurrentCoreId
+                0x0000000000021fb0                touchCore
+                0x0000000000022040                moveInitialKernelStack
+                0x0000000000022110                initAPICManager_service
+ Ports.o(.text)
+ *fill*         0x000000000002228b        0x5 
+ .text          0x0000000000022290       0x54 /home/admin/Desktop/Sandbox/objects/Ports.o
+                0x0000000000022290                outportb
+                0x00000000000222a0                outportw
+                0x00000000000222b0                outportl
+                0x00000000000222c0                inportb
+                0x00000000000222d0                inportw
+                0x00000000000222e0                inportl
+ CoreUtils.o(.text)
+ *fill*         0x00000000000222e4        0xc 
+ .text          0x00000000000222f0       0x43 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+                0x00000000000222f0                createMask
+                0x0000000000022310                getAPICId
+                0x0000000000022320                writeLocalAPIC
+                0x0000000000022330                readLocalAPIC
+ NetUtils.o(.text)
+ *fill*         0x0000000000022333        0xd 
+ .text          0x0000000000022340      0x13f /home/admin/Desktop/Sandbox/objects/NetUtils.o
+                0x0000000000022340                mac_str_to_bin
+ MMIOUtils.o(.text)
+ *fill*         0x000000000002247f        0x1 
+ .text          0x0000000000022480       0x74 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+                0x0000000000022480                mmio_read8
+                0x0000000000022490                mmio_read16
+                0x00000000000224a0                mmio_read32
+                0x00000000000224b0                mmio_read64
+                0x00000000000224c0                mmio_write8
+                0x00000000000224d0                mmio_write16
+                0x00000000000224e0                mmio_write32
+                0x00000000000224f0                mmio_write64
+ stdio.o(.text)
+ *fill*         0x00000000000224f4        0xc 
+ .text          0x0000000000022500      0x446 /home/admin/Desktop/Sandbox/objects/stdio.o
+                0x0000000000022500                sprintf_raw
+                0x00000000000228b0                sprintf
+ printk.o(.text)
+ *fill*         0x0000000000022946        0xa 
+ .text          0x0000000000022950      0x116 /home/admin/Desktop/Sandbox/objects/printk.o
+                0x0000000000022950                printk
+ service1_K.o(.text)
+ *fill*         0x0000000000022a66        0xa 
+ .text          0x0000000000022a70       0x18 /home/admin/Desktop/Sandbox/objects/service1_K.o
+                0x0000000000022a70                method1
+                0x0000000000022a80                method2
+ checksum.o(.text)
+ *fill*         0x0000000000022a88        0x8 
+ .text          0x0000000000022a90       0x57 /home/admin/Desktop/Sandbox/objects/checksum.o
+                0x0000000000022a90                calcsum
+ MemoryPageMap.o(.text)
+ *fill*         0x0000000000022ae7        0x9 
+ .text          0x0000000000022af0      0xfac /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+                0x0000000000022af0                LinkThirdStageToCollectionPhysical_Wrapper
+                0x0000000000022b40                v2p
+                0x0000000000022ba0                v2p2m
+                0x0000000000022c00                enablePageDirectory
+                0x0000000000022c10                mapLimitedUsableMemory
+                0x0000000000022d40                mapLimitedPages
+                0x0000000000022d80                isReservedMemory
+                0x0000000000022da0                pageMapStage1
+                0x0000000000022ec0                bspLinkFirst3Levels
+                0x0000000000022f60                DeallocateVirtualMemoryCollection
+                0x0000000000022fc0                DeallocateSharedMemoryTwoMb
+                0x0000000000023080                allocateVirtualMemoryBlock
+                0x0000000000023170                deallocateVirtualMemoryBlock
+                0x00000000000231c0                LinkThirdStageToCollection
+                0x0000000000023220                LinkThirdStageToCollection_Wrapper
+                0x0000000000023250                AllocateSharedMemoryTwoMb
+                0x0000000000023340                LinkThirdStageToCollection_physical
+                0x0000000000023380                LinkFourthStageToFrame
+                0x0000000000023430                LinkFourthStageToFrame_Wrapper
+                0x0000000000023450                LinkFourthStageToFrame_physical
+                0x00000000000234f0                LinkFourthStageToFramePhysical_Wrapper
+                0x0000000000023520                mapReservedMemory
+                0x0000000000023650                initVirtualMemoryService
+                0x0000000000023870                mapKernelUsableMemory
+                0x00000000000238c0                buildApCoresPageTables
+ SharedMemory.o(.text)
+ *fill*         0x0000000000023a9c        0x4 
+ .text          0x0000000000023aa0      0x4a6 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+                0x0000000000023aa0                initSharedMemoryService
+                0x0000000000023b10                AllocateConsecutivePages
+                0x0000000000023c00                SetBitsToValue
+                0x0000000000023ca0                AllocateSharedMemory
+                0x0000000000023e50                DeallocateSharedMemory
+ Service.o(.text)
+ *fill*         0x0000000000023f46        0xa 
+ .text          0x0000000000023f50       0x50 /home/admin/Desktop/Sandbox/objects/Service.o
+                0x0000000000023f50                add_service
+                0x0000000000023f80                service_init
+ ServiceTransport.o(.text)
+ .text          0x0000000000023fa0       0x60 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+                0x0000000000023fa0                init_service_transport
+                0x0000000000023fb0                register_service_to_kernel
+                0x0000000000023fe0                dispatch_kernel
+ numbers.o(.text)
+ .text          0x0000000000024000       0xba /home/admin/Desktop/Sandbox/objects/numbers.o
+                0x0000000000024000                is_integer
+                0x0000000000024060                atoi
+ pci_device.o(.text)
+ *fill*         0x00000000000240ba        0x6 
+ .text          0x00000000000240c0      0x344 /home/admin/Desktop/Sandbox/objects/pci_device.o
+                0x00000000000240c0                pciConfigReadWord
+                0x0000000000024120                pciConfigWriteWord
+                0x0000000000024180                pciConfig_initialize
+                0x00000000000241f0                pciConfigWriteCommand
+                0x0000000000024260                readStatus
+                0x0000000000024290                pciConfigReadCommand
+                0x00000000000242c0                enablePCIBusMastering
+                0x0000000000024350                getPCIBarType
+                0x0000000000024370                getPCIBar
+                0x00000000000243a0                pciPrint
+ pci_service.o(.text)
+ *fill*         0x0000000000024404        0xc 
+ .text          0x0000000000024410      0x370 /home/admin/Desktop/Sandbox/objects/pci_service.o
+                0x0000000000024410                getPCIDevice
+                0x0000000000024460                getPCIDeviceAtIndex
+                0x00000000000244d0                getPCIDeviceCount
+                0x0000000000024530                pciServicePrint
+                0x00000000000245a0                initializePCIService
+                0x0000000000024630                scanBusesForCount
+                0x00000000000246c0                scanBusesForAllocation
+                0x0000000000024760                collectHWInventory
+ Spinlock.o(.text)
+ .text          0x0000000000024780      0x185 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+                0x0000000000024780                spinlock_xchg_64
+                0x0000000000024790                spinlock_xchg_32
+                0x00000000000247a0                spinlock_xchg_16
+                0x00000000000247b0                spinlock_init
+                0x00000000000247d0                spinlock_lock
+                0x0000000000024870                spinlock_unlock
+                0x00000000000248c0                spinlock_trylock
+ KMalloc.o(.text)
+ *fill*         0x0000000000024905        0xb 
+ .text          0x0000000000024910      0x57e /home/admin/Desktop/Sandbox/objects/KMalloc.o
+                0x0000000000024910                kmalloc
+                0x0000000000024990                kvalloc
+                0x0000000000024a30                malloc
+                0x0000000000024af0                valloc
+                0x0000000000024bd0                memoryAllocatorDump
+                0x0000000000024cc0                memoryAllocatorTouch
+                0x0000000000024d10                memoryAllocatorUntouch
+                0x0000000000024da0                memoryAllocatorAdjust
+                0x0000000000024e70                memset_user_memory
+ hamada_K.o(.text)
+ *fill*         0x0000000000024e8e        0x2 
+ .text          0x0000000000024e90       0x54 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+                0x0000000000024e90                hamada1
+                0x0000000000024ec0                hamada2
+ hamada_U.o(.text)
+ *fill*         0x0000000000024ee4        0xc 
+ .text          0x0000000000024ef0       0x21 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+                0x0000000000024ef0                hamada3
+ service1_K.o(.text)
+ service1_U.o(.text)
+ *fill*         0x0000000000024f11        0xf 
+ .text          0x0000000000024f20       0x21 /home/admin/Desktop/Sandbox/objects/service1_U.o
+                0x0000000000024f20                method3
+ Kernel.o(.text)
+ *fill*         0x0000000000024f41        0xf 
+ .text          0x0000000000024f50       0xa7 /home/admin/Desktop/Sandbox/objects/Kernel.o
+                0x0000000000024f50                switchToUserMode
+                0x0000000000024f80                switchToUserMode2
+                0x0000000000025000                . = ALIGN (0x1000)
+ *fill*         0x0000000000024ff7        0x9 
+ .text          0x0000000000025000      0xa08 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+                0x0000000000025000                syscall
+                0x0000000000025090                zero_handler
+                0x00000000000250d0                fault_handler
+                0x0000000000025110                generateServices
+                0x0000000000025250                ap_kernel_main
+                0x0000000000025370                bsp_kernel_main
+                0x00000000000259f0                userModeDemo
+
+.iplt           0x0000000000025a08        0x0
+ .iplt          0x0000000000025a08        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+
+.rela.dyn       0x0000000000025a08        0x0
+ .rela.got      0x0000000000025a08        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+ .rela.iplt     0x0000000000025a08        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+ .rela.text     0x0000000000025a08        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+
+.rodata         0x0000000000026000        0x0
+ *(.rodata)
+                0x0000000000026000                . = ALIGN (0x1000)
+
+.rodata.str1.8  0x0000000000025a08      0x6a8
+ .rodata.str1.8
+                0x0000000000025a08       0x21 /home/admin/Desktop/Sandbox/objects/pit.o
+ *fill*         0x0000000000025a29        0x7 
+ .rodata.str1.8
+                0x0000000000025a30       0xf6 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ *fill*         0x0000000000025b26        0x2 
+ .rodata.str1.8
+                0x0000000000025b28       0x8d /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ *fill*         0x0000000000025bb5        0x3 
+ .rodata.str1.8
+                0x0000000000025bb8      0x130 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .rodata.str1.8
+                0x0000000000025ce8       0x2b /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ *fill*         0x0000000000025d13        0x5 
+ .rodata.str1.8
+                0x0000000000025d18       0x24 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ *fill*         0x0000000000025d3c        0x4 
+ .rodata.str1.8
+                0x0000000000025d40       0xbc /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ *fill*         0x0000000000025dfc        0x4 
+ .rodata.str1.8
+                0x0000000000025e00       0x82 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ *fill*         0x0000000000025e82        0x6 
+ .rodata.str1.8
+                0x0000000000025e88       0x21 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ *fill*         0x0000000000025ea9        0x7 
+ .rodata.str1.8
+                0x0000000000025eb0      0x187 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ *fill*         0x0000000000026037        0x1 
+ .rodata.str1.8
+                0x0000000000026038       0x78 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+                                         0x74 (size before relaxing)
+
+.eh_frame       0x00000000000260b0     0x2824
+ .eh_frame      0x00000000000260b0       0xe8 /home/admin/Desktop/Sandbox/objects/pit.o
+ .eh_frame      0x0000000000026198      0x2a8 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+                                        0x2c0 (size before relaxing)
+ .eh_frame      0x0000000000026440      0x160 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+                                        0x178 (size before relaxing)
+ .eh_frame      0x00000000000265a0      0x240 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+                                        0x258 (size before relaxing)
+ .eh_frame      0x00000000000267e0       0x58 /home/admin/Desktop/Sandbox/objects/memcpy.o
+                                         0x70 (size before relaxing)
+ .eh_frame      0x0000000000026838       0x58 /home/admin/Desktop/Sandbox/objects/memswap.o
+                                         0x70 (size before relaxing)
+ .eh_frame      0x0000000000026890       0x30 /home/admin/Desktop/Sandbox/objects/ipi.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x00000000000268c0      0x1c0 /home/admin/Desktop/Sandbox/objects/Terminal.o
+                                        0x1d8 (size before relaxing)
+ .eh_frame      0x0000000000026a80      0x128 /home/admin/Desktop/Sandbox/objects/Console.o
+                                        0x140 (size before relaxing)
+ .eh_frame      0x0000000000026ba8      0x178 /home/admin/Desktop/Sandbox/objects/ACPI.o
+                                        0x190 (size before relaxing)
+ .eh_frame      0x0000000000026d20      0x180 /home/admin/Desktop/Sandbox/objects/APIC.o
+                                        0x198 (size before relaxing)
+ .eh_frame      0x0000000000026ea0      0x2f8 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+                                        0x310 (size before relaxing)
+ .eh_frame      0x0000000000027198      0x328 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+                                        0x340 (size before relaxing)
+ .eh_frame      0x00000000000274c0       0x40 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+                                         0x58 (size before relaxing)
+ .eh_frame      0x0000000000027500       0x20 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x0000000000027520       0xc8 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+                                         0xe0 (size before relaxing)
+ .eh_frame      0x00000000000275e8       0x60 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+                                         0x78 (size before relaxing)
+ .eh_frame      0x0000000000027648       0xe8 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+                                        0x100 (size before relaxing)
+ .eh_frame      0x0000000000027730       0x30 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000027760       0xf0 /home/admin/Desktop/Sandbox/objects/APICManager.o
+                                        0x108 (size before relaxing)
+ .eh_frame      0x0000000000027850       0x78 /home/admin/Desktop/Sandbox/objects/Ports.o
+                                         0x90 (size before relaxing)
+ .eh_frame      0x00000000000278c8       0x50 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+                                         0x68 (size before relaxing)
+ .eh_frame      0x0000000000027918       0x30 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000027948       0xa0 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+                                         0xb8 (size before relaxing)
+ .eh_frame      0x00000000000279e8       0x70 /home/admin/Desktop/Sandbox/objects/stdio.o
+                                         0x88 (size before relaxing)
+ .eh_frame      0x0000000000027a58       0x30 /home/admin/Desktop/Sandbox/objects/printk.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000027a88       0x28 /home/admin/Desktop/Sandbox/objects/service1_K.o
+                                         0x40 (size before relaxing)
+ .eh_frame      0x0000000000027ab0       0x18 /home/admin/Desktop/Sandbox/objects/checksum.o
+                                         0x30 (size before relaxing)
+ .eh_frame      0x0000000000027ac8      0x3e8 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+                                        0x400 (size before relaxing)
+ .eh_frame      0x0000000000027eb0      0x1b8 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+                                        0x1d0 (size before relaxing)
+ .eh_frame      0x0000000000028068       0x28 /home/admin/Desktop/Sandbox/objects/Service.o
+                                         0x40 (size before relaxing)
+ .eh_frame      0x0000000000028090       0x40 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+                                         0x58 (size before relaxing)
+ .eh_frame      0x00000000000280d0       0x38 /home/admin/Desktop/Sandbox/objects/numbers.o
+                                         0x50 (size before relaxing)
+ .eh_frame      0x0000000000028108      0x168 /home/admin/Desktop/Sandbox/objects/pci_device.o
+                                        0x180 (size before relaxing)
+ .eh_frame      0x0000000000028270      0x140 /home/admin/Desktop/Sandbox/objects/pci_service.o
+                                        0x158 (size before relaxing)
+ .eh_frame      0x00000000000283b0      0x100 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+                                        0x118 (size before relaxing)
+ .eh_frame      0x00000000000284b0      0x230 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+                                        0x248 (size before relaxing)
+ .eh_frame      0x00000000000286e0       0x28 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+                                         0x40 (size before relaxing)
+ .eh_frame      0x0000000000028708       0x18 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+                                         0x30 (size before relaxing)
+ .eh_frame      0x0000000000028720       0x18 /home/admin/Desktop/Sandbox/objects/service1_U.o
+                                         0x30 (size before relaxing)
+ .eh_frame      0x0000000000028738       0x38 /home/admin/Desktop/Sandbox/objects/Kernel.o
+                                         0x50 (size before relaxing)
+ .eh_frame      0x0000000000028770      0x164 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+                                        0x180 (size before relaxing)
+
+.rodata.str1.1  0x00000000000288d4      0x4ce
+ .rodata.str1.1
+                0x00000000000288d4       0x82 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .rodata.str1.1
+                0x0000000000028956       0x47 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .rodata.str1.1
+                0x000000000002899d       0x1b /home/admin/Desktop/Sandbox/objects/APIC.o
+ .rodata.str1.1
+                0x00000000000289b8       0xab /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .rodata.str1.1
+                0x0000000000028a63      0x16b /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .rodata.str1.1
+                0x0000000000028bce       0x12 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .rodata.str1.1
+                0x0000000000028be0       0x10 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .rodata.str1.1
+                0x0000000000028bf0       0x25 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .rodata.str1.1
+                0x0000000000028c15       0x75 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .rodata.str1.1
+                0x0000000000028c8a       0x87 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .rodata.str1.1
+                0x0000000000028d11        0x3 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .rodata.str1.1
+                0x0000000000028d14        0x3 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .rodata.str1.1
+                0x0000000000028d17        0x3 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .rodata.str1.1
+                0x0000000000028d17       0x2a /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .rodata.str1.1
+                0x0000000000028d41       0x61 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.rodata.cst8    0x0000000000028da8       0x10
+ .rodata.cst8   0x0000000000028da8       0x10 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+
+.data           0x0000000000029000     0x1000
+ *(.data)
+ .data          0x0000000000029000        0x0 /home/admin/Desktop/Sandbox/objects/pit.o
+ .data          0x0000000000029000       0xf0 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/Console.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/APIC.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/Ports.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/stdio.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/printk.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/Service.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/numbers.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .data          0x00000000000290f0        0x0 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+                0x000000000002a000                . = ALIGN (0x1000)
+ *fill*         0x00000000000290f0      0xf10 
+
+.got            0x000000000002a000        0x0
+ .got           0x000000000002a000        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+
+.got.plt        0x000000000002a000        0x0
+ .got.plt       0x000000000002a000        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+
+.igot.plt       0x000000000002a000        0x0
+ .igot.plt      0x000000000002a000        0x0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+
+.bss            0x000000000002a000    0x20000
+ *(COMMON)
+ COMMON         0x000000000002a000    0x1c8b0 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+                0x000000000002a000                virtualMemoryService
+                0x000000000002a820                sharedMemoryService
+                0x000000000002b040                ipiService
+                0x000000000002b860                physicalMemoryService
+                0x000000000002c070                interruptDescriptorTablePointer
+                0x000000000002c080                apicManagerService
+                0x000000000002c890                globalDescriptorTablePointer
+                0x000000000002c898                hamadaStruct_object
+                0x000000000002c8c0                pciService
+                0x000000000002d0e0                consoleService
+                0x000000000002d900                kernel
+                0x0000000000045060                interruptService
+                0x0000000000045870                service1_object
+                0x0000000000045880                service1Service
+                0x00000000000460a0                hamadaStructService
+ *(.bss)
+ .bss           0x00000000000468b0     0x2000 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+ .bss           0x00000000000488b0        0x0 /home/admin/Desktop/Sandbox/objects/pit.o
+ .bss           0x00000000000488b0        0x0 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .bss           0x00000000000488b0        0x0 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .bss           0x00000000000488b0        0x0 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ *fill*         0x00000000000488b0       0x10 
+ .bss           0x00000000000488c0      0x800 /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .bss           0x00000000000490c0      0x800 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/Console.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/APIC.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/Ports.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/stdio.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/printk.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/Service.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/numbers.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .bss           0x00000000000498c0        0x0 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+ *(.bootstrap_stack)
+                0x000000000004a000                . = ALIGN (0x1000)
+ *fill*         0x00000000000498c0      0x740 
+                0x000000000004a000                end = .
+LOAD /home/admin/Desktop/Sandbox/objects/KernelMain.o
+OUTPUT(/dev/null elf64-x86-64)
+
+.stab           0x0000000000000000    0x31de8
+ .stab          0x0000000000000000       0xc0 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+ .stab          0x00000000000000c0       0xb4 /home/admin/Desktop/Sandbox/objects/gdt.o
+                                         0xc0 (size before relaxing)
+ .stab          0x0000000000000174      0xc30 /home/admin/Desktop/Sandbox/objects/idt.o
+                                        0xc3c (size before relaxing)
+ .stab          0x0000000000000da4       0x84 /home/admin/Desktop/Sandbox/objects/isr.o
+                                         0x90 (size before relaxing)
+ .stab          0x0000000000000e28     0x21e4 /home/admin/Desktop/Sandbox/objects/MemoryUtilities_asm.o
+                                       0x21f0 (size before relaxing)
+ .stab          0x000000000000300c    0x1071c /home/admin/Desktop/Sandbox/objects/memcpy_asm.o
+                                      0x10728 (size before relaxing)
+ .stab          0x0000000000013728    0x1e318 /home/admin/Desktop/Sandbox/objects/memswap_asm.o
+                                      0x1e324 (size before relaxing)
+ .stab          0x0000000000031a40      0x3a8 /home/admin/Desktop/Sandbox/objects/checksum_asm.o
+                                        0x3b4 (size before relaxing)
+
+.stabstr        0x0000000000000000       0x63
+ .stabstr       0x0000000000000000       0x63 /home/admin/Desktop/Sandbox/objects/KernelWrapper.o
+
+.debug_info     0x0000000000000000    0x32ade
+ .debug_info    0x0000000000000000     0x1f1e /home/admin/Desktop/Sandbox/objects/pit.o
+ .debug_info    0x0000000000001f1e     0x2e31 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_info    0x0000000000004d4f      0xb54 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_info    0x00000000000058a3      0x721 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_info    0x0000000000005fc4      0x1b9 /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .debug_info    0x000000000000617d      0x1c1 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .debug_info    0x000000000000633e     0x1dac /home/admin/Desktop/Sandbox/objects/ipi.o
+ .debug_info    0x00000000000080ea      0xc76 /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .debug_info    0x0000000000008d60      0x955 /home/admin/Desktop/Sandbox/objects/Console.o
+ .debug_info    0x00000000000096b5     0x247d /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .debug_info    0x000000000000bb32     0x265c /home/admin/Desktop/Sandbox/objects/APIC.o
+ .debug_info    0x000000000000e18e     0x3833 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .debug_info    0x00000000000119c1     0x3069 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .debug_info    0x0000000000014a2a      0x2fe /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_info    0x0000000000014d28      0x223 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_info    0x0000000000014f4b     0x1f90 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_info    0x0000000000016edb     0x1f07 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_info    0x0000000000018de2     0x6692 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_info    0x000000000001f474     0x1dfc /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .debug_info    0x0000000000021270     0x2125 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .debug_info    0x0000000000023395      0x21b /home/admin/Desktop/Sandbox/objects/Ports.o
+ .debug_info    0x00000000000235b0      0x239 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_info    0x00000000000237e9      0x14e /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .debug_info    0x0000000000023937      0x257 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_info    0x0000000000023b8e      0x428 /home/admin/Desktop/Sandbox/objects/stdio.o
+ .debug_info    0x0000000000023fb6     0x1ec7 /home/admin/Desktop/Sandbox/objects/printk.o
+ .debug_info    0x0000000000025e7d      0x13b /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .debug_info    0x0000000000025fb8      0x110 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .debug_info    0x00000000000260c8     0x3518 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_info    0x00000000000295e0     0x2466 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_info    0x000000000002ba46      0x1e8 /home/admin/Desktop/Sandbox/objects/Service.o
+ .debug_info    0x000000000002bc2e      0x2bd /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_info    0x000000000002beeb      0x19d /home/admin/Desktop/Sandbox/objects/numbers.o
+ .debug_info    0x000000000002c088      0x783 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .debug_info    0x000000000002c80b     0x2299 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .debug_info    0x000000000002eaa4      0x366 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .debug_info    0x000000000002ee0a      0x91a /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .debug_info    0x000000000002f724      0x1bb /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .debug_info    0x000000000002f8df      0x145 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .debug_info    0x000000000002fa24      0x133 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .debug_info    0x000000000002fb57       0xe5 /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .debug_info    0x000000000002fc3c     0x2ea2 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.debug_abbrev   0x0000000000000000     0x5549
+ .debug_abbrev  0x0000000000000000      0x2c8 /home/admin/Desktop/Sandbox/objects/pit.o
+ .debug_abbrev  0x00000000000002c8      0x511 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_abbrev  0x00000000000007d9      0x1b9 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_abbrev  0x0000000000000992      0x13e /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_abbrev  0x0000000000000ad0      0x10c /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .debug_abbrev  0x0000000000000bdc      0x10c /home/admin/Desktop/Sandbox/objects/memswap.o
+ .debug_abbrev  0x0000000000000ce8      0x252 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .debug_abbrev  0x0000000000000f3a      0x22a /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .debug_abbrev  0x0000000000001164      0x198 /home/admin/Desktop/Sandbox/objects/Console.o
+ .debug_abbrev  0x00000000000012fc      0x3a7 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .debug_abbrev  0x00000000000016a3      0x3a7 /home/admin/Desktop/Sandbox/objects/APIC.o
+ .debug_abbrev  0x0000000000001a4a      0x430 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .debug_abbrev  0x0000000000001e7a      0x50c /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .debug_abbrev  0x0000000000002386      0x14e /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_abbrev  0x00000000000024d4       0xab /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_abbrev  0x000000000000257f      0x258 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_abbrev  0x00000000000027d7      0x2af /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_abbrev  0x0000000000002a86      0x31d /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_abbrev  0x0000000000002da3      0x268 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .debug_abbrev  0x000000000000300b      0x2c4 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .debug_abbrev  0x00000000000032cf       0xb2 /home/admin/Desktop/Sandbox/objects/Ports.o
+ .debug_abbrev  0x0000000000003381      0x121 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_abbrev  0x00000000000034a2       0xb9 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .debug_abbrev  0x000000000000355b       0xa0 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_abbrev  0x00000000000035fb      0x16c /home/admin/Desktop/Sandbox/objects/stdio.o
+ .debug_abbrev  0x0000000000003767      0x289 /home/admin/Desktop/Sandbox/objects/printk.o
+ .debug_abbrev  0x00000000000039f0       0xc4 /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .debug_abbrev  0x0000000000003ab4       0x88 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .debug_abbrev  0x0000000000003b3c      0x550 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_abbrev  0x000000000000408c      0x2ff /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_abbrev  0x000000000000438b      0x112 /home/admin/Desktop/Sandbox/objects/Service.o
+ .debug_abbrev  0x000000000000449d      0x153 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_abbrev  0x00000000000045f0       0xd5 /home/admin/Desktop/Sandbox/objects/numbers.o
+ .debug_abbrev  0x00000000000046c5      0x198 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .debug_abbrev  0x000000000000485d      0x2da /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .debug_abbrev  0x0000000000004b37      0x188 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .debug_abbrev  0x0000000000004cbf      0x1b6 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .debug_abbrev  0x0000000000004e75       0xf4 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .debug_abbrev  0x0000000000004f69       0xf4 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .debug_abbrev  0x000000000000505d       0xda /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .debug_abbrev  0x0000000000005137       0xa5 /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .debug_abbrev  0x00000000000051dc      0x36d /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.debug_loc      0x0000000000000000    0x1aaaa
+ .debug_loc     0x0000000000000000      0x24d /home/admin/Desktop/Sandbox/objects/pit.o
+ .debug_loc     0x000000000000024d     0x1f6f /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_loc     0x00000000000021bc     0x1075 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_loc     0x0000000000003231      0xdc3 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_loc     0x0000000000003ff4      0x1c2 /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .debug_loc     0x00000000000041b6      0x1c2 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .debug_loc     0x0000000000004378      0x109 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .debug_loc     0x0000000000004481     0x19af /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .debug_loc     0x0000000000005e30      0x71d /home/admin/Desktop/Sandbox/objects/Console.o
+ .debug_loc     0x000000000000654d      0x94b /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .debug_loc     0x0000000000006e98      0xa4c /home/admin/Desktop/Sandbox/objects/APIC.o
+ .debug_loc     0x00000000000078e4     0x2176 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .debug_loc     0x0000000000009a5a      0xcdc /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .debug_loc     0x000000000000a736      0x25e /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_loc     0x000000000000a994       0x3d /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_loc     0x000000000000a9d1      0x284 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_loc     0x000000000000ac55     0x755f /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_loc     0x00000000000121b4       0xa2 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .debug_loc     0x0000000000012256      0x3f4 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .debug_loc     0x000000000001264a       0x6f /home/admin/Desktop/Sandbox/objects/Ports.o
+ .debug_loc     0x00000000000126b9      0x129 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_loc     0x00000000000127e2      0x1e9 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .debug_loc     0x00000000000129cb      0x68c /home/admin/Desktop/Sandbox/objects/stdio.o
+ .debug_loc     0x0000000000013057       0x52 /home/admin/Desktop/Sandbox/objects/printk.o
+ .debug_loc     0x00000000000130a9       0x4a /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .debug_loc     0x00000000000130f3      0x163 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .debug_loc     0x0000000000013256     0x3cab /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_loc     0x0000000000016f01     0x108e /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_loc     0x0000000000017f8f       0xf4 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_loc     0x0000000000018083      0x1c4 /home/admin/Desktop/Sandbox/objects/numbers.o
+ .debug_loc     0x0000000000018247      0xa88 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .debug_loc     0x0000000000018ccf      0x7b3 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .debug_loc     0x0000000000019482      0x341 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .debug_loc     0x00000000000197c3      0xa05 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .debug_loc     0x000000000001a1c8       0xf4 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .debug_loc     0x000000000001a2bc       0x7a /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .debug_loc     0x000000000001a336       0x7a /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .debug_loc     0x000000000001a3b0      0x6fa /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.debug_aranges  0x0000000000000000      0x7e0
+ .debug_aranges
+                0x0000000000000000       0x30 /home/admin/Desktop/Sandbox/objects/pit.o
+ .debug_aranges
+                0x0000000000000030       0x30 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_aranges
+                0x0000000000000060       0x30 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_aranges
+                0x0000000000000090       0x30 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_aranges
+                0x00000000000000c0       0x30 /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .debug_aranges
+                0x00000000000000f0       0x30 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .debug_aranges
+                0x0000000000000120       0x30 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .debug_aranges
+                0x0000000000000150       0x30 /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .debug_aranges
+                0x0000000000000180       0x30 /home/admin/Desktop/Sandbox/objects/Console.o
+ .debug_aranges
+                0x00000000000001b0       0x30 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .debug_aranges
+                0x00000000000001e0       0x30 /home/admin/Desktop/Sandbox/objects/APIC.o
+ .debug_aranges
+                0x0000000000000210       0x30 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .debug_aranges
+                0x0000000000000240       0x30 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .debug_aranges
+                0x0000000000000270       0x30 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_aranges
+                0x00000000000002a0       0x30 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_aranges
+                0x00000000000002d0       0x30 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_aranges
+                0x0000000000000300       0x30 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_aranges
+                0x0000000000000330       0x30 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_aranges
+                0x0000000000000360       0x30 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .debug_aranges
+                0x0000000000000390       0x30 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .debug_aranges
+                0x00000000000003c0       0x30 /home/admin/Desktop/Sandbox/objects/Ports.o
+ .debug_aranges
+                0x00000000000003f0       0x30 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_aranges
+                0x0000000000000420       0x30 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .debug_aranges
+                0x0000000000000450       0x30 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_aranges
+                0x0000000000000480       0x30 /home/admin/Desktop/Sandbox/objects/stdio.o
+ .debug_aranges
+                0x00000000000004b0       0x30 /home/admin/Desktop/Sandbox/objects/printk.o
+ .debug_aranges
+                0x00000000000004e0       0x30 /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .debug_aranges
+                0x0000000000000510       0x30 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .debug_aranges
+                0x0000000000000540       0x30 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_aranges
+                0x0000000000000570       0x30 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_aranges
+                0x00000000000005a0       0x30 /home/admin/Desktop/Sandbox/objects/Service.o
+ .debug_aranges
+                0x00000000000005d0       0x30 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_aranges
+                0x0000000000000600       0x30 /home/admin/Desktop/Sandbox/objects/numbers.o
+ .debug_aranges
+                0x0000000000000630       0x30 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .debug_aranges
+                0x0000000000000660       0x30 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .debug_aranges
+                0x0000000000000690       0x30 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .debug_aranges
+                0x00000000000006c0       0x30 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .debug_aranges
+                0x00000000000006f0       0x30 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .debug_aranges
+                0x0000000000000720       0x30 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .debug_aranges
+                0x0000000000000750       0x30 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .debug_aranges
+                0x0000000000000780       0x30 /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .debug_aranges
+                0x00000000000007b0       0x30 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.debug_line     0x0000000000000000    0x12d70
+ .debug_line    0x0000000000000000      0x702 /home/admin/Desktop/Sandbox/objects/pit.o
+ .debug_line    0x0000000000000702      0xfab /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_line    0x00000000000016ad      0x6b8 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_line    0x0000000000001d65      0x41f /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_line    0x0000000000002184      0xa0d /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .debug_line    0x0000000000002b91      0xa12 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .debug_line    0x00000000000035a3      0x5a5 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .debug_line    0x0000000000003b48      0x6bd /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .debug_line    0x0000000000004205      0x471 /home/admin/Desktop/Sandbox/objects/Console.o
+ .debug_line    0x0000000000004676      0x964 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .debug_line    0x0000000000004fda      0xa5c /home/admin/Desktop/Sandbox/objects/APIC.o
+ .debug_line    0x0000000000005a36     0x1406 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .debug_line    0x0000000000006e3c      0xec2 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .debug_line    0x0000000000007cfe      0x1df /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_line    0x0000000000007edd      0x14c /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_line    0x0000000000008029      0x705 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_line    0x000000000000872e      0x61f /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_line    0x0000000000008d4d     0x4467 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_line    0x000000000000d1b4      0x610 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .debug_line    0x000000000000d7c4      0x7fe /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .debug_line    0x000000000000dfc2       0xcb /home/admin/Desktop/Sandbox/objects/Ports.o
+ .debug_line    0x000000000000e08d       0xde /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_line    0x000000000000e16b      0x225 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .debug_line    0x000000000000e390       0xe7 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_line    0x000000000000e477      0x3fc /home/admin/Desktop/Sandbox/objects/stdio.o
+ .debug_line    0x000000000000e873      0x65d /home/admin/Desktop/Sandbox/objects/printk.o
+ .debug_line    0x000000000000eed0       0x96 /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .debug_line    0x000000000000ef66      0x10c /home/admin/Desktop/Sandbox/objects/checksum.o
+ .debug_line    0x000000000000f072     0x1141 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_line    0x00000000000101b3      0x8d6 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_line    0x0000000000010a89       0xcf /home/admin/Desktop/Sandbox/objects/Service.o
+ .debug_line    0x0000000000010b58      0x15c /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_line    0x0000000000010cb4      0x19b /home/admin/Desktop/Sandbox/objects/numbers.o
+ .debug_line    0x0000000000010e4f      0x369 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .debug_line    0x00000000000111b8      0x8b1 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .debug_line    0x0000000000011a69      0x284 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .debug_line    0x0000000000011ced      0x40e /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .debug_line    0x00000000000120fb       0x9d /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .debug_line    0x0000000000012198       0x89 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .debug_line    0x0000000000012221       0xc8 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .debug_line    0x00000000000122e9       0x6c /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .debug_line    0x0000000000012355      0xa1b /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.debug_str      0x0000000000000000     0x37b5
+ .debug_str     0x0000000000000000     0x10dd /home/admin/Desktop/Sandbox/objects/pit.o
+                                       0x14cc (size before relaxing)
+ .debug_str     0x00000000000010dd      0x408 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+                                       0x17b6 (size before relaxing)
+ .debug_str     0x00000000000014e5      0x136 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+                                        0x2c1 (size before relaxing)
+ .debug_str     0x000000000000161b       0xb9 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+                                        0x282 (size before relaxing)
+ .debug_str     0x00000000000016d4       0x43 /home/admin/Desktop/Sandbox/objects/memcpy.o
+                                        0x1ee (size before relaxing)
+ .debug_str     0x0000000000001717       0x47 /home/admin/Desktop/Sandbox/objects/memswap.o
+                                        0x1f3 (size before relaxing)
+ .debug_str     0x000000000000175e       0x7c /home/admin/Desktop/Sandbox/objects/ipi.o
+                                       0x1417 (size before relaxing)
+ .debug_str     0x00000000000017da      0x2b8 /home/admin/Desktop/Sandbox/objects/Terminal.o
+                                        0x4c3 (size before relaxing)
+ .debug_str     0x0000000000001a92      0x14a /home/admin/Desktop/Sandbox/objects/Console.o
+                                        0x598 (size before relaxing)
+ .debug_str     0x0000000000001bdc      0x124 /home/admin/Desktop/Sandbox/objects/ACPI.o
+                                       0x14fb (size before relaxing)
+ .debug_str     0x0000000000001d00      0x1a4 /home/admin/Desktop/Sandbox/objects/APIC.o
+                                       0x1598 (size before relaxing)
+ .debug_str     0x0000000000001ea4      0x21f /home/admin/Desktop/Sandbox/objects/ATADisk.o
+                                       0x1665 (size before relaxing)
+ .debug_str     0x00000000000020c3      0x18b /home/admin/Desktop/Sandbox/objects/ATAManager.o
+                                       0x163e (size before relaxing)
+ .debug_str     0x000000000000224e       0x82 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+                                        0x29f (size before relaxing)
+ .debug_str     0x00000000000022d0       0xd1 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+                                        0x301 (size before relaxing)
+ .debug_str     0x00000000000023a1       0x4d /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+                                       0x14b3 (size before relaxing)
+ .debug_str     0x00000000000023ee       0xc0 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+                                       0x152d (size before relaxing)
+ .debug_str     0x00000000000024ae       0xc1 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+                                       0x14b4 (size before relaxing)
+ .debug_str     0x000000000000256f       0x17 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+                                       0x1491 (size before relaxing)
+ .debug_str     0x0000000000002586       0xab /home/admin/Desktop/Sandbox/objects/APICManager.o
+                                       0x1524 (size before relaxing)
+ .debug_str     0x0000000000002631       0x24 /home/admin/Desktop/Sandbox/objects/Ports.o
+                                        0x1e0 (size before relaxing)
+ .debug_str     0x0000000000002655       0x31 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+                                        0x1f7 (size before relaxing)
+ .debug_str     0x0000000000002686       0x2a /home/admin/Desktop/Sandbox/objects/NetUtils.o
+                                        0x1be (size before relaxing)
+ .debug_str     0x00000000000026b0       0x6e /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+                                        0x21a (size before relaxing)
+ .debug_str     0x000000000000271e       0xaa /home/admin/Desktop/Sandbox/objects/stdio.o
+                                        0x273 (size before relaxing)
+ .debug_str     0x00000000000027c8        0x9 /home/admin/Desktop/Sandbox/objects/printk.o
+                                       0x15a9 (size before relaxing)
+ .debug_str     0x00000000000027d1       0x76 /home/admin/Desktop/Sandbox/objects/service1_K.o
+                                        0x1d2 (size before relaxing)
+ .debug_str     0x0000000000002847       0x13 /home/admin/Desktop/Sandbox/objects/checksum.o
+                                        0x1bb (size before relaxing)
+ .debug_str     0x000000000000285a      0x519 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+                                       0x19b3 (size before relaxing)
+ .debug_str     0x0000000000002d73      0x1d7 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+                                       0x1625 (size before relaxing)
+ .debug_str     0x0000000000002f4a       0x62 /home/admin/Desktop/Sandbox/objects/Service.o
+                                        0x24c (size before relaxing)
+ .debug_str     0x0000000000002fac       0xc9 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+                                        0x35a (size before relaxing)
+ .debug_str     0x0000000000003075       0x1a /home/admin/Desktop/Sandbox/objects/numbers.o
+                                        0x1bc (size before relaxing)
+ .debug_str     0x000000000000308f       0xf8 /home/admin/Desktop/Sandbox/objects/pci_device.o
+                                        0x387 (size before relaxing)
+ .debug_str     0x0000000000003187      0x16a /home/admin/Desktop/Sandbox/objects/pci_service.o
+                                       0x1552 (size before relaxing)
+ .debug_str     0x00000000000032f1       0x7f /home/admin/Desktop/Sandbox/objects/Spinlock.o
+                                        0x249 (size before relaxing)
+ .debug_str     0x0000000000003370       0x98 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+                                        0x37d (size before relaxing)
+ .debug_str     0x0000000000003408       0x48 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+                                        0x1db (size before relaxing)
+ .debug_str     0x0000000000003450       0x3b /home/admin/Desktop/Sandbox/objects/hamada_U.o
+                                        0x1d3 (size before relaxing)
+ .debug_str     0x000000000000348b       0x3d /home/admin/Desktop/Sandbox/objects/service1_U.o
+                                        0x1d1 (size before relaxing)
+ .debug_str     0x00000000000034c8       0x5e /home/admin/Desktop/Sandbox/objects/Kernel.o
+                                        0x121 (size before relaxing)
+ .debug_str     0x0000000000003526      0x28f /home/admin/Desktop/Sandbox/objects/KernelMain.o
+                                       0x1a0b (size before relaxing)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 /home/admin/Desktop/Sandbox/objects/pit.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/memcpy.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/memswap.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/ipi.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/Console.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/APIC.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/InterruptManager.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/isr_stub.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/Ports.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/MMIOUtils.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/stdio.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/printk.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/service1_K.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/checksum.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/Service.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/ServiceTransport.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/numbers.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/pci_device.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/hamada_K.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/hamada_U.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/service1_U.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/Kernel.o
+ .comment       0x0000000000000011       0x12 /home/admin/Desktop/Sandbox/objects/KernelMain.o
+
+.debug_ranges   0x0000000000000000     0x67a0
+ .debug_ranges  0x0000000000000000      0x4c0 /home/admin/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_ranges  0x00000000000004c0      0x460 /home/admin/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_ranges  0x0000000000000920      0x100 /home/admin/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_ranges  0x0000000000000a20      0x180 /home/admin/Desktop/Sandbox/objects/Terminal.o
+ .debug_ranges  0x0000000000000ba0      0x200 /home/admin/Desktop/Sandbox/objects/ACPI.o
+ .debug_ranges  0x0000000000000da0       0xd0 /home/admin/Desktop/Sandbox/objects/APIC.o
+ .debug_ranges  0x0000000000000e70      0x3e0 /home/admin/Desktop/Sandbox/objects/ATADisk.o
+ .debug_ranges  0x0000000000001250      0x6b0 /home/admin/Desktop/Sandbox/objects/ATAManager.o
+ .debug_ranges  0x0000000000001900      0x100 /home/admin/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_ranges  0x0000000000001a00     0x44a0 /home/admin/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_ranges  0x0000000000005ea0       0xa0 /home/admin/Desktop/Sandbox/objects/APICManager.o
+ .debug_ranges  0x0000000000005f40       0x30 /home/admin/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_ranges  0x0000000000005f70       0x40 /home/admin/Desktop/Sandbox/objects/NetUtils.o
+ .debug_ranges  0x0000000000005fb0      0x1f0 /home/admin/Desktop/Sandbox/objects/stdio.o
+ .debug_ranges  0x00000000000061a0      0x210 /home/admin/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_ranges  0x00000000000063b0       0xf0 /home/admin/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_ranges  0x00000000000064a0      0x230 /home/admin/Desktop/Sandbox/objects/pci_service.o
+ .debug_ranges  0x00000000000066d0       0x40 /home/admin/Desktop/Sandbox/objects/Spinlock.o
+ .debug_ranges  0x0000000000006710       0x30 /home/admin/Desktop/Sandbox/objects/KMalloc.o
+ .debug_ranges  0x0000000000006740       0x60 /home/admin/Desktop/Sandbox/objects/KernelMain.o

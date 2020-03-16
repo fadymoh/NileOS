@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "memorypagemap.h": "c",
+        "physicalmemory.h": "c",
+        "console.h": "c",
+        "iostream": "cpp"
+    }
+}

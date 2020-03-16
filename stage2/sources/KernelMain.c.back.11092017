@@ -1,0 +1,292 @@
+#include "Kernel.h"
+#include "UKernel.h"
+#include "PCIConfigHeader.h"
+#include "APICManager.h"
+#include "E1000.h"
+#include "SFS.h"
+#include "SyscallManager.h"
+#include "VFS.h"
+#include "memcpy.h"
+#include "memswap.h"
+
+Kernel kernel;
+UsermodeKernel usermodeKernel;
+GlobalDescriptorTablePointer  globalDescriptorTablePointer;
+InterruptDescriptorTablePointer interruptDescriptorTablePointer;
+
+extern void gdtInit();
+extern void tssFlush();
+extern void idtInit();
+
+uint8_t * buffer;
+
+/**************************************************************************/
+
+void core2BOSML (InterruptContext * p_interruptContext)
+{
+    console_addStringToCurrentTerminal(&kernel.console,"Core2BOSML from ",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addHexaToCurrentTerminal(&kernel.console,getCurrentCoreId(),COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(&kernel.console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    sendAPICEOI(&kernel.apicManager.apics[getCurrentCoreId()]);    
+    p_interruptContext->return_address = 0x200000;
+}
+
+/**************************************************************************/
+
+extern void ap_kernel_main(uint64_t p_start_stack,uint64_t p_end_stack)
+{
+    console_addStringToCurrentTerminal(&kernel.console,"Starting up Core #",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    enablePageDirectory((uint64_t)&(kernel.bspMemoryPageMap->PGD));
+    enablePageDirectory((uint64_t)&(kernel.memoryPageMaps[getCurrentCoreId()]->PGD));
+    console_addHexaToCurrentTerminal(&kernel.console,getCurrentCoreId(),COLOR_BLUE,COLOR_LIGHT_BROWN);
+    moveInitialKernelStack(p_start_stack,p_end_stack);
+    kernel.globalDescriptorTablePointer = &globalDescriptorTablePointer;
+    initGlobalDescriptorTable ();
+    gdtInit();    
+    tssFlush();
+    idtInit();    
+    initAPICIO(&kernel.apicManager.apics[getCurrentCoreId()]);
+    console_addStringToCurrentTerminal(&kernel.console," ..... Done\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    touchCore();
+}
+
+/******************************************************************************
+                        Kernel Main Entry Point
+ * 
+ * This is the main entry point to the C Land kernel and it is defined as       
+ * extern to be accessible from within the asm/stage2/kernel_wrapper.asm
+ * 
+ * The kernel_main function receives the following two parameters which are
+ * passed to it to identify the start and end addresses of the stack:
+ *      uint64_t p_start_stack: A 64-bit address indicating the start of the 
+ *              stack. The lower bound as stack starts at a higher address
+ *              and grows up in the direction of lower addresses
+ *      uint64_t p_end_stack: A 64-bit address indicating the end of the stack
+******************************************************************************/
+
+extern void bsp_kernel_main(uint64_t p_start_stack,uint64_t p_end_stack)
+{    
+    //Terminal terminal;
+//    char buffer1 [300];
+//    char buffer2 [300];
+//    uint32_t i=0;
+//    uint16_t i = 0;
+//    uint8_t * mem;
+//    char temp[512];
+
+    uint128_t x = 10;
+    init_fast_memcpy_handlers();
+    init_fast_memswap_handlers();
+    Console * console = &(kernel.console);
+    char * temp = (char *) KERNELKMALLOC_INITIAL_MEMORY_ADDRESS+0x010000;
+    console_preInialize(console);
+
+
+    console_addStringToCurrentTerminal(console,"Memory Page Map Record Size: ",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addHexaToCurrentTerminal(console,sizeof(MemoryPageMap),COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"getCurrentPageDirectory(): ",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addHexaToCurrentTerminal(console,getCurrentPageDirectory(),COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"&kernel: ",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addHexaToCurrentTerminal(console,(uint64_t)&kernel,COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+    if ( initializePhysicalMemory(&kernel.physicalMemoryManager))
+    {
+        printPhysicalMemory(&kernel.physicalMemoryManager,console);
+    }
+    else console_addStringToCurrentTerminal(console,"Can't find physical memory indicator: Initialization Failed ",COLOR_RED,COLOR_LIGHT_BROWN);
+
+    pageMapStage1();
+    bspPageMapStage2();
+    console_addStringToCurrentTerminal(console,"Total mapped pages:",COLOR_RED,COLOR_LIGHT_BROWN);     
+    console_addHexaToCurrentTerminal(console,kernel.memoryPageMap->mapped_pages,COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+
+    console_addStringToCurrentTerminal(console,"Last virtual address:",COLOR_RED,COLOR_LIGHT_BROWN);     
+    console_addHexaToCurrentTerminal(console,kernel.memoryPageMap->last_virtual_address,COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+
+
+    memset(temp,0,512);
+    memcpy(temp,"Hello all this is kemosparc: Memory map at far address\n",strlen("Hello all this is kemosparc: Memory map at far address\n"));
+    console_addStringToCurrentTerminal(console,temp,COLOR_RED,COLOR_LIGHT_BROWN);
+    
+
+    kernel.acpi.physicalMemoryManager = & kernel.physicalMemoryManager;    
+
+    if ( init_acpi(&kernel.acpi))
+    {   
+        console_addStringToCurrentTerminal(console,"ACPI Detected with rsdt address at:",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,kernel.acpi.rsdpDescriptor->xsdtAddr,COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,":",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,getVirtualAddress(&kernel.physicalMemoryManager,kernel.acpi.rsdpDescriptor->xsdtAddr),COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,"\n",COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,"Detected ",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,kernel.acpi.cores_count,COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console," cores \n",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"Local APIC: ",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,kernel.acpi.local_apic_addr,COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"Virtual Local APIC: ",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,getVirtualAddress(&kernel.physicalMemoryManager,kernel.acpi.local_apic_addr),COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);             
+        console_addStringToCurrentTerminal(console,"Local IOAPIC: ",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,kernel.acpi.local_apicio_addr,COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"Virtual Local IOAPIC: ",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,getVirtualAddress(&kernel.physicalMemoryManager,kernel.acpi.local_apicio_addr),COLOR_BLUE,COLOR_LIGHT_BROWN);
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);             
+    }
+
+    pageMapStage2();
+
+    kernel.globalDescriptorTable = (GlobalDescriptorTable *) kmalloc(&kernel.memoryAllocator,sizeof(GlobalDescriptorTable)*kernel.acpi.cores_count);
+    kernel.globalDescriptorTablePointer = &globalDescriptorTablePointer;
+    
+    
+    usermodeKernel.console = &kernel.console;
+    usermodeKernel.memoryAllocator = & kernel.memoryAllocator;
+    
+    initGlobalDescriptorTable ();
+    gdtInit();
+    tssFlush();
+
+    collectHWInventory();
+    pciManagerPrint(true);
+
+    initializeInterruptManager(false);
+    console_addStringToCurrentTerminal(console,"Finished Setting up IVT\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    
+    //initialize_apic(&apic,0,getVirtualAddress(&kernel.physicalMemoryManager,kernel.acpi.local_apic_addr),true);
+
+/*    console_addStringToCurrentTerminal(console,"Detecing Network Interface\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    PCIConfigHeader * e1000PCIConfigHeader = getPCIDevice(INTEL_VEND,E1000_DEV);
+    if ( e1000PCIConfigHeader == NULL ) e1000PCIConfigHeader = getPCIDevice(INTEL_VEND,E1000_DEV1);
+    if ( e1000PCIConfigHeader == NULL ) e1000PCIConfigHeader = getPCIDevice(INTEL_VEND,E1000_DEV2);
+    if ( e1000PCIConfigHeader == NULL ) e1000PCIConfigHeader = getPCIDevice(INTEL_VEND,E1000_DEV3);
+    if ( e1000PCIConfigHeader == NULL ) e1000PCIConfigHeader = getPCIDevice(INTEL_VEND,E1000_DEV4);
+    if ( e1000PCIConfigHeader != NULL )
+    {
+        console_addStringToCurrentTerminal(console,"Found E1000 \n",COLOR_RED,COLOR_LIGHT_BROWN);
+        e1000Init(e1000PCIConfigHeader);
+    }*/
+/*    e1000Scan();
+    console_addStringToCurrentTerminal(console,"Finished Network Setup\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    return; 
+ */   
+    kernel.ndfs_outbound_queue = (ndfs_outbound_queue_t *) kvalloc(&kernel.memoryAllocator,sizeof(ndfs_outbound_queue_t));
+    for ( uint16_t i = 0 ; i < 256 ; i ++)
+        kernel.ndfs_outbound_queue->ndfs_outbound_queue_item[i].active=false;
+    initAPICManager(kernel.acpi.cores_count);
+    moveInitialKernelStack(p_start_stack,p_end_stack);    
+    startupAPIC();
+    enableAPICTimer(&kernel.apicManager.apics[0]);
+
+    console_addStringToCurrentTerminal(console,"Finished APIC Setup\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+
+    console_addStringToCurrentTerminal(console,"Detecing Network Interface\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    e1000Scan();
+    console_addStringToCurrentTerminal(console,"Finished Network Setup\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    
+    registerInterrupt(APIRQ0,core2BOSML);
+    registerInterrupt(SWINT0,syscallHandleInterrupt);
+
+    console_addStringToCurrentTerminal(console,"Configuring Mass Storage\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    
+    //initializePit();
+        
+    uint8_t * prdt1 = (uint8_t *) kvalloc(&kernel.memoryAllocator,0x1000);
+    uint8_t * prdt2 = (uint8_t *) kvalloc(&kernel.memoryAllocator,0x1000);
+    uint8_t * dma_phy_address1 = (uint8_t *) kvalloc(&kernel.memoryAllocator,0x20000);
+    uint8_t * dma_phy_address2 = (uint8_t *) kvalloc(&kernel.memoryAllocator,0x20000);
+                                                         
+    /*buffer = (uint8_t *) valloc(&kernel.memoryAllocator,0xAA893200);
+    console_addStringToCurrentTerminal(console,"Buffer Address:",COLOR_RED,COLOR_LIGHT_BROWN);     
+    console_addHexaToCurrentTerminal(console,(uint64_t)buffer,COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);   
+      */                  
+    //memset (buffer,0,0xAA893200);
+    memset (dma_phy_address1,0,0x10000);
+    memset (dma_phy_address2,0,0x10000);
+    initATAManager(prdt1,prdt2,dma_phy_address1,dma_phy_address2);
+    console_addStringToCurrentTerminal(console,"After initATAManager\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    
+    uint8_t ata_disks = detectATADisks();
+    console_addStringToCurrentTerminal(console,"Number of ATA Disks Detected:",COLOR_RED,COLOR_LIGHT_BROWN);     
+    console_addHexaToCurrentTerminal(console,ata_disks,COLOR_BLUE,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);   
+
+    console_addStringToCurrentTerminal(console,"Initializing System Calls\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    init_syscalls();
+
+
+    console_addStringToCurrentTerminal(console,"Initializing Filesystems\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    vfs_init();
+    detectATADisks();
+    vfs_print_fs("/dev/sfs2");
+/*    inode_t inode;
+    inode_t * inode1 = vfs_open("/dev/sfs2","/data/terasort/part-m-00000-10M",&inode);
+    if ( inode1 != NULL)
+    {
+        console_addStringToCurrentTerminal(console,"file location:",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,inode1->location,COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"file csize:",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,inode1->csize,COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"file bsize:",COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addHexaToCurrentTerminal(console,inode1->bsize,COLOR_RED,COLOR_LIGHT_BROWN);     
+        console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    }
+    return;*/
+    registerInterrupt(IRQ14,ataHandleInterrupt);
+    registerInterrupt(IRQ15,ataHandleInterrupt);
+//    registerInterrupt(IRQ10,ataHandleInterrupt);
+    console_addStringToCurrentTerminal(console,"Registered IRQS\n",COLOR_RED,COLOR_LIGHT_BROWN);     
+    
+/*    
+    sfs_filesystem_t * sfs_filesystem = (uint8_t *) kvalloc(&kernel.memoryAllocator,sizeof(sfs_filesystem_t));
+    uint64_t addr = 0x0;
+    console_addStringToCurrentTerminal(console,"sectors to read:",COLOR_RED,COLOR_LIGHT_BROWN);
+    console_addHexaToCurrentTerminal(console,sizeof(sfs_filesystem_t)/SECTOR_SIZE,COLOR_RED,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"Initializing Filesystem\n",COLOR_RED,COLOR_LIGHT_BROWN);
+    uint16_t dots = 0;
+    for ( uint16_t sec = sizeof(sfs_filesystem_t)/SECTOR_SIZE ; sec > 0 ; )
+    {
+        uint8_t read_sec = 0;
+        if ( sec < 256) 
+        {
+            read_sec = sec;
+            sec =0;
+        }
+        else sec -= 256;
+        console_addStringToCurrentTerminal(console,".",COLOR_RED,COLOR_LIGHT_BROWN);
+        readPIODiskSectors(kernel.ataManager.ataDisks[2],
+                addr,((uint8_t *)sfs_filesystem)+(addr*SECTOR_SIZE),read_sec);
+        addr += 256;
+        dots++;
+    }
+    console_addStringToCurrentTerminal(console,"\n",COLOR_RED,COLOR_LIGHT_BROWN);
+    console_addStringToCurrentTerminal(console,"Read everything\n",COLOR_RED,COLOR_LIGHT_BROWN);
+    sfs_print(sfs_filesystem,0, "");*/
+    mapAPICIRQ(&kernel.apicManager.apics[0],IRQ14-IRQ0,IRQ14);
+    mapAPICIRQ(&kernel.apicManager.apics[0],IRQ15-IRQ0,IRQ15);
+    //mapAPICIRQ(&kernel.apicManager.apics[0],IRQ10-IRQ0,IRQ10);
+
+    //readDMADisk(kernel.ataManager.ataDisks[2],0x0,buffer,0x554498);
+    //return ;
+
+    for ( int i = 1 ; i < kernel.apicManager.apics_count; i++)
+    {
+        sendFixedIPI(&kernel.apicManager.apics[i],APIRQ0);
+        RTCSleep(2);
+    }
+    
+    //sendFixedIPI(&kernel.apicManager.apics[1],APIRQ1);
+    
+    sendFixedIPI(&kernel.apicManager.apics[1],APIRQ1);
+
+    
+}
