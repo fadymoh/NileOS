@@ -277,7 +277,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   kernel.dmaBuffer.enabled = true;
   uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 512 * sectors + 2);
   init_BlockService();
-  read_blocks(kernel.ataManager.ataDisks[0], buffer);
+  //read_blocks(kernel.ataManager.ataDisks[0], buffer);
 
   //printk("start reading\n");
   //readDMADisk(kernel.ataManager.ataDisks[0], 52825, buffer, sectors, 0, 0);

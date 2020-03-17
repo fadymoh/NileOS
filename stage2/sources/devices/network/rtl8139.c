@@ -7,14 +7,15 @@ rtl8139_dev_t rtl8139_device;
 
 void rtl8139_handler(InterruptContext * reg) {
 
+    //printk("Handler Called\n");
+
     uint16_t status = inportw(rtl8139_device.io_base + 0x3e);
 
-    printk("Handler Called\n");
     if(status & TOK) {
         printk("Packet sent\n");
     }
     if (status & ROK) {
-        //qemu_printf("Received packet\n");
+        printk("Received packet\n");
         // receive_packet();
     }
 
@@ -92,11 +93,14 @@ void rtl8139_init()
     outportb(rtl8139_device.io_base + 0x37, 0x0C);
 
     // Register and enable network interrupts
-    uint32_t irq_num = pci_rtl8139_device->int_line;
+    uint32_t irq_num = pci_rtl8139_device->int_line + 32;
     
-    kernel.interruptManager.params.p_interruptNumber = 32 + irq_num;
+    mapAPICIRQ(&kernel.apicManager.apics[0], irq_num - IRQ0, irq_num);
+
+    kernel.interruptManager.params.p_interruptNumber = irq_num;
     kernel.interruptManager.params.p_interruptHandler = rtl8139_handler;
     dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+
     printk("Registered irq interrupt for rtl8139, irq num = %d\n", irq_num);
 
     read_mac_addr();

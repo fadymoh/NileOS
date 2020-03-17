@@ -18,8 +18,9 @@ cleanDebug:
 	rm -rf $(BIN)/* $(OBJECT)/* $(ELF)/* $(IMAGE)/*
 
 runvm: boot.flp
-	qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,model=rtl8139,macaddr=52:54:00:91:46:20
-	# qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,vlan=0,model=rtl8139,macaddr=52:54:00:91:46:f2 -net tap,ifname=virbr0_0,script=/home/admin/Desktop/net_script --enable-kvm
+	#qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,model=rtl8139,macaddr=52:54:00:91:46:20
+	qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net dump -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,id=simpleos_net -device rtl8139,netdev=simpleos_net,id=simpleos_nic
+	#qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,vlan=0,model=rtl8139,macaddr=52:54:00:91:46:f2 -net tap,ifname=virbr0 --enable-kvm
 
 runvbox: boot.flp
 	VBoxManage storageattach "BOSMLSB" --storagectl "IDE" --device 0 --port 0 --type hdd --medium none
@@ -45,7 +46,7 @@ boot.flp: subsystems
 	rm -rf $(IMAGE)/boot.vdi
 	VBoxManage convertdd $(IMAGE)/boot.raw $(IMAGE)/boot.vdi --format VDI
 	chmod a+r $(IMAGE)/boot.vdi
-	chown admin $(IMAGE)/boot.vdi
+	chown senior $(IMAGE)/boot.vdi
 
 auc: subsystems auc_ramdisk
 	$(CAT) $(BIN)/bootstage1.bin $(BIN)/bootstage2.bin $(BIN)/stage1.bin $(BIN)/trampoline.bin /dev/zero | $(DD) bs=512 count=61440 of=$(IMAGE)/boot.flp

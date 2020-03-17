@@ -3,28 +3,28 @@ Allocating common symbols
 Common symbol       size              file
 
 virtualMemoryService
-                    0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
 sharedMemoryService
-                    0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-rtl8139_device      0x28              /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
-ipiService          0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
+rtl8139_device      0x28              /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ipiService          0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
 physicalMemoryService
-                    0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
 interruptDescriptorTablePointer
-                    0x10              /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-apicManagerService  0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0x10              /home/senior/Desktop/Sandbox/objects/KernelMain.o
+apicManagerService  0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
 globalDescriptorTablePointer
-                    0x6               /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0x6               /home/senior/Desktop/Sandbox/objects/KernelMain.o
 hamadaStruct_object
-                    0xc               /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-pciService          0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-consoleService      0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-kernel              0x177a0           /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-interruptService    0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-service1_object     0xc               /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-service1Service     0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0xc               /home/senior/Desktop/Sandbox/objects/KernelMain.o
+pciService          0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
+consoleService      0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
+kernel              0x177a0           /home/senior/Desktop/Sandbox/objects/KernelMain.o
+interruptService    0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
+service1_object     0xc               /home/senior/Desktop/Sandbox/objects/KernelMain.o
+service1Service     0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
 hamadaStructService
-                    0x810             /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                    0x810             /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
 Memory Configuration
 
@@ -34,18 +34,18 @@ Name             Origin             Length             Attributes
 Linker script and memory map
 
 
-.text           0x0000000000000000    0x26a68
+.text           0x0000000000000000    0x26a58
  KernelWrapper.o(.text)
- .text          0x0000000000000000       0x35 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+ .text          0x0000000000000000       0x35 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
                 0x0000000000000000                _start
  gdt.o(.text)
  *fill*         0x0000000000000035        0xb 
- .text          0x0000000000000040       0x23 /home/admin/Desktop/SandBoxGit/objects/gdt.o
+ .text          0x0000000000000040       0x23 /home/senior/Desktop/Sandbox/objects/gdt.o
                 0x0000000000000040                gdtInit
                 0x000000000000005b                tssFlush
  idt.o(.text)
  *fill*         0x0000000000000063        0xd 
- .text          0x0000000000000070      0xb72 /home/admin/Desktop/SandBoxGit/objects/idt.o
+ .text          0x0000000000000070      0xb72 /home/senior/Desktop/Sandbox/objects/idt.o
                 0x0000000000000070                idtInit
                 0x0000000000000079                isr0
                 0x0000000000000083                isr1
@@ -305,11 +305,11 @@ Linker script and memory map
                 0x0000000000000be0                isr255
  isr.o(.text)
  *fill*         0x0000000000000be2        0xe 
- .text          0x0000000000000bf0       0x45 /home/admin/Desktop/SandBoxGit/objects/isr.o
+ .text          0x0000000000000bf0       0x45 /home/senior/Desktop/Sandbox/objects/isr.o
                 0x0000000000000bf0                idt_common_stub
  pit.o(.text)
  *fill*         0x0000000000000c35        0xb 
- .text          0x0000000000000c40      0x2ee /home/admin/Desktop/SandBoxGit/objects/pit.o
+ .text          0x0000000000000c40      0x2ee /home/senior/Desktop/Sandbox/objects/pit.o
                 0x0000000000000c40                setTimer
                 0x0000000000000c50                pit_sleep
                 0x0000000000000d50                initializePit
@@ -317,7 +317,7 @@ Linker script and memory map
                 0x0000000000000d70                pit_fire
  PhysicalMemory.o(.text)
  *fill*         0x0000000000000f2e        0x2 
- .text          0x0000000000000f30      0xa8a /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
+ .text          0x0000000000000f30      0xa8a /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
                 0x0000000000000f30                isAddress
                 0x0000000000000f80                isUsableAddress
                 0x0000000000000ff0                getVirtualAddress
@@ -338,7 +338,7 @@ Linker script and memory map
                 0x00000000000019a0                AllocateUsableCollection
  MemoryUtilities_asm.o(.text)
  *fill*         0x00000000000019ba        0x6 
- .text          0x00000000000019c0      0x5fe /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities_asm.o
+ .text          0x00000000000019c0      0x5fe /home/senior/Desktop/Sandbox/objects/MemoryUtilities_asm.o
                 0x00000000000019c0                memcpy8
                 0x00000000000019c0                memcpy
                 0x00000000000019c0                memcpyc
@@ -384,7 +384,7 @@ Linker script and memory map
                 0x0000000000001f9d                strlen_sse42
  ClockUtils.o(.text)
  *fill*         0x0000000000001fbe        0x2 
- .text          0x0000000000001fc0      0x5ef /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
+ .text          0x0000000000001fc0      0x5ef /home/senior/Desktop/Sandbox/objects/ClockUtils.o
                 0x0000000000001fc0                getUpdateInProgressFlag
                 0x0000000000002000                getRTCRegister
                 0x0000000000002030                timeStamp32
@@ -395,7 +395,7 @@ Linker script and memory map
                 0x0000000000002580                random
  MemoryUtilities.o(.text)
  *fill*         0x00000000000025af        0x1 
- .text          0x00000000000025b0      0x384 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
+ .text          0x00000000000025b0      0x384 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
                 0x00000000000025b0                strstr
                 0x0000000000002690                scanmem
                 0x0000000000002750                strncat
@@ -406,7 +406,7 @@ Linker script and memory map
                 0x00000000000028b0                lstrcmp
  memcpy_asm.o(.text)
  *fill*         0x0000000000002934        0xc 
- .text          0x0000000000002940     0x772d /home/admin/Desktop/SandBoxGit/objects/memcpy_asm.o
+ .text          0x0000000000002940     0x772d /home/senior/Desktop/Sandbox/objects/memcpy_asm.o
                 0x0000000000002940                fast_memcpy1
                 0x000000000000294a                fast_memcpy2
                 0x0000000000002956                fast_memcpy3
@@ -666,12 +666,12 @@ Linker script and memory map
                 0x0000000000009b20                fast_ndfs_full_packet_copy
  memcpy.o(.text)
  *fill*         0x000000000000a06d        0x3 
- .text          0x000000000000a070     0x1131 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
+ .text          0x000000000000a070     0x1131 /home/senior/Desktop/Sandbox/objects/memcpy.o
                 0x000000000000a070                init_fast_memcpy_handlers
                 0x000000000000b150                fast_memcpy
  memswap_asm.o(.text)
  *fill*         0x000000000000b1a1        0xf 
- .text          0x000000000000b1b0     0xdca0 /home/admin/Desktop/SandBoxGit/objects/memswap_asm.o
+ .text          0x000000000000b1b0     0xdca0 /home/senior/Desktop/Sandbox/objects/memswap_asm.o
                 0x000000000000b1b0                fast_memswap1
                 0x000000000000b1c2                fast_memswap2
                 0x000000000000b1d8                fast_memswap3
@@ -929,10 +929,10 @@ Linker script and memory map
                 0x0000000000018ab8                fast_memswap255
                 0x0000000000018cae                fast_memswap256
  checksum_asm.o(.text)
- .text          0x0000000000018e50       0xe0 /home/admin/Desktop/SandBoxGit/objects/checksum_asm.o
+ .text          0x0000000000018e50       0xe0 /home/senior/Desktop/Sandbox/objects/checksum_asm.o
                 0x0000000000018e50                ip_hdr_checksum
  pci_device.o(.text)
- .text          0x0000000000018f30      0x344 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
+ .text          0x0000000000018f30      0x344 /home/senior/Desktop/Sandbox/objects/pci_device.o
                 0x0000000000018f30                pciConfigReadWord
                 0x0000000000018f90                pciConfigWriteWord
                 0x0000000000018ff0                pciConfig_initialize
@@ -945,7 +945,7 @@ Linker script and memory map
                 0x0000000000019210                pciPrint
  pci_service.o(.text)
  *fill*         0x0000000000019274        0xc 
- .text          0x0000000000019280      0x380 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
+ .text          0x0000000000019280      0x380 /home/senior/Desktop/Sandbox/objects/pci_service.o
                 0x0000000000019280                getPCIDevice
                 0x00000000000192e0                getPCIDeviceAtIndex
                 0x0000000000019350                getPCIDeviceCount
@@ -955,17 +955,17 @@ Linker script and memory map
                 0x0000000000019540                scanBusesForAllocation
                 0x00000000000195e0                collectHWInventory
  memswap.o(.text)
- .text          0x0000000000019600     0x1131 /home/admin/Desktop/SandBoxGit/objects/memswap.o
+ .text          0x0000000000019600     0x1131 /home/senior/Desktop/Sandbox/objects/memswap.o
                 0x0000000000019600                init_fast_memswap_handlers
                 0x000000000001a6e0                fast_memswap
  ipi.o(.text)
  *fill*         0x000000000001a731        0xf 
- .text          0x000000000001a740       0x56 /home/admin/Desktop/SandBoxGit/objects/ipi.o
+ .text          0x000000000001a740       0x56 /home/senior/Desktop/Sandbox/objects/ipi.o
                 0x000000000001a740                sendIPI
                 0x000000000001a770                InitializeIPI
  Terminal.o(.text)
  *fill*         0x000000000001a796        0xa 
- .text          0x000000000001a7a0      0x592 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
+ .text          0x000000000001a7a0      0x592 /home/senior/Desktop/Sandbox/objects/Terminal.o
                 0x000000000001a7a0                terminal_initialize
                 0x000000000001a830                terminal_putCharacterAt
                 0x000000000001a870                terminal_putCharacter
@@ -978,7 +978,7 @@ Linker script and memory map
                 0x000000000001ad10                terminal_getViewPort
  Console.o(.text)
  *fill*         0x000000000001ad32        0xe 
- .text          0x000000000001ad40      0x38f /home/admin/Desktop/SandBoxGit/objects/Console.o
+ .text          0x000000000001ad40      0x38f /home/senior/Desktop/Sandbox/objects/Console.o
                 0x000000000001ad40                console_writeToTerminal
                 0x000000000001ada0                console_addStringToCurrentTerminal
                 0x000000000001ae30                console_switchTerminal
@@ -987,7 +987,7 @@ Linker script and memory map
                 0x000000000001afc0                console_preInialize
  ACPI.o(.text)
  *fill*         0x000000000001b0cf        0x1 
- .text          0x000000000001b0d0      0x3dd /home/admin/Desktop/SandBoxGit/objects/ACPI.o
+ .text          0x000000000001b0d0      0x3dd /home/senior/Desktop/Sandbox/objects/ACPI.o
                 0x000000000001b0d0                parseAPIC
                 0x000000000001b200                parseAPICV1
                 0x000000000001b290                parseAPICV2
@@ -996,7 +996,7 @@ Linker script and memory map
                 0x000000000001b410                init_acpi
  APIC.o(.text)
  *fill*         0x000000000001b4ad        0x3 
- .text          0x000000000001b4b0      0x5d9 /home/admin/Desktop/SandBoxGit/objects/APIC.o
+ .text          0x000000000001b4b0      0x5d9 /home/senior/Desktop/Sandbox/objects/APIC.o
                 0x000000000001b4b0                ioapicRead
                 0x000000000001b4c0                ioapicWrite
                 0x000000000001b4d0                initialize_apic
@@ -1009,7 +1009,7 @@ Linker script and memory map
                 0x000000000001b9c0                startup
  ATADisk.o(.text)
  *fill*         0x000000000001ba89        0x7 
- .text          0x000000000001ba90     0x15e3 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
+ .text          0x000000000001ba90     0x15e3 /home/senior/Desktop/Sandbox/objects/ATADisk.o
                 0x000000000001ba90                writePIODiskSectors
                 0x000000000001bdc0                readPIODiskSectors
                 0x000000000001c080                writeDMADiskSectors
@@ -1024,7 +1024,7 @@ Linker script and memory map
                 0x000000000001d050                copyDMABuffer
  ATAManager.o(.text)
  *fill*         0x000000000001d073        0xd 
- .text          0x000000000001d080     0x10d7 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
+ .text          0x000000000001d080     0x10d7 /home/senior/Desktop/Sandbox/objects/ATAManager.o
                 0x000000000001d080                getDiskPCIDevice
                 0x000000000001d0e0                getDeviceTypeName
                 0x000000000001d130                selectDrive
@@ -1039,27 +1039,27 @@ Linker script and memory map
                 0x000000000001e0d0                ataHandleInterrupt
  TSSDescriptor.o(.text)
  *fill*         0x000000000001e157        0x9 
- .text          0x000000000001e160       0xe5 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
+ .text          0x000000000001e160       0xe5 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
                 0x000000000001e160                setTSSDescriptorLimit
                 0x000000000001e180                setTSSDescriptorBase
                 0x000000000001e1c0                initializeTSSDescriptor
  GlobalDescriptorTableEntry.o(.text)
  *fill*         0x000000000001e245        0xb 
- .text          0x000000000001e250       0x63 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
+ .text          0x000000000001e250       0x63 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
                 0x000000000001e250                setGlobalDescriptorTableEntry
  GlobalDescriptorTable.o(.text)
  *fill*         0x000000000001e2b3        0xd 
- .text          0x000000000001e2c0      0x2a3 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
+ .text          0x000000000001e2c0      0x2a3 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
                 0x000000000001e2c0                initGlobalDescriptorTable
  InterruptManager.o(.text)
  *fill*         0x000000000001e563        0xd 
- .text          0x000000000001e570      0x103 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
+ .text          0x000000000001e570      0x103 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
                 0x000000000001e570                registerInterrupt
                 0x000000000001e5c0                serviceInterrupt
                 0x000000000001e630                initializeInterruptManager
  InterruptDescriptorTable.o(.text)
  *fill*         0x000000000001e673        0xd 
- .text          0x000000000001e680     0x3ea2 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
+ .text          0x000000000001e680     0x3ea2 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
                 0x000000000001e680                irqSetMask
                 0x000000000001e6f0                irqClearMask
                 0x000000000001e760                setInterruptDescriptorTableEntry
@@ -1070,131 +1070,130 @@ Linker script and memory map
                 0x0000000000022450                setupInterruptDescriptorTable
  isr_stub.o(.text)
  *fill*         0x0000000000022522        0xe 
- .text          0x0000000000022530       0xe7 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
+ .text          0x0000000000022530       0xc0 /home/senior/Desktop/Sandbox/objects/isr_stub.o
                 0x0000000000022530                idt_handler
  APICManager.o(.text)
- *fill*         0x0000000000022617        0x9 
- .text          0x0000000000022620      0x38b /home/admin/Desktop/SandBoxGit/objects/APICManager.o
-                0x0000000000022620                startupAPIC
-                0x0000000000022680                getCurrentCoreId
-                0x00000000000226d0                touchCore
-                0x0000000000022760                moveInitialKernelStack
-                0x0000000000022830                initAPICManager_service
+ .text          0x00000000000225f0      0x38b /home/senior/Desktop/Sandbox/objects/APICManager.o
+                0x00000000000225f0                startupAPIC
+                0x0000000000022650                getCurrentCoreId
+                0x00000000000226a0                touchCore
+                0x0000000000022730                moveInitialKernelStack
+                0x0000000000022800                initAPICManager_service
  Ports.o(.text)
- *fill*         0x00000000000229ab        0x5 
- .text          0x00000000000229b0       0x54 /home/admin/Desktop/SandBoxGit/objects/Ports.o
-                0x00000000000229b0                outportb
-                0x00000000000229c0                outportw
-                0x00000000000229d0                outportl
-                0x00000000000229e0                inportb
-                0x00000000000229f0                inportw
-                0x0000000000022a00                inportl
+ *fill*         0x000000000002297b        0x5 
+ .text          0x0000000000022980       0x54 /home/senior/Desktop/Sandbox/objects/Ports.o
+                0x0000000000022980                outportb
+                0x0000000000022990                outportw
+                0x00000000000229a0                outportl
+                0x00000000000229b0                inportb
+                0x00000000000229c0                inportw
+                0x00000000000229d0                inportl
  CoreUtils.o(.text)
- *fill*         0x0000000000022a04        0xc 
- .text          0x0000000000022a10       0x43 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
-                0x0000000000022a10                createMask
-                0x0000000000022a30                getAPICId
-                0x0000000000022a40                writeLocalAPIC
-                0x0000000000022a50                readLocalAPIC
+ *fill*         0x00000000000229d4        0xc 
+ .text          0x00000000000229e0       0x43 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+                0x00000000000229e0                createMask
+                0x0000000000022a00                getAPICId
+                0x0000000000022a10                writeLocalAPIC
+                0x0000000000022a20                readLocalAPIC
  NetUtils.o(.text)
- *fill*         0x0000000000022a53        0xd 
- .text          0x0000000000022a60      0x13f /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
-                0x0000000000022a60                mac_str_to_bin
+ *fill*         0x0000000000022a23        0xd 
+ .text          0x0000000000022a30      0x13f /home/senior/Desktop/Sandbox/objects/NetUtils.o
+                0x0000000000022a30                mac_str_to_bin
  MMIOUtils.o(.text)
- *fill*         0x0000000000022b9f        0x1 
- .text          0x0000000000022ba0       0x74 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
-                0x0000000000022ba0                mmio_read8
-                0x0000000000022bb0                mmio_read16
-                0x0000000000022bc0                mmio_read32
-                0x0000000000022bd0                mmio_read64
-                0x0000000000022be0                mmio_write8
-                0x0000000000022bf0                mmio_write16
-                0x0000000000022c00                mmio_write32
-                0x0000000000022c10                mmio_write64
+ *fill*         0x0000000000022b6f        0x1 
+ .text          0x0000000000022b70       0x74 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+                0x0000000000022b70                mmio_read8
+                0x0000000000022b80                mmio_read16
+                0x0000000000022b90                mmio_read32
+                0x0000000000022ba0                mmio_read64
+                0x0000000000022bb0                mmio_write8
+                0x0000000000022bc0                mmio_write16
+                0x0000000000022bd0                mmio_write32
+                0x0000000000022be0                mmio_write64
  stdio.o(.text)
- *fill*         0x0000000000022c14        0xc 
- .text          0x0000000000022c20      0x446 /home/admin/Desktop/SandBoxGit/objects/stdio.o
-                0x0000000000022c20                sprintf_raw
-                0x0000000000022fd0                sprintf
+ *fill*         0x0000000000022be4        0xc 
+ .text          0x0000000000022bf0      0x446 /home/senior/Desktop/Sandbox/objects/stdio.o
+                0x0000000000022bf0                sprintf_raw
+                0x0000000000022fa0                sprintf
  printk.o(.text)
- *fill*         0x0000000000023066        0xa 
- .text          0x0000000000023070      0x116 /home/admin/Desktop/SandBoxGit/objects/printk.o
-                0x0000000000023070                printk
+ *fill*         0x0000000000023036        0xa 
+ .text          0x0000000000023040      0x116 /home/senior/Desktop/Sandbox/objects/printk.o
+                0x0000000000023040                printk
  service1_K.o(.text)
- *fill*         0x0000000000023186        0xa 
- .text          0x0000000000023190       0x18 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
-                0x0000000000023190                method1
-                0x00000000000231a0                method2
+ *fill*         0x0000000000023156        0xa 
+ .text          0x0000000000023160       0x18 /home/senior/Desktop/Sandbox/objects/service1_K.o
+                0x0000000000023160                method1
+                0x0000000000023170                method2
  checksum.o(.text)
- *fill*         0x00000000000231a8        0x8 
- .text          0x00000000000231b0       0x57 /home/admin/Desktop/SandBoxGit/objects/checksum.o
-                0x00000000000231b0                calcsum
+ *fill*         0x0000000000023178        0x8 
+ .text          0x0000000000023180       0x57 /home/senior/Desktop/Sandbox/objects/checksum.o
+                0x0000000000023180                calcsum
  MemoryPageMap.o(.text)
- *fill*         0x0000000000023207        0x9 
- .text          0x0000000000023210      0xfac /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
-                0x0000000000023210                LinkThirdStageToCollectionPhysical_Wrapper
-                0x0000000000023260                v2p
-                0x00000000000232c0                v2p2m
-                0x0000000000023320                enablePageDirectory
-                0x0000000000023330                mapLimitedUsableMemory
-                0x0000000000023460                mapLimitedPages
-                0x00000000000234a0                isReservedMemory
-                0x00000000000234c0                pageMapStage1
-                0x00000000000235e0                bspLinkFirst3Levels
-                0x0000000000023680                DeallocateVirtualMemoryCollection
-                0x00000000000236e0                DeallocateSharedMemoryTwoMb
-                0x00000000000237a0                allocateVirtualMemoryBlock
-                0x0000000000023890                deallocateVirtualMemoryBlock
-                0x00000000000238e0                LinkThirdStageToCollection
-                0x0000000000023940                LinkThirdStageToCollection_Wrapper
-                0x0000000000023970                AllocateSharedMemoryTwoMb
-                0x0000000000023a60                LinkThirdStageToCollection_physical
-                0x0000000000023aa0                LinkFourthStageToFrame
-                0x0000000000023b50                LinkFourthStageToFrame_Wrapper
-                0x0000000000023b70                LinkFourthStageToFrame_physical
-                0x0000000000023c10                LinkFourthStageToFramePhysical_Wrapper
-                0x0000000000023c40                mapReservedMemory
-                0x0000000000023d70                initVirtualMemoryService
-                0x0000000000023f90                mapKernelUsableMemory
-                0x0000000000023fe0                buildApCoresPageTables
+ *fill*         0x00000000000231d7        0x9 
+ .text          0x00000000000231e0      0xfac /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+                0x00000000000231e0                LinkThirdStageToCollectionPhysical_Wrapper
+                0x0000000000023230                v2p
+                0x0000000000023290                v2p2m
+                0x00000000000232f0                enablePageDirectory
+                0x0000000000023300                mapLimitedUsableMemory
+                0x0000000000023430                mapLimitedPages
+                0x0000000000023470                isReservedMemory
+                0x0000000000023490                pageMapStage1
+                0x00000000000235b0                bspLinkFirst3Levels
+                0x0000000000023650                DeallocateVirtualMemoryCollection
+                0x00000000000236b0                DeallocateSharedMemoryTwoMb
+                0x0000000000023770                allocateVirtualMemoryBlock
+                0x0000000000023860                deallocateVirtualMemoryBlock
+                0x00000000000238b0                LinkThirdStageToCollection
+                0x0000000000023910                LinkThirdStageToCollection_Wrapper
+                0x0000000000023940                AllocateSharedMemoryTwoMb
+                0x0000000000023a30                LinkThirdStageToCollection_physical
+                0x0000000000023a70                LinkFourthStageToFrame
+                0x0000000000023b20                LinkFourthStageToFrame_Wrapper
+                0x0000000000023b40                LinkFourthStageToFrame_physical
+                0x0000000000023be0                LinkFourthStageToFramePhysical_Wrapper
+                0x0000000000023c10                mapReservedMemory
+                0x0000000000023d40                initVirtualMemoryService
+                0x0000000000023f60                mapKernelUsableMemory
+                0x0000000000023fb0                buildApCoresPageTables
  SharedMemory.o(.text)
- *fill*         0x00000000000241bc        0x4 
- .text          0x00000000000241c0      0x4a6 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
-                0x00000000000241c0                initSharedMemoryService
-                0x0000000000024230                AllocateConsecutivePages
-                0x0000000000024320                SetBitsToValue
-                0x00000000000243c0                AllocateSharedMemory
-                0x0000000000024570                DeallocateSharedMemory
+ *fill*         0x000000000002418c        0x4 
+ .text          0x0000000000024190      0x4a6 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+                0x0000000000024190                initSharedMemoryService
+                0x0000000000024200                AllocateConsecutivePages
+                0x00000000000242f0                SetBitsToValue
+                0x0000000000024390                AllocateSharedMemory
+                0x0000000000024540                DeallocateSharedMemory
  BlockService.o(.text)
- *fill*         0x0000000000024666        0xa 
- .text          0x0000000000024670      0x328 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
-                0x0000000000024670                init_BlockService
-                0x0000000000024710                get_file
-                0x0000000000024720                read_nBlocks
-                0x0000000000024950                read_blocks
+ *fill*         0x0000000000024636        0xa 
+ .text          0x0000000000024640      0x328 /home/senior/Desktop/Sandbox/objects/BlockService.o
+                0x0000000000024640                init_BlockService
+                0x00000000000246e0                get_file
+                0x00000000000246f0                read_nBlocks
+                0x0000000000024920                read_blocks
  Service.o(.text)
- *fill*         0x0000000000024998        0x8 
- .text          0x00000000000249a0       0x50 /home/admin/Desktop/SandBoxGit/objects/Service.o
-                0x00000000000249a0                add_service
-                0x00000000000249d0                service_init
+ *fill*         0x0000000000024968        0x8 
+ .text          0x0000000000024970       0x50 /home/senior/Desktop/Sandbox/objects/Service.o
+                0x0000000000024970                add_service
+                0x00000000000249a0                service_init
  ServiceTransport.o(.text)
- .text          0x00000000000249f0       0x60 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
-                0x00000000000249f0                init_service_transport
-                0x0000000000024a00                register_service_to_kernel
-                0x0000000000024a30                dispatch_kernel
+ .text          0x00000000000249c0       0x60 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+                0x00000000000249c0                init_service_transport
+                0x00000000000249d0                register_service_to_kernel
+                0x0000000000024a00                dispatch_kernel
  numbers.o(.text)
- .text          0x0000000000024a50       0xba /home/admin/Desktop/SandBoxGit/objects/numbers.o
-                0x0000000000024a50                is_integer
-                0x0000000000024ab0                atoi
+ .text          0x0000000000024a20       0xba /home/senior/Desktop/Sandbox/objects/numbers.o
+                0x0000000000024a20                is_integer
+                0x0000000000024a80                atoi
  rtl8139.o(.text)
- *fill*         0x0000000000024b0a        0x6 
- .text          0x0000000000024b10      0x35f /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
-                0x0000000000024b10                rtl8139_handler
-                0x0000000000024b90                read_mac_addr
-                0x0000000000024c10                rtl8139_init
+ *fill*         0x0000000000024ada        0x6 
+ .text          0x0000000000024ae0      0x38f /home/senior/Desktop/Sandbox/objects/rtl8139.o
+                0x0000000000024ae0                rtl8139_handler
+                0x0000000000024b70                read_mac_addr
+                0x0000000000024bf0                rtl8139_init
  Spinlock.o(.text)
  *fill*         0x0000000000024e6f        0x1 
- .text          0x0000000000024e70      0x185 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
+ .text          0x0000000000024e70      0x185 /home/senior/Desktop/Sandbox/objects/Spinlock.o
                 0x0000000000024e70                spinlock_xchg_64
                 0x0000000000024e80                spinlock_xchg_32
                 0x0000000000024e90                spinlock_xchg_16
@@ -1204,7 +1203,7 @@ Linker script and memory map
                 0x0000000000024fb0                spinlock_trylock
  KMalloc.o(.text)
  *fill*         0x0000000000024ff5        0xb 
- .text          0x0000000000025000      0x57e /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
+ .text          0x0000000000025000      0x57e /home/senior/Desktop/Sandbox/objects/KMalloc.o
                 0x0000000000025000                kmalloc
                 0x0000000000025080                kvalloc
                 0x0000000000025120                malloc
@@ -1216,280 +1215,277 @@ Linker script and memory map
                 0x0000000000025560                memset_user_memory
  hamada_K.o(.text)
  *fill*         0x000000000002557e        0x2 
- .text          0x0000000000025580       0x54 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
+ .text          0x0000000000025580       0x54 /home/senior/Desktop/Sandbox/objects/hamada_K.o
                 0x0000000000025580                hamada1
                 0x00000000000255b0                hamada2
  hamada_U.o(.text)
  *fill*         0x00000000000255d4        0xc 
- .text          0x00000000000255e0       0x21 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
+ .text          0x00000000000255e0       0x21 /home/senior/Desktop/Sandbox/objects/hamada_U.o
                 0x00000000000255e0                hamada3
  service1_K.o(.text)
  service1_U.o(.text)
  *fill*         0x0000000000025601        0xf 
- .text          0x0000000000025610       0x21 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
+ .text          0x0000000000025610       0x21 /home/senior/Desktop/Sandbox/objects/service1_U.o
                 0x0000000000025610                method3
  Kernel.o(.text)
  *fill*         0x0000000000025631        0xf 
- .text          0x0000000000025640       0xa7 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
+ .text          0x0000000000025640       0xa7 /home/senior/Desktop/Sandbox/objects/Kernel.o
                 0x0000000000025640                switchToUserMode
                 0x0000000000025670                switchToUserMode2
                 0x0000000000026000                . = ALIGN (0x1000)
  *fill*         0x00000000000256e7      0x919 
- .text          0x0000000000026000      0xa68 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ .text          0x0000000000026000      0xa58 /home/senior/Desktop/Sandbox/objects/KernelMain.o
                 0x0000000000026000                syscall
                 0x0000000000026090                zero_handler
                 0x00000000000260d0                fault_handler
                 0x0000000000026110                generateServices
                 0x0000000000026250                ap_kernel_main
                 0x0000000000026370                bsp_kernel_main
-                0x0000000000026a50                userModeDemo
+                0x0000000000026a40                userModeDemo
 
-.iplt           0x0000000000026a68        0x0
- .iplt          0x0000000000026a68        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+.iplt           0x0000000000026a58        0x0
+ .iplt          0x0000000000026a58        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
 
-.rela.dyn       0x0000000000026a68        0x0
- .rela.got      0x0000000000026a68        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
- .rela.iplt     0x0000000000026a68        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
- .rela.text     0x0000000000026a68        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+.rela.dyn       0x0000000000026a58        0x0
+ .rela.got      0x0000000000026a58        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
+ .rela.iplt     0x0000000000026a58        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
+ .rela.text     0x0000000000026a58        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
 
 .rodata         0x0000000000027000        0x0
  *(.rodata)
                 0x0000000000027000                . = ALIGN (0x1000)
 
-.rodata.str1.8  0x0000000000026a68      0x850
+.rodata.str1.8  0x0000000000026a58      0x812
  .rodata.str1.8
-                0x0000000000026a68       0x21 /home/admin/Desktop/SandBoxGit/objects/pit.o
- *fill*         0x0000000000026a89        0x7 
+                0x0000000000026a58       0x21 /home/senior/Desktop/Sandbox/objects/pit.o
+ *fill*         0x0000000000026a79        0x7 
  .rodata.str1.8
-                0x0000000000026a90       0xf6 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- *fill*         0x0000000000026b86        0x2 
+                0x0000000000026a80       0xf6 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ *fill*         0x0000000000026b76        0x2 
  .rodata.str1.8
-                0x0000000000026b88       0x82 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- *fill*         0x0000000000026c0a        0x6 
+                0x0000000000026b78       0x82 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ *fill*         0x0000000000026bfa        0x6 
  .rodata.str1.8
-                0x0000000000026c10       0x21 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- *fill*         0x0000000000026c31        0x7 
+                0x0000000000026c00       0x21 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ *fill*         0x0000000000026c21        0x7 
  .rodata.str1.8
-                0x0000000000026c38       0x8d /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- *fill*         0x0000000000026cc5        0x3 
+                0x0000000000026c28       0x8d /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ *fill*         0x0000000000026cb5        0x3 
  .rodata.str1.8
-                0x0000000000026cc8      0x130 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
+                0x0000000000026cb8      0x130 /home/senior/Desktop/Sandbox/objects/ATAManager.o
  .rodata.str1.8
-                0x0000000000026df8       0x2b /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- *fill*         0x0000000000026e23        0x5 
+                0x0000000000026de8       0x2b /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ *fill*         0x0000000000026e13        0x5 
  .rodata.str1.8
-                0x0000000000026e28       0x38 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
+                0x0000000000026e18       0x24 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ *fill*         0x0000000000026e3c        0x4 
  .rodata.str1.8
-                0x0000000000026e60       0x24 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- *fill*         0x0000000000026e84        0x4 
+                0x0000000000026e40       0xbc /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ *fill*         0x0000000000026efc        0x4 
  .rodata.str1.8
-                0x0000000000026e88       0xbc /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- *fill*         0x0000000000026f44        0x4 
+                0x0000000000026f00       0x90 /home/senior/Desktop/Sandbox/objects/BlockService.o
  .rodata.str1.8
-                0x0000000000026f48       0x90 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
+                0x0000000000026f90       0xb4 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ *fill*         0x0000000000027044        0x4 
  .rodata.str1.8
-                0x0000000000026fd8       0xb4 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- *fill*         0x000000000002708c        0x4 
+                0x0000000000027048      0x187 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ *fill*         0x00000000000271cf        0x1 
  .rodata.str1.8
-                0x0000000000027090      0x187 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- *fill*         0x0000000000027217        0x1 
- .rodata.str1.8
-                0x0000000000027218       0xa0 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-                                         0x9a (size before relaxing)
+                0x00000000000271d0       0x9a /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
-.eh_frame       0x00000000000272b8     0x29ac
- .eh_frame      0x00000000000272b8       0xe8 /home/admin/Desktop/SandBoxGit/objects/pit.o
- .eh_frame      0x00000000000273a0      0x2a8 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
+.eh_frame       0x0000000000027270     0x298c
+ .eh_frame      0x0000000000027270       0xe8 /home/senior/Desktop/Sandbox/objects/pit.o
+ .eh_frame      0x0000000000027358      0x2a8 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
                                         0x2c0 (size before relaxing)
- .eh_frame      0x0000000000027648      0x160 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
+ .eh_frame      0x0000000000027600      0x160 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
                                         0x178 (size before relaxing)
- .eh_frame      0x00000000000277a8      0x240 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
+ .eh_frame      0x0000000000027760      0x240 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
                                         0x258 (size before relaxing)
- .eh_frame      0x00000000000279e8       0x58 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
+ .eh_frame      0x00000000000279a0       0x58 /home/senior/Desktop/Sandbox/objects/memcpy.o
                                          0x70 (size before relaxing)
- .eh_frame      0x0000000000027a40      0x168 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
+ .eh_frame      0x00000000000279f8      0x168 /home/senior/Desktop/Sandbox/objects/pci_device.o
                                         0x180 (size before relaxing)
- .eh_frame      0x0000000000027ba8      0x140 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
+ .eh_frame      0x0000000000027b60      0x140 /home/senior/Desktop/Sandbox/objects/pci_service.o
                                         0x158 (size before relaxing)
- .eh_frame      0x0000000000027ce8       0x58 /home/admin/Desktop/SandBoxGit/objects/memswap.o
+ .eh_frame      0x0000000000027ca0       0x58 /home/senior/Desktop/Sandbox/objects/memswap.o
                                          0x70 (size before relaxing)
- .eh_frame      0x0000000000027d40       0x30 /home/admin/Desktop/SandBoxGit/objects/ipi.o
+ .eh_frame      0x0000000000027cf8       0x30 /home/senior/Desktop/Sandbox/objects/ipi.o
                                          0x48 (size before relaxing)
- .eh_frame      0x0000000000027d70      0x1c0 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
+ .eh_frame      0x0000000000027d28      0x1c0 /home/senior/Desktop/Sandbox/objects/Terminal.o
                                         0x1d8 (size before relaxing)
- .eh_frame      0x0000000000027f30      0x128 /home/admin/Desktop/SandBoxGit/objects/Console.o
+ .eh_frame      0x0000000000027ee8      0x128 /home/senior/Desktop/Sandbox/objects/Console.o
                                         0x140 (size before relaxing)
- .eh_frame      0x0000000000028058      0x178 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
+ .eh_frame      0x0000000000028010      0x178 /home/senior/Desktop/Sandbox/objects/ACPI.o
                                         0x190 (size before relaxing)
- .eh_frame      0x00000000000281d0      0x180 /home/admin/Desktop/SandBoxGit/objects/APIC.o
+ .eh_frame      0x0000000000028188      0x180 /home/senior/Desktop/Sandbox/objects/APIC.o
                                         0x198 (size before relaxing)
- .eh_frame      0x0000000000028350      0x2f8 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
+ .eh_frame      0x0000000000028308      0x2f8 /home/senior/Desktop/Sandbox/objects/ATADisk.o
                                         0x310 (size before relaxing)
- .eh_frame      0x0000000000028648      0x328 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
+ .eh_frame      0x0000000000028600      0x328 /home/senior/Desktop/Sandbox/objects/ATAManager.o
                                         0x340 (size before relaxing)
- .eh_frame      0x0000000000028970       0x40 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
+ .eh_frame      0x0000000000028928       0x40 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
                                          0x58 (size before relaxing)
- .eh_frame      0x00000000000289b0       0x20 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
+ .eh_frame      0x0000000000028968       0x20 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
                                          0x38 (size before relaxing)
- .eh_frame      0x00000000000289d0       0xc8 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
+ .eh_frame      0x0000000000028988       0xc8 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
                                          0xe0 (size before relaxing)
- .eh_frame      0x0000000000028a98       0x60 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
+ .eh_frame      0x0000000000028a50       0x60 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
                                          0x78 (size before relaxing)
- .eh_frame      0x0000000000028af8       0xe8 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
+ .eh_frame      0x0000000000028ab0       0xe8 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
                                         0x100 (size before relaxing)
- .eh_frame      0x0000000000028be0       0x40 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
-                                         0x58 (size before relaxing)
- .eh_frame      0x0000000000028c20       0xf0 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
+ .eh_frame      0x0000000000028b98       0x30 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000028bc8       0xf0 /home/senior/Desktop/Sandbox/objects/APICManager.o
                                         0x108 (size before relaxing)
- .eh_frame      0x0000000000028d10       0x78 /home/admin/Desktop/SandBoxGit/objects/Ports.o
+ .eh_frame      0x0000000000028cb8       0x78 /home/senior/Desktop/Sandbox/objects/Ports.o
                                          0x90 (size before relaxing)
- .eh_frame      0x0000000000028d88       0x50 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
+ .eh_frame      0x0000000000028d30       0x50 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
                                          0x68 (size before relaxing)
- .eh_frame      0x0000000000028dd8       0x30 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
+ .eh_frame      0x0000000000028d80       0x30 /home/senior/Desktop/Sandbox/objects/NetUtils.o
                                          0x48 (size before relaxing)
- .eh_frame      0x0000000000028e08       0xa0 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
+ .eh_frame      0x0000000000028db0       0xa0 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
                                          0xb8 (size before relaxing)
- .eh_frame      0x0000000000028ea8       0x70 /home/admin/Desktop/SandBoxGit/objects/stdio.o
+ .eh_frame      0x0000000000028e50       0x70 /home/senior/Desktop/Sandbox/objects/stdio.o
                                          0x88 (size before relaxing)
- .eh_frame      0x0000000000028f18       0x30 /home/admin/Desktop/SandBoxGit/objects/printk.o
+ .eh_frame      0x0000000000028ec0       0x30 /home/senior/Desktop/Sandbox/objects/printk.o
                                          0x48 (size before relaxing)
- .eh_frame      0x0000000000028f48       0x28 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
+ .eh_frame      0x0000000000028ef0       0x28 /home/senior/Desktop/Sandbox/objects/service1_K.o
                                          0x40 (size before relaxing)
- .eh_frame      0x0000000000028f70       0x18 /home/admin/Desktop/SandBoxGit/objects/checksum.o
+ .eh_frame      0x0000000000028f18       0x18 /home/senior/Desktop/Sandbox/objects/checksum.o
                                          0x30 (size before relaxing)
- .eh_frame      0x0000000000028f88      0x3e8 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
+ .eh_frame      0x0000000000028f30      0x3e8 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
                                         0x400 (size before relaxing)
- .eh_frame      0x0000000000029370      0x1b8 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
+ .eh_frame      0x0000000000029318      0x1b8 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
                                         0x1d0 (size before relaxing)
- .eh_frame      0x0000000000029528       0xc0 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
+ .eh_frame      0x00000000000294d0       0xc0 /home/senior/Desktop/Sandbox/objects/BlockService.o
                                          0xd8 (size before relaxing)
- .eh_frame      0x00000000000295e8       0x28 /home/admin/Desktop/SandBoxGit/objects/Service.o
+ .eh_frame      0x0000000000029590       0x28 /home/senior/Desktop/Sandbox/objects/Service.o
                                          0x40 (size before relaxing)
- .eh_frame      0x0000000000029610       0x40 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
+ .eh_frame      0x00000000000295b8       0x40 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
                                          0x58 (size before relaxing)
- .eh_frame      0x0000000000029650       0x38 /home/admin/Desktop/SandBoxGit/objects/numbers.o
+ .eh_frame      0x00000000000295f8       0x38 /home/senior/Desktop/Sandbox/objects/numbers.o
                                          0x50 (size before relaxing)
- .eh_frame      0x0000000000029688       0xb8 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
-                                         0xd0 (size before relaxing)
- .eh_frame      0x0000000000029740      0x100 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
+ .eh_frame      0x0000000000029630       0xa8 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+                                         0xc0 (size before relaxing)
+ .eh_frame      0x00000000000296d8      0x100 /home/senior/Desktop/Sandbox/objects/Spinlock.o
                                         0x118 (size before relaxing)
- .eh_frame      0x0000000000029840      0x230 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
+ .eh_frame      0x00000000000297d8      0x230 /home/senior/Desktop/Sandbox/objects/KMalloc.o
                                         0x248 (size before relaxing)
- .eh_frame      0x0000000000029a70       0x28 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
+ .eh_frame      0x0000000000029a08       0x28 /home/senior/Desktop/Sandbox/objects/hamada_K.o
                                          0x40 (size before relaxing)
- .eh_frame      0x0000000000029a98       0x18 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
+ .eh_frame      0x0000000000029a30       0x18 /home/senior/Desktop/Sandbox/objects/hamada_U.o
                                          0x30 (size before relaxing)
- .eh_frame      0x0000000000029ab0       0x18 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
+ .eh_frame      0x0000000000029a48       0x18 /home/senior/Desktop/Sandbox/objects/service1_U.o
                                          0x30 (size before relaxing)
- .eh_frame      0x0000000000029ac8       0x38 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
+ .eh_frame      0x0000000000029a60       0x38 /home/senior/Desktop/Sandbox/objects/Kernel.o
                                          0x50 (size before relaxing)
- .eh_frame      0x0000000000029b00      0x164 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ .eh_frame      0x0000000000029a98      0x164 /home/senior/Desktop/Sandbox/objects/KernelMain.o
                                         0x180 (size before relaxing)
 
-.rodata.str1.1  0x0000000000029c64      0x547
+.rodata.str1.1  0x0000000000029bfc      0x548
  .rodata.str1.1
-                0x0000000000029c64       0x82 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
+                0x0000000000029bfc       0x82 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
  .rodata.str1.1
-                0x0000000000029ce6       0x47 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
+                0x0000000000029c7e       0x47 /home/senior/Desktop/Sandbox/objects/ACPI.o
  .rodata.str1.1
-                0x0000000000029d2d       0x1b /home/admin/Desktop/SandBoxGit/objects/APIC.o
+                0x0000000000029cc5       0x1b /home/senior/Desktop/Sandbox/objects/APIC.o
  .rodata.str1.1
-                0x0000000000029d48       0xab /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
+                0x0000000000029ce0       0xab /home/senior/Desktop/Sandbox/objects/ATADisk.o
  .rodata.str1.1
-                0x0000000000029df3      0x16b /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
+                0x0000000000029d8b      0x16b /home/senior/Desktop/Sandbox/objects/ATAManager.o
  .rodata.str1.1
-                0x0000000000029f5e       0x12 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
+                0x0000000000029ef6       0x12 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
  .rodata.str1.1
-                0x0000000000029f70       0x10 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
+                0x0000000000029f08       0x10 /home/senior/Desktop/Sandbox/objects/isr_stub.o
  .rodata.str1.1
-                0x0000000000029f80       0x25 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
+                0x0000000000029f18       0x25 /home/senior/Desktop/Sandbox/objects/APICManager.o
  .rodata.str1.1
-                0x0000000000029fa5       0x75 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
+                0x0000000000029f3d       0x75 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
  .rodata.str1.1
-                0x000000000002a01a       0x52 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
+                0x0000000000029fb2       0x52 /home/senior/Desktop/Sandbox/objects/BlockService.o
  .rodata.str1.1
-                0x000000000002a06c       0x32 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
+                0x000000000002a004       0x33 /home/senior/Desktop/Sandbox/objects/rtl8139.o
  .rodata.str1.1
-                0x000000000002a09e       0x87 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
+                0x000000000002a037       0x87 /home/senior/Desktop/Sandbox/objects/KMalloc.o
  .rodata.str1.1
-                0x000000000002a125        0x3 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
+                0x000000000002a0be        0x3 /home/senior/Desktop/Sandbox/objects/hamada_K.o
  .rodata.str1.1
-                0x000000000002a128        0x3 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
+                0x000000000002a0c1        0x3 /home/senior/Desktop/Sandbox/objects/hamada_U.o
  .rodata.str1.1
-                0x000000000002a128        0x3 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
+                0x000000000002a0c1        0x3 /home/senior/Desktop/Sandbox/objects/service1_U.o
  .rodata.str1.1
-                0x000000000002a128       0x2a /home/admin/Desktop/SandBoxGit/objects/Kernel.o
+                0x000000000002a0c1       0x2a /home/senior/Desktop/Sandbox/objects/Kernel.o
  .rodata.str1.1
-                0x000000000002a152       0x59 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                0x000000000002a0eb       0x59 /home/senior/Desktop/Sandbox/objects/KernelMain.o
                                          0x61 (size before relaxing)
 
-.rodata.cst8    0x000000000002a1b0       0x10
- .rodata.cst8   0x000000000002a1b0       0x10 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
+.rodata.cst8    0x000000000002a148       0x10
+ .rodata.cst8   0x000000000002a148       0x10 /home/senior/Desktop/Sandbox/objects/KMalloc.o
 
 .data           0x000000000002b000     0x1000
  *(.data)
- .data          0x000000000002b000        0x0 /home/admin/Desktop/SandBoxGit/objects/pit.o
- .data          0x000000000002b000       0xf0 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/Console.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/printk.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/Service.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
- .data          0x000000000002b0f0        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ .data          0x000000000002b000        0x0 /home/senior/Desktop/Sandbox/objects/pit.o
+ .data          0x000000000002b000       0xf0 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/memswap.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/Console.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/APIC.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/Ports.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/stdio.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/printk.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/checksum.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/Service.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/numbers.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/Kernel.o
+ .data          0x000000000002b0f0        0x0 /home/senior/Desktop/Sandbox/objects/KernelMain.o
                 0x000000000002c000                . = ALIGN (0x1000)
  *fill*         0x000000000002b0f0      0xf10 
 
 .got            0x000000000002c000        0x0
- .got           0x000000000002c000        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+ .got           0x000000000002c000        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
 
 .got.plt        0x000000000002c000        0x0
- .got.plt       0x000000000002c000        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+ .got.plt       0x000000000002c000        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
 
 .igot.plt       0x000000000002c000        0x0
- .igot.plt      0x000000000002c000        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+ .igot.plt      0x000000000002c000        0x0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
 
 .bss            0x000000000002c000    0x20000
  *(COMMON)
- COMMON         0x000000000002c000       0x28 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
+ COMMON         0x000000000002c000       0x28 /home/senior/Desktop/Sandbox/objects/rtl8139.o
                 0x000000000002c000                rtl8139_device
  *fill*         0x000000000002c028       0x18 
- COMMON         0x000000000002c040    0x1c8f0 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ COMMON         0x000000000002c040    0x1c8f0 /home/senior/Desktop/Sandbox/objects/KernelMain.o
                 0x000000000002c040                virtualMemoryService
                 0x000000000002c860                sharedMemoryService
                 0x000000000002d080                ipiService
@@ -1506,505 +1502,556 @@ Linker script and memory map
                 0x0000000000047900                service1Service
                 0x0000000000048120                hamadaStructService
  *(.bss)
- .bss           0x0000000000048930     0x2000 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
- .bss           0x000000000004a930        0x0 /home/admin/Desktop/SandBoxGit/objects/pit.o
- .bss           0x000000000004a930        0x0 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .bss           0x000000000004a930        0x0 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .bss           0x000000000004a930        0x0 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
+ .bss           0x0000000000048930     0x2000 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
+ .bss           0x000000000004a930        0x0 /home/senior/Desktop/Sandbox/objects/pit.o
+ .bss           0x000000000004a930        0x0 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .bss           0x000000000004a930        0x0 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .bss           0x000000000004a930        0x0 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
  *fill*         0x000000000004a930       0x10 
- .bss           0x000000000004a940      0x800 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .bss           0x000000000004b140        0x0 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .bss           0x000000000004b140        0x0 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .bss           0x000000000004b140      0x800 /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/Console.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/printk.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/Service.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
- .bss           0x000000000004b940        0x0 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ .bss           0x000000000004a940      0x800 /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .bss           0x000000000004b140        0x0 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .bss           0x000000000004b140        0x0 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .bss           0x000000000004b140      0x800 /home/senior/Desktop/Sandbox/objects/memswap.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/Console.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/APIC.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/Ports.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/stdio.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/printk.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/checksum.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/Service.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/numbers.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/Kernel.o
+ .bss           0x000000000004b940        0x0 /home/senior/Desktop/Sandbox/objects/KernelMain.o
  *(.bootstrap_stack)
                 0x000000000004c000                . = ALIGN (0x1000)
  *fill*         0x000000000004b940      0x6c0 
                 0x000000000004c000                end = .
-LOAD /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+LOAD /home/senior/Desktop/Sandbox/objects/KernelMain.o
+LOAD /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
+LOAD /home/senior/Desktop/Sandbox/objects/gdt.o
+LOAD /home/senior/Desktop/Sandbox/objects/idt.o
+LOAD /home/senior/Desktop/Sandbox/objects/isr.o
+LOAD /home/senior/Desktop/Sandbox/objects/pit.o
+LOAD /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+LOAD /home/senior/Desktop/Sandbox/objects/MemoryUtilities_asm.o
+LOAD /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+LOAD /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+LOAD /home/senior/Desktop/Sandbox/objects/memcpy_asm.o
+LOAD /home/senior/Desktop/Sandbox/objects/memcpy.o
+LOAD /home/senior/Desktop/Sandbox/objects/memswap_asm.o
+LOAD /home/senior/Desktop/Sandbox/objects/checksum_asm.o
+LOAD /home/senior/Desktop/Sandbox/objects/pci_device.o
+LOAD /home/senior/Desktop/Sandbox/objects/pci_service.o
+LOAD /home/senior/Desktop/Sandbox/objects/memswap.o
+LOAD /home/senior/Desktop/Sandbox/objects/ipi.o
+LOAD /home/senior/Desktop/Sandbox/objects/Terminal.o
+LOAD /home/senior/Desktop/Sandbox/objects/Console.o
+LOAD /home/senior/Desktop/Sandbox/objects/ACPI.o
+LOAD /home/senior/Desktop/Sandbox/objects/APIC.o
+LOAD /home/senior/Desktop/Sandbox/objects/ATADisk.o
+LOAD /home/senior/Desktop/Sandbox/objects/ATAManager.o
+LOAD /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+LOAD /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+LOAD /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+LOAD /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+LOAD /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+LOAD /home/senior/Desktop/Sandbox/objects/isr_stub.o
+LOAD /home/senior/Desktop/Sandbox/objects/APICManager.o
+LOAD /home/senior/Desktop/Sandbox/objects/Ports.o
+LOAD /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+LOAD /home/senior/Desktop/Sandbox/objects/NetUtils.o
+LOAD /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+LOAD /home/senior/Desktop/Sandbox/objects/stdio.o
+LOAD /home/senior/Desktop/Sandbox/objects/printk.o
+LOAD /home/senior/Desktop/Sandbox/objects/service1_K.o
+LOAD /home/senior/Desktop/Sandbox/objects/checksum.o
+LOAD /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+LOAD /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+LOAD /home/senior/Desktop/Sandbox/objects/BlockService.o
+LOAD /home/senior/Desktop/Sandbox/objects/Service.o
+LOAD /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+LOAD /home/senior/Desktop/Sandbox/objects/numbers.o
+LOAD /home/senior/Desktop/Sandbox/objects/rtl8139.o
+LOAD /home/senior/Desktop/Sandbox/objects/Spinlock.o
+LOAD /home/senior/Desktop/Sandbox/objects/KMalloc.o
+LOAD /home/senior/Desktop/Sandbox/objects/hamada_K.o
+LOAD /home/senior/Desktop/Sandbox/objects/hamada_U.o
+LOAD /home/senior/Desktop/Sandbox/objects/service1_U.o
+LOAD /home/senior/Desktop/Sandbox/objects/Kernel.o
 OUTPUT(/dev/null elf64-x86-64)
 
 .stab           0x0000000000000000    0x31de8
- .stab          0x0000000000000000       0xc0 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
- .stab          0x00000000000000c0       0xb4 /home/admin/Desktop/SandBoxGit/objects/gdt.o
+ .stab          0x0000000000000000       0xc0 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
+ .stab          0x00000000000000c0       0xb4 /home/senior/Desktop/Sandbox/objects/gdt.o
                                          0xc0 (size before relaxing)
- .stab          0x0000000000000174      0xc30 /home/admin/Desktop/SandBoxGit/objects/idt.o
+ .stab          0x0000000000000174      0xc30 /home/senior/Desktop/Sandbox/objects/idt.o
                                         0xc3c (size before relaxing)
- .stab          0x0000000000000da4       0x84 /home/admin/Desktop/SandBoxGit/objects/isr.o
+ .stab          0x0000000000000da4       0x84 /home/senior/Desktop/Sandbox/objects/isr.o
                                          0x90 (size before relaxing)
- .stab          0x0000000000000e28     0x21e4 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities_asm.o
+ .stab          0x0000000000000e28     0x21e4 /home/senior/Desktop/Sandbox/objects/MemoryUtilities_asm.o
                                        0x21f0 (size before relaxing)
- .stab          0x000000000000300c    0x1071c /home/admin/Desktop/SandBoxGit/objects/memcpy_asm.o
+ .stab          0x000000000000300c    0x1071c /home/senior/Desktop/Sandbox/objects/memcpy_asm.o
                                       0x10728 (size before relaxing)
- .stab          0x0000000000013728    0x1e318 /home/admin/Desktop/SandBoxGit/objects/memswap_asm.o
+ .stab          0x0000000000013728    0x1e318 /home/senior/Desktop/Sandbox/objects/memswap_asm.o
                                       0x1e324 (size before relaxing)
- .stab          0x0000000000031a40      0x3a8 /home/admin/Desktop/SandBoxGit/objects/checksum_asm.o
+ .stab          0x0000000000031a40      0x3a8 /home/senior/Desktop/Sandbox/objects/checksum_asm.o
                                         0x3b4 (size before relaxing)
 
 .stabstr        0x0000000000000000       0x63
- .stabstr       0x0000000000000000       0x63 /home/admin/Desktop/SandBoxGit/objects/KernelWrapper.o
+ .stabstr       0x0000000000000000       0x63 /home/senior/Desktop/Sandbox/objects/KernelWrapper.o
 
-.debug_info     0x0000000000000000    0x37efb
- .debug_info    0x0000000000000000     0x2008 /home/admin/Desktop/SandBoxGit/objects/pit.o
- .debug_info    0x0000000000002008     0x2f1b /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .debug_info    0x0000000000004f23      0xb54 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .debug_info    0x0000000000005a77      0x721 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .debug_info    0x0000000000006198      0x1b9 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .debug_info    0x0000000000006351      0x783 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .debug_info    0x0000000000006ad4     0x237d /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .debug_info    0x0000000000008e51      0x1c1 /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .debug_info    0x0000000000009012     0x1e96 /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .debug_info    0x000000000000aea8      0xc76 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .debug_info    0x000000000000bb1e      0x955 /home/admin/Desktop/SandBoxGit/objects/Console.o
- .debug_info    0x000000000000c473     0x2561 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .debug_info    0x000000000000e9d4     0x2740 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .debug_info    0x0000000000011114     0x391d /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .debug_info    0x0000000000014a31     0x313d /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .debug_info    0x0000000000017b6e      0x2fe /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .debug_info    0x0000000000017e6c      0x223 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .debug_info    0x000000000001808f     0x207a /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
- .debug_info    0x000000000001a109     0x1ff1 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .debug_info    0x000000000001c0fa     0x677c /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .debug_info    0x0000000000022876     0x1ef8 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .debug_info    0x000000000002476e     0x2209 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .debug_info    0x0000000000026977      0x21b /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .debug_info    0x0000000000026b92      0x239 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .debug_info    0x0000000000026dcb      0x14e /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .debug_info    0x0000000000026f19      0x257 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
- .debug_info    0x0000000000027170      0x428 /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .debug_info    0x0000000000027598     0x1fb1 /home/admin/Desktop/SandBoxGit/objects/printk.o
- .debug_info    0x0000000000029549      0x13b /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .debug_info    0x0000000000029684      0x110 /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .debug_info    0x0000000000029794     0x35fc /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .debug_info    0x000000000002cd90     0x2550 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .debug_info    0x000000000002f2e0     0x21a4 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .debug_info    0x0000000000031484      0x1e8 /home/admin/Desktop/SandBoxGit/objects/Service.o
- .debug_info    0x000000000003166c      0x2bd /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .debug_info    0x0000000000031929      0x19d /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .debug_info    0x0000000000031ac6     0x2255 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .debug_info    0x0000000000033d1b      0x366 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .debug_info    0x0000000000034081      0x91a /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .debug_info    0x000000000003499b      0x1bb /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .debug_info    0x0000000000034b56      0x145 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .debug_info    0x0000000000034c9b      0x133 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .debug_info    0x0000000000034dce       0xe5 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
- .debug_info    0x0000000000034eb3     0x3048 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+.debug_info     0x0000000000000000    0x37f25
+ .debug_info    0x0000000000000000     0x2008 /home/senior/Desktop/Sandbox/objects/pit.o
+ .debug_info    0x0000000000002008     0x2f1b /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_info    0x0000000000004f23      0xb54 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_info    0x0000000000005a77      0x721 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_info    0x0000000000006198      0x1b9 /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .debug_info    0x0000000000006351      0x783 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .debug_info    0x0000000000006ad4     0x237d /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .debug_info    0x0000000000008e51      0x1c1 /home/senior/Desktop/Sandbox/objects/memswap.o
+ .debug_info    0x0000000000009012     0x1e96 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .debug_info    0x000000000000aea8      0xc76 /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .debug_info    0x000000000000bb1e      0x955 /home/senior/Desktop/Sandbox/objects/Console.o
+ .debug_info    0x000000000000c473     0x2561 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .debug_info    0x000000000000e9d4     0x2740 /home/senior/Desktop/Sandbox/objects/APIC.o
+ .debug_info    0x0000000000011114     0x391d /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .debug_info    0x0000000000014a31     0x313d /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .debug_info    0x0000000000017b6e      0x2fe /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_info    0x0000000000017e6c      0x223 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_info    0x000000000001808f     0x207a /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_info    0x000000000001a109     0x1ff1 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_info    0x000000000001c0fa     0x677c /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_info    0x0000000000022876     0x1ee6 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .debug_info    0x000000000002475c     0x2209 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .debug_info    0x0000000000026965      0x21b /home/senior/Desktop/Sandbox/objects/Ports.o
+ .debug_info    0x0000000000026b80      0x239 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_info    0x0000000000026db9      0x14e /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .debug_info    0x0000000000026f07      0x257 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_info    0x000000000002715e      0x428 /home/senior/Desktop/Sandbox/objects/stdio.o
+ .debug_info    0x0000000000027586     0x1fb1 /home/senior/Desktop/Sandbox/objects/printk.o
+ .debug_info    0x0000000000029537      0x13b /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .debug_info    0x0000000000029672      0x110 /home/senior/Desktop/Sandbox/objects/checksum.o
+ .debug_info    0x0000000000029782     0x35fc /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_info    0x000000000002cd7e     0x2550 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_info    0x000000000002f2ce     0x21a4 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .debug_info    0x0000000000031472      0x1e8 /home/senior/Desktop/Sandbox/objects/Service.o
+ .debug_info    0x000000000003165a      0x2bd /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_info    0x0000000000031917      0x19d /home/senior/Desktop/Sandbox/objects/numbers.o
+ .debug_info    0x0000000000031ab4     0x22b5 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .debug_info    0x0000000000033d69      0x366 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .debug_info    0x00000000000340cf      0x91a /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .debug_info    0x00000000000349e9      0x1bb /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .debug_info    0x0000000000034ba4      0x145 /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .debug_info    0x0000000000034ce9      0x133 /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .debug_info    0x0000000000034e1c       0xe5 /home/senior/Desktop/Sandbox/objects/Kernel.o
+ .debug_info    0x0000000000034f01     0x3024 /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
-.debug_abbrev   0x0000000000000000     0x5c4f
- .debug_abbrev  0x0000000000000000      0x2d9 /home/admin/Desktop/SandBoxGit/objects/pit.o
- .debug_abbrev  0x00000000000002d9      0x522 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .debug_abbrev  0x00000000000007fb      0x1b9 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .debug_abbrev  0x00000000000009b4      0x13e /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .debug_abbrev  0x0000000000000af2      0x10c /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .debug_abbrev  0x0000000000000bfe      0x198 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .debug_abbrev  0x0000000000000d96      0x2eb /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .debug_abbrev  0x0000000000001081      0x10c /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .debug_abbrev  0x000000000000118d      0x263 /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .debug_abbrev  0x00000000000013f0      0x22a /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .debug_abbrev  0x000000000000161a      0x198 /home/admin/Desktop/SandBoxGit/objects/Console.o
- .debug_abbrev  0x00000000000017b2      0x3b8 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .debug_abbrev  0x0000000000001b6a      0x3b8 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .debug_abbrev  0x0000000000001f22      0x441 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .debug_abbrev  0x0000000000002363      0x51d /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .debug_abbrev  0x0000000000002880      0x14e /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .debug_abbrev  0x00000000000029ce       0xab /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .debug_abbrev  0x0000000000002a79      0x269 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
- .debug_abbrev  0x0000000000002ce2      0x2c0 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .debug_abbrev  0x0000000000002fa2      0x32e /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .debug_abbrev  0x00000000000032d0      0x26e /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .debug_abbrev  0x000000000000353e      0x2d5 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .debug_abbrev  0x0000000000003813       0xb2 /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .debug_abbrev  0x00000000000038c5      0x121 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .debug_abbrev  0x00000000000039e6       0xb9 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .debug_abbrev  0x0000000000003a9f       0xa0 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
- .debug_abbrev  0x0000000000003b3f      0x16c /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .debug_abbrev  0x0000000000003cab      0x29a /home/admin/Desktop/SandBoxGit/objects/printk.o
- .debug_abbrev  0x0000000000003f45       0xc4 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .debug_abbrev  0x0000000000004009       0x88 /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .debug_abbrev  0x0000000000004091      0x561 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .debug_abbrev  0x00000000000045f2      0x310 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .debug_abbrev  0x0000000000004902      0x305 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .debug_abbrev  0x0000000000004c07      0x112 /home/admin/Desktop/SandBoxGit/objects/Service.o
- .debug_abbrev  0x0000000000004d19      0x153 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .debug_abbrev  0x0000000000004e6c       0xd5 /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .debug_abbrev  0x0000000000004f41      0x2eb /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .debug_abbrev  0x000000000000522c      0x188 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .debug_abbrev  0x00000000000053b4      0x1b6 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .debug_abbrev  0x000000000000556a       0xf4 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .debug_abbrev  0x000000000000565e       0xf4 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .debug_abbrev  0x0000000000005752       0xda /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .debug_abbrev  0x000000000000582c       0xa5 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
- .debug_abbrev  0x00000000000058d1      0x37e /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+.debug_abbrev   0x0000000000000000     0x5c55
+ .debug_abbrev  0x0000000000000000      0x2d9 /home/senior/Desktop/Sandbox/objects/pit.o
+ .debug_abbrev  0x00000000000002d9      0x522 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_abbrev  0x00000000000007fb      0x1b9 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_abbrev  0x00000000000009b4      0x13e /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_abbrev  0x0000000000000af2      0x10c /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .debug_abbrev  0x0000000000000bfe      0x198 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .debug_abbrev  0x0000000000000d96      0x2eb /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .debug_abbrev  0x0000000000001081      0x10c /home/senior/Desktop/Sandbox/objects/memswap.o
+ .debug_abbrev  0x000000000000118d      0x263 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .debug_abbrev  0x00000000000013f0      0x22a /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .debug_abbrev  0x000000000000161a      0x198 /home/senior/Desktop/Sandbox/objects/Console.o
+ .debug_abbrev  0x00000000000017b2      0x3b8 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .debug_abbrev  0x0000000000001b6a      0x3b8 /home/senior/Desktop/Sandbox/objects/APIC.o
+ .debug_abbrev  0x0000000000001f22      0x441 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .debug_abbrev  0x0000000000002363      0x51d /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .debug_abbrev  0x0000000000002880      0x14e /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_abbrev  0x00000000000029ce       0xab /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_abbrev  0x0000000000002a79      0x269 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_abbrev  0x0000000000002ce2      0x2c0 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_abbrev  0x0000000000002fa2      0x32e /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_abbrev  0x00000000000032d0      0x279 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .debug_abbrev  0x0000000000003549      0x2d5 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .debug_abbrev  0x000000000000381e       0xb2 /home/senior/Desktop/Sandbox/objects/Ports.o
+ .debug_abbrev  0x00000000000038d0      0x121 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_abbrev  0x00000000000039f1       0xb9 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .debug_abbrev  0x0000000000003aaa       0xa0 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_abbrev  0x0000000000003b4a      0x16c /home/senior/Desktop/Sandbox/objects/stdio.o
+ .debug_abbrev  0x0000000000003cb6      0x29a /home/senior/Desktop/Sandbox/objects/printk.o
+ .debug_abbrev  0x0000000000003f50       0xc4 /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .debug_abbrev  0x0000000000004014       0x88 /home/senior/Desktop/Sandbox/objects/checksum.o
+ .debug_abbrev  0x000000000000409c      0x561 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_abbrev  0x00000000000045fd      0x310 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_abbrev  0x000000000000490d      0x305 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .debug_abbrev  0x0000000000004c12      0x112 /home/senior/Desktop/Sandbox/objects/Service.o
+ .debug_abbrev  0x0000000000004d24      0x153 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_abbrev  0x0000000000004e77       0xd5 /home/senior/Desktop/Sandbox/objects/numbers.o
+ .debug_abbrev  0x0000000000004f4c      0x2e6 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .debug_abbrev  0x0000000000005232      0x188 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .debug_abbrev  0x00000000000053ba      0x1b6 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .debug_abbrev  0x0000000000005570       0xf4 /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .debug_abbrev  0x0000000000005664       0xf4 /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .debug_abbrev  0x0000000000005758       0xda /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .debug_abbrev  0x0000000000005832       0xa5 /home/senior/Desktop/Sandbox/objects/Kernel.o
+ .debug_abbrev  0x00000000000058d7      0x37e /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
-.debug_loc      0x0000000000000000    0x1af37
- .debug_loc     0x0000000000000000      0x24d /home/admin/Desktop/SandBoxGit/objects/pit.o
- .debug_loc     0x000000000000024d     0x1f6f /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .debug_loc     0x00000000000021bc     0x1075 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .debug_loc     0x0000000000003231      0xdc3 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .debug_loc     0x0000000000003ff4      0x1c2 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .debug_loc     0x00000000000041b6      0xa88 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .debug_loc     0x0000000000004c3e      0x7b3 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .debug_loc     0x00000000000053f1      0x1c2 /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .debug_loc     0x00000000000055b3      0x109 /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .debug_loc     0x00000000000056bc     0x19af /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .debug_loc     0x000000000000706b      0x71d /home/admin/Desktop/SandBoxGit/objects/Console.o
- .debug_loc     0x0000000000007788      0x94b /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .debug_loc     0x00000000000080d3      0xa4c /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .debug_loc     0x0000000000008b1f     0x2176 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .debug_loc     0x000000000000ac95      0xcdc /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .debug_loc     0x000000000000b971      0x25e /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .debug_loc     0x000000000000bbcf       0x3d /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .debug_loc     0x000000000000bc0c      0x284 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .debug_loc     0x000000000000be90     0x755f /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .debug_loc     0x00000000000133ef       0xa1 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .debug_loc     0x0000000000013490      0x3f4 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .debug_loc     0x0000000000013884       0x6f /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .debug_loc     0x00000000000138f3      0x129 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .debug_loc     0x0000000000013a1c      0x1e9 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .debug_loc     0x0000000000013c05      0x68c /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .debug_loc     0x0000000000014291       0x52 /home/admin/Desktop/SandBoxGit/objects/printk.o
- .debug_loc     0x00000000000142e3       0x4a /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .debug_loc     0x000000000001432d      0x163 /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .debug_loc     0x0000000000014490     0x3cab /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .debug_loc     0x000000000001813b     0x108e /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .debug_loc     0x00000000000191c9      0x267 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .debug_loc     0x0000000000019430       0xf4 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .debug_loc     0x0000000000019524      0x1c4 /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .debug_loc     0x00000000000196e8      0x1d0 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .debug_loc     0x00000000000198b8      0x341 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .debug_loc     0x0000000000019bf9      0xa05 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .debug_loc     0x000000000001a5fe       0xf4 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .debug_loc     0x000000000001a6f2       0x7a /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .debug_loc     0x000000000001a76c       0x7a /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .debug_loc     0x000000000001a7e6      0x751 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+.debug_loc      0x0000000000000000    0x1af19
+ .debug_loc     0x0000000000000000      0x24d /home/senior/Desktop/Sandbox/objects/pit.o
+ .debug_loc     0x000000000000024d     0x1f6f /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_loc     0x00000000000021bc     0x1075 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_loc     0x0000000000003231      0xdc3 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_loc     0x0000000000003ff4      0x1c2 /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .debug_loc     0x00000000000041b6      0xa88 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .debug_loc     0x0000000000004c3e      0x7b3 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .debug_loc     0x00000000000053f1      0x1c2 /home/senior/Desktop/Sandbox/objects/memswap.o
+ .debug_loc     0x00000000000055b3      0x109 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .debug_loc     0x00000000000056bc     0x19af /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .debug_loc     0x000000000000706b      0x71d /home/senior/Desktop/Sandbox/objects/Console.o
+ .debug_loc     0x0000000000007788      0x94b /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .debug_loc     0x00000000000080d3      0xa4c /home/senior/Desktop/Sandbox/objects/APIC.o
+ .debug_loc     0x0000000000008b1f     0x2176 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .debug_loc     0x000000000000ac95      0xcdc /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .debug_loc     0x000000000000b971      0x25e /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_loc     0x000000000000bbcf       0x3d /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_loc     0x000000000000bc0c      0x284 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_loc     0x000000000000be90     0x755f /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_loc     0x00000000000133ef       0xa2 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .debug_loc     0x0000000000013491      0x3f4 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .debug_loc     0x0000000000013885       0x6f /home/senior/Desktop/Sandbox/objects/Ports.o
+ .debug_loc     0x00000000000138f4      0x129 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_loc     0x0000000000013a1d      0x1e9 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .debug_loc     0x0000000000013c06      0x68c /home/senior/Desktop/Sandbox/objects/stdio.o
+ .debug_loc     0x0000000000014292       0x52 /home/senior/Desktop/Sandbox/objects/printk.o
+ .debug_loc     0x00000000000142e4       0x4a /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .debug_loc     0x000000000001432e      0x163 /home/senior/Desktop/Sandbox/objects/checksum.o
+ .debug_loc     0x0000000000014491     0x3cab /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_loc     0x000000000001813c     0x108e /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_loc     0x00000000000191ca      0x267 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .debug_loc     0x0000000000019431       0xf4 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_loc     0x0000000000019525      0x1c4 /home/senior/Desktop/Sandbox/objects/numbers.o
+ .debug_loc     0x00000000000196e9      0x1b1 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .debug_loc     0x000000000001989a      0x341 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .debug_loc     0x0000000000019bdb      0xa05 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .debug_loc     0x000000000001a5e0       0xf4 /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .debug_loc     0x000000000001a6d4       0x7a /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .debug_loc     0x000000000001a74e       0x7a /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .debug_loc     0x000000000001a7c8      0x751 /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
 .debug_aranges  0x0000000000000000      0x840
  .debug_aranges
-                0x0000000000000000       0x30 /home/admin/Desktop/SandBoxGit/objects/pit.o
+                0x0000000000000000       0x30 /home/senior/Desktop/Sandbox/objects/pit.o
  .debug_aranges
-                0x0000000000000030       0x30 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
+                0x0000000000000030       0x30 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
  .debug_aranges
-                0x0000000000000060       0x30 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
+                0x0000000000000060       0x30 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
  .debug_aranges
-                0x0000000000000090       0x30 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
+                0x0000000000000090       0x30 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
  .debug_aranges
-                0x00000000000000c0       0x30 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
+                0x00000000000000c0       0x30 /home/senior/Desktop/Sandbox/objects/memcpy.o
  .debug_aranges
-                0x00000000000000f0       0x30 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
+                0x00000000000000f0       0x30 /home/senior/Desktop/Sandbox/objects/pci_device.o
  .debug_aranges
-                0x0000000000000120       0x30 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
+                0x0000000000000120       0x30 /home/senior/Desktop/Sandbox/objects/pci_service.o
  .debug_aranges
-                0x0000000000000150       0x30 /home/admin/Desktop/SandBoxGit/objects/memswap.o
+                0x0000000000000150       0x30 /home/senior/Desktop/Sandbox/objects/memswap.o
  .debug_aranges
-                0x0000000000000180       0x30 /home/admin/Desktop/SandBoxGit/objects/ipi.o
+                0x0000000000000180       0x30 /home/senior/Desktop/Sandbox/objects/ipi.o
  .debug_aranges
-                0x00000000000001b0       0x30 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
+                0x00000000000001b0       0x30 /home/senior/Desktop/Sandbox/objects/Terminal.o
  .debug_aranges
-                0x00000000000001e0       0x30 /home/admin/Desktop/SandBoxGit/objects/Console.o
+                0x00000000000001e0       0x30 /home/senior/Desktop/Sandbox/objects/Console.o
  .debug_aranges
-                0x0000000000000210       0x30 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
+                0x0000000000000210       0x30 /home/senior/Desktop/Sandbox/objects/ACPI.o
  .debug_aranges
-                0x0000000000000240       0x30 /home/admin/Desktop/SandBoxGit/objects/APIC.o
+                0x0000000000000240       0x30 /home/senior/Desktop/Sandbox/objects/APIC.o
  .debug_aranges
-                0x0000000000000270       0x30 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
+                0x0000000000000270       0x30 /home/senior/Desktop/Sandbox/objects/ATADisk.o
  .debug_aranges
-                0x00000000000002a0       0x30 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
+                0x00000000000002a0       0x30 /home/senior/Desktop/Sandbox/objects/ATAManager.o
  .debug_aranges
-                0x00000000000002d0       0x30 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
+                0x00000000000002d0       0x30 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
  .debug_aranges
-                0x0000000000000300       0x30 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
+                0x0000000000000300       0x30 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
  .debug_aranges
-                0x0000000000000330       0x30 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
+                0x0000000000000330       0x30 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
  .debug_aranges
-                0x0000000000000360       0x30 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
+                0x0000000000000360       0x30 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
  .debug_aranges
-                0x0000000000000390       0x30 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
+                0x0000000000000390       0x30 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
  .debug_aranges
-                0x00000000000003c0       0x30 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
+                0x00000000000003c0       0x30 /home/senior/Desktop/Sandbox/objects/isr_stub.o
  .debug_aranges
-                0x00000000000003f0       0x30 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
+                0x00000000000003f0       0x30 /home/senior/Desktop/Sandbox/objects/APICManager.o
  .debug_aranges
-                0x0000000000000420       0x30 /home/admin/Desktop/SandBoxGit/objects/Ports.o
+                0x0000000000000420       0x30 /home/senior/Desktop/Sandbox/objects/Ports.o
  .debug_aranges
-                0x0000000000000450       0x30 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
+                0x0000000000000450       0x30 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
  .debug_aranges
-                0x0000000000000480       0x30 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
+                0x0000000000000480       0x30 /home/senior/Desktop/Sandbox/objects/NetUtils.o
  .debug_aranges
-                0x00000000000004b0       0x30 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
+                0x00000000000004b0       0x30 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
  .debug_aranges
-                0x00000000000004e0       0x30 /home/admin/Desktop/SandBoxGit/objects/stdio.o
+                0x00000000000004e0       0x30 /home/senior/Desktop/Sandbox/objects/stdio.o
  .debug_aranges
-                0x0000000000000510       0x30 /home/admin/Desktop/SandBoxGit/objects/printk.o
+                0x0000000000000510       0x30 /home/senior/Desktop/Sandbox/objects/printk.o
  .debug_aranges
-                0x0000000000000540       0x30 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
+                0x0000000000000540       0x30 /home/senior/Desktop/Sandbox/objects/service1_K.o
  .debug_aranges
-                0x0000000000000570       0x30 /home/admin/Desktop/SandBoxGit/objects/checksum.o
+                0x0000000000000570       0x30 /home/senior/Desktop/Sandbox/objects/checksum.o
  .debug_aranges
-                0x00000000000005a0       0x30 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
+                0x00000000000005a0       0x30 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
  .debug_aranges
-                0x00000000000005d0       0x30 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
+                0x00000000000005d0       0x30 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
  .debug_aranges
-                0x0000000000000600       0x30 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
+                0x0000000000000600       0x30 /home/senior/Desktop/Sandbox/objects/BlockService.o
  .debug_aranges
-                0x0000000000000630       0x30 /home/admin/Desktop/SandBoxGit/objects/Service.o
+                0x0000000000000630       0x30 /home/senior/Desktop/Sandbox/objects/Service.o
  .debug_aranges
-                0x0000000000000660       0x30 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
+                0x0000000000000660       0x30 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
  .debug_aranges
-                0x0000000000000690       0x30 /home/admin/Desktop/SandBoxGit/objects/numbers.o
+                0x0000000000000690       0x30 /home/senior/Desktop/Sandbox/objects/numbers.o
  .debug_aranges
-                0x00000000000006c0       0x30 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
+                0x00000000000006c0       0x30 /home/senior/Desktop/Sandbox/objects/rtl8139.o
  .debug_aranges
-                0x00000000000006f0       0x30 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
+                0x00000000000006f0       0x30 /home/senior/Desktop/Sandbox/objects/Spinlock.o
  .debug_aranges
-                0x0000000000000720       0x30 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
+                0x0000000000000720       0x30 /home/senior/Desktop/Sandbox/objects/KMalloc.o
  .debug_aranges
-                0x0000000000000750       0x30 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
+                0x0000000000000750       0x30 /home/senior/Desktop/Sandbox/objects/hamada_K.o
  .debug_aranges
-                0x0000000000000780       0x30 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
+                0x0000000000000780       0x30 /home/senior/Desktop/Sandbox/objects/hamada_U.o
  .debug_aranges
-                0x00000000000007b0       0x30 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
+                0x00000000000007b0       0x30 /home/senior/Desktop/Sandbox/objects/service1_U.o
  .debug_aranges
-                0x00000000000007e0       0x30 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
+                0x00000000000007e0       0x30 /home/senior/Desktop/Sandbox/objects/Kernel.o
  .debug_aranges
-                0x0000000000000810       0x30 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+                0x0000000000000810       0x30 /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
-.debug_line     0x0000000000000000    0x14236
- .debug_line    0x0000000000000000      0x73b /home/admin/Desktop/SandBoxGit/objects/pit.o
- .debug_line    0x000000000000073b      0xfe7 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .debug_line    0x0000000000001722      0x6bb /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .debug_line    0x0000000000001ddd      0x422 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .debug_line    0x00000000000021ff      0xa10 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .debug_line    0x0000000000002c0f      0x36f /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .debug_line    0x0000000000002f7e      0x903 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .debug_line    0x0000000000003881      0xa15 /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .debug_line    0x0000000000004296      0x5de /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .debug_line    0x0000000000004874      0x6c6 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .debug_line    0x0000000000004f3a      0x47a /home/admin/Desktop/SandBoxGit/objects/Console.o
- .debug_line    0x00000000000053b4      0x9a0 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .debug_line    0x0000000000005d54      0xa98 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .debug_line    0x00000000000067ec     0x1447 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .debug_line    0x0000000000007c33      0xf0e /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .debug_line    0x0000000000008b41      0x1e2 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .debug_line    0x0000000000008d23      0x14f /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .debug_line    0x0000000000008e72      0x741 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
- .debug_line    0x00000000000095b3      0x658 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .debug_line    0x0000000000009c0b     0x44a3 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .debug_line    0x000000000000e0ae      0x65c /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .debug_line    0x000000000000e70a      0x83a /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .debug_line    0x000000000000ef44       0xcb /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .debug_line    0x000000000000f00f       0xde /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .debug_line    0x000000000000f0ed      0x228 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .debug_line    0x000000000000f315       0xe7 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
- .debug_line    0x000000000000f3fc      0x402 /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .debug_line    0x000000000000f7fe      0x69c /home/admin/Desktop/SandBoxGit/objects/printk.o
- .debug_line    0x000000000000fe9a       0x99 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .debug_line    0x000000000000ff33      0x10c /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .debug_line    0x000000000001003f     0x117d /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .debug_line    0x00000000000111bc      0x912 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .debug_line    0x0000000000011ace      0x787 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .debug_line    0x0000000000012255       0xd2 /home/admin/Desktop/SandBoxGit/objects/Service.o
- .debug_line    0x0000000000012327      0x162 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .debug_line    0x0000000000012489      0x19e /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .debug_line    0x0000000000012627      0x856 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .debug_line    0x0000000000012e7d      0x28a /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .debug_line    0x0000000000013107      0x414 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .debug_line    0x000000000001351b       0xa0 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .debug_line    0x00000000000135bb       0x8c /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .debug_line    0x0000000000013647       0xce /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .debug_line    0x0000000000013715       0x6c /home/admin/Desktop/SandBoxGit/objects/Kernel.o
- .debug_line    0x0000000000013781      0xab5 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+.debug_line     0x0000000000000000    0x13f91
+ .debug_line    0x0000000000000000      0x71f /home/senior/Desktop/Sandbox/objects/pit.o
+ .debug_line    0x000000000000071f      0xfc9 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_line    0x00000000000016e8      0x6b7 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_line    0x0000000000001d9f      0x41e /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_line    0x00000000000021bd      0xa0c /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .debug_line    0x0000000000002bc9      0x369 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .debug_line    0x0000000000002f32      0x8e5 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .debug_line    0x0000000000003817      0xa11 /home/senior/Desktop/Sandbox/objects/memswap.o
+ .debug_line    0x0000000000004228      0x5c2 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .debug_line    0x00000000000047ea      0x6be /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .debug_line    0x0000000000004ea8      0x472 /home/senior/Desktop/Sandbox/objects/Console.o
+ .debug_line    0x000000000000531a      0x982 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .debug_line    0x0000000000005c9c      0xa7a /home/senior/Desktop/Sandbox/objects/APIC.o
+ .debug_line    0x0000000000006716     0x1427 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .debug_line    0x0000000000007b3d      0xef0 /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .debug_line    0x0000000000008a2d      0x1de /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_line    0x0000000000008c0b      0x14b /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .debug_line    0x0000000000008d56      0x723 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .debug_line    0x0000000000009479      0x63a /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .debug_line    0x0000000000009ab3     0x4485 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_line    0x000000000000df38      0x62d /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .debug_line    0x000000000000e565      0x81c /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .debug_line    0x000000000000ed81       0xc9 /home/senior/Desktop/Sandbox/objects/Ports.o
+ .debug_line    0x000000000000ee4a       0xdc /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_line    0x000000000000ef26      0x224 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .debug_line    0x000000000000f14a       0xe5 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+ .debug_line    0x000000000000f22f      0x3fc /home/senior/Desktop/Sandbox/objects/stdio.o
+ .debug_line    0x000000000000f62b      0x67c /home/senior/Desktop/Sandbox/objects/printk.o
+ .debug_line    0x000000000000fca7       0x97 /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .debug_line    0x000000000000fd3e      0x10a /home/senior/Desktop/Sandbox/objects/checksum.o
+ .debug_line    0x000000000000fe48     0x115f /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_line    0x0000000000010fa7      0x8f4 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_line    0x000000000001189b      0x767 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .debug_line    0x0000000000012002       0xd0 /home/senior/Desktop/Sandbox/objects/Service.o
+ .debug_line    0x00000000000120d2      0x15e /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .debug_line    0x0000000000012230      0x19a /home/senior/Desktop/Sandbox/objects/numbers.o
+ .debug_line    0x00000000000123ca      0x846 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .debug_line    0x0000000000012c10      0x284 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .debug_line    0x0000000000012e94      0x40e /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .debug_line    0x00000000000132a2       0x9e /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .debug_line    0x0000000000013340       0x8a /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .debug_line    0x00000000000133ca       0xca /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .debug_line    0x0000000000013494       0x6c /home/senior/Desktop/Sandbox/objects/Kernel.o
+ .debug_line    0x0000000000013500      0xa91 /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
-.debug_str      0x0000000000000000     0x39bd
- .debug_str     0x0000000000000000     0x1150 /home/admin/Desktop/SandBoxGit/objects/pit.o
-                                       0x1556 (size before relaxing)
- .debug_str     0x0000000000001150      0x40b /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
-                                       0x1840 (size before relaxing)
- .debug_str     0x000000000000155b      0x139 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
-                                        0x2c4 (size before relaxing)
- .debug_str     0x0000000000001694       0xb9 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
-                                        0x285 (size before relaxing)
- .debug_str     0x000000000000174d       0x43 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
-                                        0x1f1 (size before relaxing)
- .debug_str     0x0000000000001790      0x147 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
-                                        0x396 (size before relaxing)
- .debug_str     0x00000000000018d7      0x16a /home/admin/Desktop/SandBoxGit/objects/pci_service.o
-                                       0x15dc (size before relaxing)
- .debug_str     0x0000000000001a41       0x47 /home/admin/Desktop/SandBoxGit/objects/memswap.o
-                                        0x1f6 (size before relaxing)
- .debug_str     0x0000000000001a88       0x7f /home/admin/Desktop/SandBoxGit/objects/ipi.o
-                                       0x14a1 (size before relaxing)
- .debug_str     0x0000000000001b07      0x2bb /home/admin/Desktop/SandBoxGit/objects/Terminal.o
-                                        0x4c6 (size before relaxing)
- .debug_str     0x0000000000001dc2      0x14a /home/admin/Desktop/SandBoxGit/objects/Console.o
-                                        0x59b (size before relaxing)
- .debug_str     0x0000000000001f0c      0x127 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
-                                       0x1585 (size before relaxing)
- .debug_str     0x0000000000002033      0x19f /home/admin/Desktop/SandBoxGit/objects/APIC.o
-                                       0x1622 (size before relaxing)
- .debug_str     0x00000000000021d2      0x219 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
-                                       0x16ef (size before relaxing)
- .debug_str     0x00000000000023eb      0x15f /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
-                                       0x16c8 (size before relaxing)
- .debug_str     0x000000000000254a       0x7b /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
-                                        0x2a2 (size before relaxing)
- .debug_str     0x00000000000025c5       0xd1 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
-                                        0x304 (size before relaxing)
- .debug_str     0x0000000000002696       0x4d /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
-                                       0x153d (size before relaxing)
- .debug_str     0x00000000000026e3       0xc3 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
-                                       0x15b7 (size before relaxing)
- .debug_str     0x00000000000027a6       0xc1 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
-                                       0x153e (size before relaxing)
- .debug_str     0x0000000000002867       0x17 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
-                                       0x151b (size before relaxing)
- .debug_str     0x000000000000287e       0xab /home/admin/Desktop/SandBoxGit/objects/APICManager.o
-                                       0x15ae (size before relaxing)
- .debug_str     0x0000000000002929       0x1c /home/admin/Desktop/SandBoxGit/objects/Ports.o
-                                        0x1e3 (size before relaxing)
- .debug_str     0x0000000000002945       0x31 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
-                                        0x1fa (size before relaxing)
- .debug_str     0x0000000000002976       0x2a /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
-                                        0x1c1 (size before relaxing)
- .debug_str     0x00000000000029a0       0x6e /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
-                                        0x21d (size before relaxing)
- .debug_str     0x0000000000002a0e       0xaa /home/admin/Desktop/SandBoxGit/objects/stdio.o
-                                        0x276 (size before relaxing)
- .debug_str     0x0000000000002ab8        0x9 /home/admin/Desktop/SandBoxGit/objects/printk.o
-                                       0x1633 (size before relaxing)
- .debug_str     0x0000000000002ac1       0x7c /home/admin/Desktop/SandBoxGit/objects/service1_K.o
-                                        0x1d8 (size before relaxing)
- .debug_str     0x0000000000002b3d       0x13 /home/admin/Desktop/SandBoxGit/objects/checksum.o
-                                        0x1be (size before relaxing)
- .debug_str     0x0000000000002b50      0x519 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
-                                       0x1a3d (size before relaxing)
- .debug_str     0x0000000000003069      0x1d7 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
-                                       0x16af (size before relaxing)
- .debug_str     0x0000000000003240       0x66 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
-                                       0x14d7 (size before relaxing)
- .debug_str     0x00000000000032a6       0x65 /home/admin/Desktop/SandBoxGit/objects/Service.o
-                                        0x24f (size before relaxing)
- .debug_str     0x000000000000330b       0xcc /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
-                                        0x35d (size before relaxing)
- .debug_str     0x00000000000033d7       0x1a /home/admin/Desktop/SandBoxGit/objects/numbers.o
-                                        0x1bf (size before relaxing)
- .debug_str     0x00000000000033f1       0xec /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
-                                       0x1639 (size before relaxing)
- .debug_str     0x00000000000034dd       0x82 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
-                                        0x24c (size before relaxing)
- .debug_str     0x000000000000355f       0x98 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
-                                        0x380 (size before relaxing)
- .debug_str     0x00000000000035f7       0x4b /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
+.debug_str      0x0000000000000000     0x3993
+ .debug_str     0x0000000000000000     0x114e /home/senior/Desktop/Sandbox/objects/pit.o
+                                       0x1554 (size before relaxing)
+ .debug_str     0x000000000000114e      0x409 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+                                       0x183e (size before relaxing)
+ .debug_str     0x0000000000001557      0x137 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+                                        0x2c2 (size before relaxing)
+ .debug_str     0x000000000000168e       0xb9 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+                                        0x283 (size before relaxing)
+ .debug_str     0x0000000000001747       0x43 /home/senior/Desktop/Sandbox/objects/memcpy.o
+                                        0x1ef (size before relaxing)
+ .debug_str     0x000000000000178a      0x145 /home/senior/Desktop/Sandbox/objects/pci_device.o
+                                        0x394 (size before relaxing)
+ .debug_str     0x00000000000018cf      0x16a /home/senior/Desktop/Sandbox/objects/pci_service.o
+                                       0x15da (size before relaxing)
+ .debug_str     0x0000000000001a39       0x47 /home/senior/Desktop/Sandbox/objects/memswap.o
+                                        0x1f4 (size before relaxing)
+ .debug_str     0x0000000000001a80       0x7d /home/senior/Desktop/Sandbox/objects/ipi.o
+                                       0x149f (size before relaxing)
+ .debug_str     0x0000000000001afd      0x2b9 /home/senior/Desktop/Sandbox/objects/Terminal.o
+                                        0x4c4 (size before relaxing)
+ .debug_str     0x0000000000001db6      0x14a /home/senior/Desktop/Sandbox/objects/Console.o
+                                        0x599 (size before relaxing)
+ .debug_str     0x0000000000001f00      0x125 /home/senior/Desktop/Sandbox/objects/ACPI.o
+                                       0x1583 (size before relaxing)
+ .debug_str     0x0000000000002025      0x19d /home/senior/Desktop/Sandbox/objects/APIC.o
+                                       0x1620 (size before relaxing)
+ .debug_str     0x00000000000021c2      0x217 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+                                       0x16ed (size before relaxing)
+ .debug_str     0x00000000000023d9      0x15f /home/senior/Desktop/Sandbox/objects/ATAManager.o
+                                       0x16c6 (size before relaxing)
+ .debug_str     0x0000000000002538       0x7b /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+                                        0x2a0 (size before relaxing)
+ .debug_str     0x00000000000025b3       0xd1 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+                                        0x302 (size before relaxing)
+ .debug_str     0x0000000000002684       0x4d /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+                                       0x153b (size before relaxing)
+ .debug_str     0x00000000000026d1       0xc1 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+                                       0x15b5 (size before relaxing)
+ .debug_str     0x0000000000002792       0xc1 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+                                       0x153c (size before relaxing)
+ .debug_str     0x0000000000002853       0x17 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+                                       0x1519 (size before relaxing)
+ .debug_str     0x000000000000286a       0xab /home/senior/Desktop/Sandbox/objects/APICManager.o
+                                       0x15ac (size before relaxing)
+ .debug_str     0x0000000000002915       0x1c /home/senior/Desktop/Sandbox/objects/Ports.o
                                         0x1e1 (size before relaxing)
- .debug_str     0x0000000000003642       0x3e /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
-                                        0x1d9 (size before relaxing)
- .debug_str     0x0000000000003680       0x40 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
-                                        0x1d7 (size before relaxing)
- .debug_str     0x00000000000036c0       0x61 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
-                                        0x124 (size before relaxing)
- .debug_str     0x0000000000003721      0x29c /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
-                                       0x1ae8 (size before relaxing)
+ .debug_str     0x0000000000002931       0x31 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+                                        0x1f8 (size before relaxing)
+ .debug_str     0x0000000000002962       0x2a /home/senior/Desktop/Sandbox/objects/NetUtils.o
+                                        0x1bf (size before relaxing)
+ .debug_str     0x000000000000298c       0x6e /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+                                        0x21b (size before relaxing)
+ .debug_str     0x00000000000029fa       0xaa /home/senior/Desktop/Sandbox/objects/stdio.o
+                                        0x274 (size before relaxing)
+ .debug_str     0x0000000000002aa4        0x9 /home/senior/Desktop/Sandbox/objects/printk.o
+                                       0x1631 (size before relaxing)
+ .debug_str     0x0000000000002aad       0x78 /home/senior/Desktop/Sandbox/objects/service1_K.o
+                                        0x1d4 (size before relaxing)
+ .debug_str     0x0000000000002b25       0x13 /home/senior/Desktop/Sandbox/objects/checksum.o
+                                        0x1bc (size before relaxing)
+ .debug_str     0x0000000000002b38      0x519 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+                                       0x1a3b (size before relaxing)
+ .debug_str     0x0000000000003051      0x1d7 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+                                       0x16ad (size before relaxing)
+ .debug_str     0x0000000000003228       0x66 /home/senior/Desktop/Sandbox/objects/BlockService.o
+                                       0x14d5 (size before relaxing)
+ .debug_str     0x000000000000328e       0x63 /home/senior/Desktop/Sandbox/objects/Service.o
+                                        0x24d (size before relaxing)
+ .debug_str     0x00000000000032f1       0xca /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+                                        0x35b (size before relaxing)
+ .debug_str     0x00000000000033bb       0x1a /home/senior/Desktop/Sandbox/objects/numbers.o
+                                        0x1bd (size before relaxing)
+ .debug_str     0x00000000000033d5       0xea /home/senior/Desktop/Sandbox/objects/rtl8139.o
+                                       0x1642 (size before relaxing)
+ .debug_str     0x00000000000034bf       0x80 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+                                        0x24a (size before relaxing)
+ .debug_str     0x000000000000353f       0x98 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+                                        0x37e (size before relaxing)
+ .debug_str     0x00000000000035d7       0x49 /home/senior/Desktop/Sandbox/objects/hamada_K.o
+                                        0x1dd (size before relaxing)
+ .debug_str     0x0000000000003620       0x3c /home/senior/Desktop/Sandbox/objects/hamada_U.o
+                                        0x1d5 (size before relaxing)
+ .debug_str     0x000000000000365c       0x3e /home/senior/Desktop/Sandbox/objects/service1_U.o
+                                        0x1d3 (size before relaxing)
+ .debug_str     0x000000000000369a       0x5f /home/senior/Desktop/Sandbox/objects/Kernel.o
+                                        0x122 (size before relaxing)
+ .debug_str     0x00000000000036f9      0x29a /home/senior/Desktop/Sandbox/objects/KernelMain.o
+                                       0x1ada (size before relaxing)
 
 .comment        0x0000000000000000       0x11
- .comment       0x0000000000000000       0x11 /home/admin/Desktop/SandBoxGit/objects/pit.o
+ .comment       0x0000000000000000       0x11 /home/senior/Desktop/Sandbox/objects/pit.o
                                          0x12 (size before relaxing)
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/memcpy.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/pci_device.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/memswap.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/ipi.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/Console.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTableEntry.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/GlobalDescriptorTable.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/InterruptManager.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/isr_stub.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/Ports.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/MMIOUtils.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/printk.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/service1_K.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/checksum.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/Service.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/ServiceTransport.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/numbers.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/rtl8139.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/hamada_K.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/hamada_U.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/service1_U.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/Kernel.o
- .comment       0x0000000000000011       0x12 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/memcpy.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/pci_device.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/memswap.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/ipi.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/Console.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/APIC.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTableEntry.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/GlobalDescriptorTable.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/InterruptManager.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/isr_stub.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/Ports.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/MMIOUtils.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/stdio.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/printk.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/service1_K.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/checksum.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/Service.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/ServiceTransport.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/numbers.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/rtl8139.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/hamada_K.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/hamada_U.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/service1_U.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/Kernel.o
+ .comment       0x0000000000000011       0x12 /home/senior/Desktop/Sandbox/objects/KernelMain.o
 
 .debug_ranges   0x0000000000000000     0x67d0
- .debug_ranges  0x0000000000000000      0x4c0 /home/admin/Desktop/SandBoxGit/objects/PhysicalMemory.o
- .debug_ranges  0x00000000000004c0      0x460 /home/admin/Desktop/SandBoxGit/objects/ClockUtils.o
- .debug_ranges  0x0000000000000920      0x100 /home/admin/Desktop/SandBoxGit/objects/MemoryUtilities.o
- .debug_ranges  0x0000000000000a20      0x230 /home/admin/Desktop/SandBoxGit/objects/pci_service.o
- .debug_ranges  0x0000000000000c50      0x180 /home/admin/Desktop/SandBoxGit/objects/Terminal.o
- .debug_ranges  0x0000000000000dd0      0x200 /home/admin/Desktop/SandBoxGit/objects/ACPI.o
- .debug_ranges  0x0000000000000fd0       0xd0 /home/admin/Desktop/SandBoxGit/objects/APIC.o
- .debug_ranges  0x00000000000010a0      0x3e0 /home/admin/Desktop/SandBoxGit/objects/ATADisk.o
- .debug_ranges  0x0000000000001480      0x6b0 /home/admin/Desktop/SandBoxGit/objects/ATAManager.o
- .debug_ranges  0x0000000000001b30      0x100 /home/admin/Desktop/SandBoxGit/objects/TSSDescriptor.o
- .debug_ranges  0x0000000000001c30     0x44a0 /home/admin/Desktop/SandBoxGit/objects/InterruptDescriptorTable.o
- .debug_ranges  0x00000000000060d0       0xa0 /home/admin/Desktop/SandBoxGit/objects/APICManager.o
- .debug_ranges  0x0000000000006170       0x30 /home/admin/Desktop/SandBoxGit/objects/CoreUtils.o
- .debug_ranges  0x00000000000061a0       0x40 /home/admin/Desktop/SandBoxGit/objects/NetUtils.o
- .debug_ranges  0x00000000000061e0      0x1f0 /home/admin/Desktop/SandBoxGit/objects/stdio.o
- .debug_ranges  0x00000000000063d0      0x210 /home/admin/Desktop/SandBoxGit/objects/MemoryPageMap.o
- .debug_ranges  0x00000000000065e0       0xf0 /home/admin/Desktop/SandBoxGit/objects/SharedMemory.o
- .debug_ranges  0x00000000000066d0       0x30 /home/admin/Desktop/SandBoxGit/objects/BlockService.o
- .debug_ranges  0x0000000000006700       0x40 /home/admin/Desktop/SandBoxGit/objects/Spinlock.o
- .debug_ranges  0x0000000000006740       0x30 /home/admin/Desktop/SandBoxGit/objects/KMalloc.o
- .debug_ranges  0x0000000000006770       0x60 /home/admin/Desktop/SandBoxGit/objects/KernelMain.o
+ .debug_ranges  0x0000000000000000      0x4c0 /home/senior/Desktop/Sandbox/objects/PhysicalMemory.o
+ .debug_ranges  0x00000000000004c0      0x460 /home/senior/Desktop/Sandbox/objects/ClockUtils.o
+ .debug_ranges  0x0000000000000920      0x100 /home/senior/Desktop/Sandbox/objects/MemoryUtilities.o
+ .debug_ranges  0x0000000000000a20      0x230 /home/senior/Desktop/Sandbox/objects/pci_service.o
+ .debug_ranges  0x0000000000000c50      0x180 /home/senior/Desktop/Sandbox/objects/Terminal.o
+ .debug_ranges  0x0000000000000dd0      0x200 /home/senior/Desktop/Sandbox/objects/ACPI.o
+ .debug_ranges  0x0000000000000fd0       0xd0 /home/senior/Desktop/Sandbox/objects/APIC.o
+ .debug_ranges  0x00000000000010a0      0x3e0 /home/senior/Desktop/Sandbox/objects/ATADisk.o
+ .debug_ranges  0x0000000000001480      0x6b0 /home/senior/Desktop/Sandbox/objects/ATAManager.o
+ .debug_ranges  0x0000000000001b30      0x100 /home/senior/Desktop/Sandbox/objects/TSSDescriptor.o
+ .debug_ranges  0x0000000000001c30     0x44a0 /home/senior/Desktop/Sandbox/objects/InterruptDescriptorTable.o
+ .debug_ranges  0x00000000000060d0       0xa0 /home/senior/Desktop/Sandbox/objects/APICManager.o
+ .debug_ranges  0x0000000000006170       0x30 /home/senior/Desktop/Sandbox/objects/CoreUtils.o
+ .debug_ranges  0x00000000000061a0       0x40 /home/senior/Desktop/Sandbox/objects/NetUtils.o
+ .debug_ranges  0x00000000000061e0      0x1f0 /home/senior/Desktop/Sandbox/objects/stdio.o
+ .debug_ranges  0x00000000000063d0      0x210 /home/senior/Desktop/Sandbox/objects/MemoryPageMap.o
+ .debug_ranges  0x00000000000065e0       0xf0 /home/senior/Desktop/Sandbox/objects/SharedMemory.o
+ .debug_ranges  0x00000000000066d0       0x30 /home/senior/Desktop/Sandbox/objects/BlockService.o
+ .debug_ranges  0x0000000000006700       0x40 /home/senior/Desktop/Sandbox/objects/Spinlock.o
+ .debug_ranges  0x0000000000006740       0x30 /home/senior/Desktop/Sandbox/objects/KMalloc.o
+ .debug_ranges  0x0000000000006770       0x60 /home/senior/Desktop/Sandbox/objects/KernelMain.o
