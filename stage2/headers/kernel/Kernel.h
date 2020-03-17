@@ -19,7 +19,7 @@
 #include "ATAManager.h"
 #include "ipi.h"
 #include "SharedMemory.h"
-
+#include "BlockService.h"
 typedef struct 
 {
     service_transport_kernel service_transporter;
@@ -58,6 +58,7 @@ typedef struct
     void* void_pointers[256];
 
     SharedMemory sharedMemory;
+    BlockService blockService;
     
     } Kernel;
 

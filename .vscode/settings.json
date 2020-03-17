@@ -39,6 +39,7 @@
         "tuple": "c",
         "type_traits": "c",
         "utility": "c",
-        "memory": "c"
+        "memory": "c",
+        "rtl8139.h": "c"
     }
 }

@@ -69,7 +69,7 @@
 #define PCI_HEADER_SIZE     0x3f
 
 
-typedef struct PCIDevice
+typedef struct PCIDevice_t
 {
     // Notice that the fields are switched e.g. Vendor ID followed by Device ID
 

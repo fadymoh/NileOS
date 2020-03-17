@@ -6,7 +6,9 @@ main: PhysicalMemory.o \
 	GlobalDescriptorTable.o \
 	GlobalDescriptorTableEntry.o \
 	TSSDescriptor.o \
-	SharedMemory.o
+	SharedMemory.o \
+	BlockService.o
+
 	
 PhysicalMemory.o:
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c PhysicalMemory.c -o $(OBJECT)/PhysicalMemory.o

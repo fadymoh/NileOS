@@ -7,7 +7,7 @@
 enum PCIService_exposed_functions{COLLECT_HW, GET_PCI_DEVICE, GET_PCI_DEVICE_INDEX, GET_PCI_DEVICE_COUNT, PCI_SERVICE_PRINT};
 
 
-typedef struct  {
+typedef struct  PCIService_t {
         PCIDevice pciDevices[MAX_PCI_BUSES]; 
         int total_pci_devices; // Total number of counted devices
         int total_pci_devices2; // Total number of counted devices
@@ -18,6 +18,11 @@ typedef struct  {
         uint16_t p_index;
         bool p_summary;
     } params;
+
+    struct {
+        PCIDevice* pciDevice_ptr; 
+    } returns;
+
 }PCIService;
 
 

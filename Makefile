@@ -18,7 +18,8 @@ cleanDebug:
 	rm -rf $(BIN)/* $(OBJECT)/* $(ELF)/* $(IMAGE)/*
 
 runvm: boot.flp
-	qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -device rtl8139 -no-kvm-irqchip
+	qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,model=rtl8139,macaddr=52:54:00:91:46:20
+	# qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,vlan=0,model=rtl8139,macaddr=52:54:00:91:46:f2 -net tap,ifname=virbr0_0,script=/home/admin/Desktop/net_script --enable-kvm
 
 runvbox: boot.flp
 	VBoxManage storageattach "BOSMLSB" --storagectl "IDE" --device 0 --port 0 --type hdd --medium none

@@ -9,3 +9,4 @@ subsystems:
 	$(MAKE) -C apic CODE_HOME=$(CODE_HOME)
 	$(MAKE) -C pit CODE_HOME=$(CODE_HOME)
 	$(MAKE) -C ata CODE_HOME=$(CODE_HOME)
+	$(MAKE) -C network CODE_HOME=$(CODE_HOME)

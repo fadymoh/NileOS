@@ -69,6 +69,8 @@ typedef struct ATADisk_s
         uint32_t capabilities;
         uint32_t commandsets;        
         bool lba48;
+        volatile bool done_read;
+
 }ATADisk;
   
 uint8_t writePIODiskSectors (ATADisk * p_ataDisk,uint64_t p_addr,uint8_t * p_buffer,uint16_t p_sector_count);

@@ -262,7 +262,7 @@ void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
         }
     }
     else
-    {
+    {  kernel.dmaBuffer.ataDisk->done_read = true;
         uint64_t end_time = getRTCTimeStamp32();
         printk("Finished reading: %d sectors in %d sec\n", kernel.dmaBuffer.total_read, end_time - kernel.dmaBuffer.start_time);
         sendFixedIPI(&kernel.apicManager.apics[kernel.dmaBuffer.core_id], ATA_IPI);

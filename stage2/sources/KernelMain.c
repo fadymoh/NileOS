@@ -5,8 +5,9 @@
 #include "printk.h"
 #include "checksum.h"
 #include "Library.h"
+#include "rtl8139.h"
 
-#define sectors 75776
+#define sectors 4096
 Kernel kernel;
 InterruptDescriptorTablePointer interruptDescriptorTablePointer;
 
@@ -91,8 +92,6 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   dispatch_kernel(&kernel.service_transporter, apic_t, touchCore_s);
   //printk(" ..... Done\n");
 
-
-
   // uint64_t* xxxxx = (uint64_t*) (START_OFFSET);
   // *xxxxx = 91010921;
 
@@ -107,7 +106,6 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   // printk("Shared Memory inside AP Core(%d): %d\n",core_id, *xxxxx);
 
-
   int sleep_time = core_id * 150 + 500;
 
   // printk("Now switching to usermode\n");
@@ -121,15 +119,13 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   uint64_t ret;
   uint64_t others = 0;
 
-
-
   asm volatile("mov %2,%%r8\n"
                "mov %3,%%r9\n"
                "int $0x80"
                : "=a"(ret)
                : "0"(rax_val), "r"(others), "r"(others), "b"(others), "c"(others), "d"(others), "S"(rsi_val), "D"(rdi_val));
 
- // printk("Core %d is now up again...\n", core_id);
+  // printk("Core %d is now up again...\n", core_id);
 
   //  printk("Core %d is about to sleep for %d...\n", core_id, sleep_time);
   // pit_sleep(sleep_time, 0 ,WAKEUP_IPI, true);
@@ -250,9 +246,9 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   kernel.apicManager.params.p_end_stack = p_end_stack;
   dispatch_kernel(&kernel.service_transporter, apic_t, moveInitialKernelStack_s);
   //TODO:: ata trial 1startupAPIC_s
-  // initATAManager();
-  // uint8_t ata_disks = detectATADisks();
-  // printk("Number of ATA Disks Detected: %d\n", ata_disks);
+  initATAManager();
+  uint8_t ata_disks = detectATADisks();
+  printk("Number of ATA Disks Detected: %d\n", ata_disks);
 
   // uint8_t buffer[512*6+ 2];
   // readPIODiskSectors(kernel.ataManager.ataDisks[0], 52825, buffer, 6);
@@ -280,13 +276,15 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   kernel.dmaBuffer.enabled = true;
   uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 512 * sectors + 2);
+  init_BlockService();
+  read_blocks(kernel.ataManager.ataDisks[0], buffer);
 
   //printk("start reading\n");
   //readDMADisk(kernel.ataManager.ataDisks[0], 52825, buffer, sectors, 0, 0);
 
   // printk("ana hena mstanya interrupt yegi f hktb paragraph taweel 3ala ad m2dar 7ata");
 
-  buffer[512 * 75776 + 1] = 0;
+  buffer[512 * sectors + 1] = 0;
   // for (int i = 0; i < 512*75776; ++i)
   //   printk("%c",buffer[i]);
   printk("\nDONE!\n");
@@ -297,8 +295,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   kernel.interruptManager.params.p_interruptNumber = 0x80;
   kernel.interruptManager.params.p_interruptHandler = syscall;
   dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
-
- 
 
   Ipi *ipi_manager = &kernel.ipiManager;
   service_init(&ipiService, (void *)ipi_manager, ipi_t);
@@ -337,16 +333,13 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   initSharedMemoryService(sharedMemory, &sharedMemoryService);
   register_service_to_kernel(service_transporter, &sharedMemoryService, sharedMemory_t);
 
-
-
   // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 9;
   // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-    
+
   // uint64_t addr = kernel.sharedMemory.returns_t.virtualAddress;
   // uint64_t *ptr = (uint64_t *)(addr);
   // *ptr = 59862312;
 
-  
   // uint64_t pgd_index = addr >> (48 - 9);
   // uint64_t pud_index = (addr >> (48 - 18)) & 0b0000000111111111;
   // uint64_t pmd_index = (addr >> (48 - 27)) & 0b0000000111111111;
@@ -356,15 +349,13 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   // printk("In Boostrap core, virtual add: %x, physical add: %x\n", ptr, physical_memory_address);
 
-
   // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 3;
   // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-    
+
   // addr = kernel.sharedMemory.returns_t.virtualAddress;
   // ptr = (uint64_t *)(addr);
   // *ptr = 4928104192;
 
-  
   // pgd_index = addr >> (48 - 9);
   // pud_index = (addr >> (48 - 18)) & 0b0000000111111111;
   // pmd_index = (addr >> (48 - 27)) & 0b0000000111111111;
@@ -373,10 +364,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // physical_memory_address = TP->tpage[pmd_index];
 
   // printk("In Boostrap core, virtual add: %x, physical add: %x\n", ptr, physical_memory_address);
-  
- 
-
-
 
   //enableAPICTimer(&kernel.apicManager.apics[0]);
   //dispatch_kernel(&kernel.service_transporter, apic_t, startupAPIC_s);
@@ -402,7 +389,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
   // *ptr = 99;
 
-
   // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 9;
   // kernel.sharedMemory.params_t.virtualAddress = START_OFFSET;
   // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, deallocateSharedMemory_t);
@@ -417,7 +403,9 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
   // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
 
- // printk("Done executing\n");
+  // printk("Done executing\n");
+
+ rtl8139_init();
 }
 
 void userModeDemo()

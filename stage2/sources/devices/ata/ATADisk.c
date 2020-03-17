@@ -491,7 +491,7 @@ uint8_t readDiskSectors(ATADisk *p_ataDisk, uint64_t p_addr, uint8_t *p_buffer, 
 }
 uint8_t readDMADisk(ATADisk *p_ataDisk, uint64_t p_addr, uint8_t *p_buffer, uint64_t p_sector_count, uint16_t p_start_offset, uint16_t p_end_offset)
 {
-
+    kernel.dmaBuffer.ataDisk->done_read = false;
     kernel.dmaBuffer.buffer = p_buffer;
     kernel.dmaBuffer.current_address = p_addr;
     kernel.dmaBuffer.lba48 = p_ataDisk->lba48;

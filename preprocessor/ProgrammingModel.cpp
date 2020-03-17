@@ -267,7 +267,9 @@ SECTIONS\n \
 \tmemcpy_asm.o (.text)\n\  
 \tmemcpy.o (.text)\n\
 \tmemswap_asm.o (.text)\n\    
-\tchecksum_asm.o (.text)\n\    
+\tchecksum_asm.o (.text)\n\
+\tpci_device.o (.text)\n\
+\tpci_service.o (.text)\n\    
 \tmemswap.o (.text)\n\
 \tipi.o (.text)\n\
 \tTerminal.o (.text)\n\
@@ -293,11 +295,11 @@ SECTIONS\n \
 \tchecksum.o (.text)\n\
 \tMemoryPageMap.o (.text)\n\
 \tSharedMemory.o (.text)\n\
+\tBlockService.o (.text)\n\
 \tService.o (.text)\n\
 \tServiceTransport.o (.text)\n\
 \tnumbers.o (.text)\n\
-\tpci_device.o (.text)\n\
-\tpci_service.o (.text)\n\
+\trtl8139.o (.text)\n\
 \tSpinlock.o (.text)\n\
 \tKMalloc.o (.text)\n\
 \
