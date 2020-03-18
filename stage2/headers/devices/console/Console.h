@@ -12,14 +12,14 @@ typedef struct
         volatile uint16_t * video_buffer; // Pointer to the video ram buffer        
         uint8_t x_max;      // The maximum screen horizontal position
         uint8_t y_max;      // The maximum screen vertical position    
-        uint16_t default_terminal_buffer [DEFAULT_TERMINAL_Y_ROWS*DEFAULT_VIDEO_MAX_X];
+        uint16_t** terminal_buffer;
 
-        uint16_t default_terminal_buffer2 [DEFAULT_TERMINAL_Y_ROWS*DEFAULT_VIDEO_MAX_X]; // WILL BE DELETED
+        //uint16_t default_terminal_buffer2 [DEFAULT_TERMINAL_Y_ROWS*DEFAULT_VIDEO_MAX_X]; // WILL BE DELETED
 
         Terminal default_terminal;
         Terminal second_terminal;
 
-        Terminal* terminals[2];
+        Terminal** terminals;
         uint8_t terminals_max_count;
         uint8_t terminals_current_count;
         uint8_t current_terminal_index;
@@ -48,4 +48,5 @@ bool console_addHexa128ToCurrentTerminal (void* p_console_ptr);
 bool console_switchTerminal(void* p_console_ptr);
 
 bool console_writeToTerminal(void* p_console_ptr);
+
 #endif

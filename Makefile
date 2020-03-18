@@ -46,7 +46,7 @@ boot.flp: subsystems
 	rm -rf $(IMAGE)/boot.vdi
 	VBoxManage convertdd $(IMAGE)/boot.raw $(IMAGE)/boot.vdi --format VDI
 	chmod a+r $(IMAGE)/boot.vdi
-	chown senior $(IMAGE)/boot.vdi
+	chown "$(whoami)" $(IMAGE)/boot.vdi
 
 auc: subsystems auc_ramdisk
 	$(CAT) $(BIN)/bootstage1.bin $(BIN)/bootstage2.bin $(BIN)/stage1.bin $(BIN)/trampoline.bin /dev/zero | $(DD) bs=512 count=61440 of=$(IMAGE)/boot.flp

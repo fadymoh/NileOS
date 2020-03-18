@@ -300,8 +300,10 @@ SECTIONS\n \
 \tServiceTransport.o (.text)\n\
 \tnumbers.o (.text)\n\
 \trtl8139.o (.text)\n\
+\tethernet.o(.text)\n\
 \tSpinlock.o (.text)\n\
 \tKMalloc.o (.text)\n\
+\tkeyboard.o (.text)\n\
 \
 ";
 

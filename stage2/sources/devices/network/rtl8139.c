@@ -2,6 +2,8 @@
 
 extern Kernel kernel;
 rtl8139_dev_t rtl8139_device;
+uint32_t current_packet_ptr;
+
 
 
 
@@ -16,7 +18,7 @@ void rtl8139_handler(InterruptContext * reg) {
     }
     if (status & ROK) {
         printk("Received packet\n");
-        // receive_packet();
+        receive_packet();
     }
 
 
@@ -56,14 +58,14 @@ void rtl8139_init()
     // Get io base or mem base by extracting the high 28/30 bits
     rtl8139_device.io_base = ret & (~0x3);
     rtl8139_device.mem_base = ret & (~0xf);
-    printk("rtl8139 use %s access (base: %x)\n", (rtl8139_device.bar_type == 0) ? "mem based" : "port based", (rtl8139_device.bar_type != 0) ? rtl8139_device.io_base : rtl8139_device.mem_base);
+    printk_network("rtl8139 use %s access (base: %x)\n", (rtl8139_device.bar_type == 0) ? "mem based" : "port based", (rtl8139_device.bar_type != 0) ? rtl8139_device.io_base : rtl8139_device.mem_base);
 
     // Set current TSAD
     rtl8139_device.tx_cur = 0;
 
 
     if(!enablePCIBusMastering(pci_rtl8139_device)){
-        printk("Enabling Bus Mastering for Network Driver Failed\n");
+        printk_network("Enabling Bus Mastering for Network Driver Failed\n");
         return;
     }
 
@@ -101,7 +103,28 @@ void rtl8139_init()
     kernel.interruptManager.params.p_interruptHandler = rtl8139_handler;
     dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
-    printk("Registered irq interrupt for rtl8139, irq num = %d\n", irq_num);
-
     read_mac_addr();
+}
+
+void receive_packet()
+{
+     uint16_t * t = (uint16_t*)(rtl8139_device.rx_buffer + current_packet_ptr);
+    // Skip packet header, get packet length
+    uint16_t packet_length = *(t + 1);
+    t = t + 2; //skipping header and going straight to the packet data
+    void * packet = kmalloc(&kernel.memoryAllocator,packet_length);
+
+    fast_memcpy(packet, t, packet_length);
+    ethernet_handle_packet(packet, packet_length);
+
+    current_packet_ptr = (current_packet_ptr + packet_length + 4 + 3) & RX_READ_POINTER_MASK;
+
+    if(current_packet_ptr > RX_BUF_SIZE)
+        current_packet_ptr -= RX_BUF_SIZE;
+
+    outportw(rtl8139_device.io_base + CAPR, current_packet_ptr - 0x10);
+}
+
+void get_mac_addr(uint8_t * src_mac_addr) {
+    memcpy(src_mac_addr, rtl8139_device.mac_addr, 6);
 }
