@@ -7,8 +7,8 @@ NileOS is a distributed asymmetric tickless operating system for big data proces
 &#160; &#160; &#160; &#160;1 physical memory management [✔]  
 &#160; &#160; &#160; &#160;2 virtual memory management [✔]  
 &#160; &#160; &#160; &#160;3 kmalloc [✔]
-&#160; &#160; &#160; &#160;4 shared memory service [✔] 
-&#160; &#160; &#160; &#160;5 Heap service [x] 
+&#160; &#160; &#160; &#160;4 shared memory service [✔]
+&#160; &#160; &#160; &#160;5 Heap service [x]
 
 #### Filesystem  
 &#160; &#160; &#160; &#160;1 ATA/DMA Driver PIO Mode [✔]  
