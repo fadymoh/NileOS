@@ -26,15 +26,6 @@ extern void tssFlush();
 extern void idtInit();
 void userModeDemo();
 
-#define ptl1 0b0000000000000000111111111000000000000000000000000000000000000000
-#define ptl2 0b0000000000000000000000000111111111000000000000000000000000000000
-#define ptl3 0b0000000000000000000000000000000000111111111000000000000000000000
-#define ptl4 0b0000000000000000000000000000000000000000000111111111000000000000
-
-#define clr_offset4 0b1111111111111111111111111111111111111111111111111111000000000000
-#define clr_offset 0b1111111111111111111111111111111111111111111000000000000000000000
-#define set_offset 0b0000000000000000000000000000000000000000000111111111111111111111
-
 void syscall(InterruptContext *p_interruptContext)
 {
 
@@ -91,27 +82,12 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   dispatch_kernel(&kernel.service_transporter, apic_t, touchCore_s);
   //printk(" ..... Done\n");
 
-  // uint64_t* xxxxx = (uint64_t*) (START_OFFSET);
-  // *xxxxx = 91010921;
-
-  // uint64_t pgd_index = START_OFFSET >> (48 - 9);
-  // uint64_t pud_index = (START_OFFSET >> (48 - 18)) & 0b0000000111111111;
-  // uint64_t pmd_index = (START_OFFSET >> (48 - 27)) & 0b0000000111111111;
-  // uint64_t idx = pgd_index * PAGE_TABLE_UNIT_SIZE + pud_index;
-  // TablePage *TP = (TablePage *)&(kernel.coresPageTables_ptr[core_id]->PMD_ptr[idx]);
-  // uint64_t physical_memory_address = TP->tpage[pmd_index];
-
-  // printk("In AP core %d, virtual add: %x,  physical add: %x\n", core_id, xxxxx, physical_memory_address);
-
-  // printk("Shared Memory inside AP Core(%d): %d\n",core_id, *xxxxx);
-
   int sleep_time = core_id * 150 + 500;
 
   // printk("Now switching to usermode\n");
-  switchToUserMode();
+  //switchToUserMode();
   // printk("Now in usermode\n");
 
-  // printk("Core %d is about to sleep for %d...\n", core_id, sleep_time);
   uint64_t rax_val = 0; // SYSCALL ID FOR SLEEP
   uint64_t rdi_val = sleep_time;
   uint64_t rsi_val = 0;
@@ -216,7 +192,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   initAPICManager_service(apicManager, &apicManagerService);
   register_service_to_kernel(service_transporter, &apicManagerService, apic_t);
 
-  //Initialize GDT  mapAPICIRQ(&kernel.apicManager.apics[0], IRQ13 - IRQ0, IRQ13);
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ0 - IRQ0, IRQ0);
 
   initGlobalDescriptorTable();
@@ -264,8 +239,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ14 - IRQ0, IRQ14);
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ15 - IRQ0, IRQ15);
-  // printk("Hooked ATA IRQ Interrupt Handlers\n");
-  // printk("dma physical address 1        %x\n", kernel.ataManager.ataDisks[0]->dma_phy_address);
 
   kernel.dmaBuffer.enabled = true;
   uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 512 * sectors + 2);
@@ -274,8 +247,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   //printk("start reading\n");
   //readDMADisk(kernel.ataManager.ataDisks[0], 52825, buffer, sectors, 0, 0);
-
-  // printk("ana hena mstanya interrupt yegi f hktb paragraph taweel 3ala ad m2dar 7ata");
 
   // for (int i = 0; i < 512*75776; ++i)
   //   printk("%c",buffer[i]);
@@ -309,96 +280,28 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   // userModeDemo();
 
-  //  generateServices();
-  //  service1* s1 = ((service1*) kernel.void_pointers[1]);
+  generateServices();
+  service1 *s1 = ((service1 *)kernel.void_pointers[1]);
 
-  //  printk("X: %d, Y: %d\n", s1->x, s1->y);
-  //  dispatch_kernel(&kernel.service_transporter, service1_t, void_method2);
-  //  printk("X: %d, Y: %d\n", s1->x, s1->y);
-
-  // int volatile x = 1;
-  // int volatile y = 0;
-  // printk("Division By Zero: %d\n", x/y);
+  printk("X: %d, Y: %d\n", s1->x, s1->y);
+  dispatch_kernel(&kernel.service_transporter, service1_t, void_method2);
+  printk("X: %d, Y: %d\n", s1->x, s1->y);
 
   SharedMemory *sharedMemory = &(kernel.sharedMemory);
   service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
   initSharedMemoryService(sharedMemory, &sharedMemoryService);
   register_service_to_kernel(service_transporter, &sharedMemoryService, sharedMemory_t);
 
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 9;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-
-  // uint64_t addr = kernel.sharedMemory.returns_t.virtualAddress;
-  // uint64_t *ptr = (uint64_t *)(addr);
-  // *ptr = 59862312;
-
-  // uint64_t pgd_index = addr >> (48 - 9);
-  // uint64_t pud_index = (addr >> (48 - 18)) & 0b0000000111111111;
-  // uint64_t pmd_index = (addr >> (48 - 27)) & 0b0000000111111111;
-  // uint64_t idx = pgd_index * PAGE_TABLE_UNIT_SIZE + pud_index;
-  // TablePage *TP = (TablePage *)&(kernel.coresPageTables_ptr[0]->PMD_ptr[idx]);
-  // uint64_t physical_memory_address = TP->tpage[pmd_index];
-
-  // printk("In Boostrap core, virtual add: %x, physical add: %x\n", ptr, physical_memory_address);
-
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 3;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-
-  // addr = kernel.sharedMemory.returns_t.virtualAddress;
-  // ptr = (uint64_t *)(addr);
-  // *ptr = 4928104192;
-
-  // pgd_index = addr >> (48 - 9);
-  // pud_index = (addr >> (48 - 18)) & 0b0000000111111111;
-  // pmd_index = (addr >> (48 - 27)) & 0b0000000111111111;
-  // idx = pgd_index * PAGE_TABLE_UNIT_SIZE + pud_index;
-  // TP = (TablePage *)&(kernel.coresPageTables_ptr[0]->PMD_ptr[idx]);
-  // physical_memory_address = TP->tpage[pmd_index];
-
-  // printk("In Boostrap core, virtual add: %x, physical add: %x\n", ptr, physical_memory_address);
-
-  //enableAPICTimer(&kernel.apicManager.apics[0]);
-  //dispatch_kernel(&kernel.service_transporter, apic_t, startupAPIC_s);
+  enableAPICTimer(&kernel.apicManager.apics[0]);
+  dispatch_kernel(&kernel.service_transporter, apic_t, startupAPIC_s);
 
   dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
   printk(" THIS IS CORE #%d\n", kernel.apicManager.returns.core_id);
 
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 5;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 2;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-
-  // uint64_t addr = kernel.sharedMemory.returns_t.virtualAddress;
-  // uint64_t *ptr = (uint64_t *)(addr);
-  // *ptr = 1;
-
-  // kernel.sharedMemory.params_t.virtualAddress = kernel.sharedMemory.returns_t.virtualAddress;
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 2;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, deallocateSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-  // *ptr = 99;
-
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 9;
-  // kernel.sharedMemory.params_t.virtualAddress = START_OFFSET;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, deallocateSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 5;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 5;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-  // kernel.sharedMemory.params_t.numberOfBytes = 2097152 * 4;
-  // dispatch_kernel(&kernel.service_transporter, sharedMemory_t, allocatedSharedMemory_t);
-  // printk("return address: %x\n", kernel.sharedMemory.returns_t.virtualAddress);
-
   // printk("Done executing\n");
 
- rtl8139_init();
- keyboard_init();
+  rtl8139_init();
+  keyboard_init();
 }
 
 void userModeDemo()
