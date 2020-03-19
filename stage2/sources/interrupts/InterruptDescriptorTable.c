@@ -4,27 +4,12 @@ extern Kernel kernel;
 
 extern InterruptDescriptorTablePointer interruptDescriptorTablePointer;
 
-// External declaration for the global InterruptDescriptorTablePointer
-// which is declared a a global variable and initialized in the
-// kernel main program
-// External declaration of the idtInit assembly function that loads the IDTextern
 
 extern void idtInit();
 
-/* void irqSetMask(uint8_t p_irq_line)
- * 
- * This method set a mask on a PIC IRQ line, which disables the IRQ line from
- * firing interrupts
- * 
- * This method receives one parameter:
- *      uint8_t p_irq_line: the IRQ line number to set mask for.
- * 
- * 
- */
 
-//telling the pic which IRQ line to fire the interrupts on.
 
-void irqSetMask(uint8_t p_irq_line)
+void irqSetMask(uint8_t p_irq_line) //This method set a mask on a PIC IRQ line, which disables the IRQ line from firing interrupts
 {
     uint16_t port;
     uint8_t value;
@@ -48,18 +33,7 @@ void irqSetMask(uint8_t p_irq_line)
     outportb(port, value);
 }
 
-/* void irqClearMask(uint8_t p_irq_line)
- * 
- * This method clear a mask on a PIC IRQ line, which enables the IRQ line to
- * fire interrupts
- * 
- * This method receives one parameter:
- *      uint8_t p_irq_line: the IRQ line number to clear mask for.
- * 
- * 
- */
-
-void irqClearMask(uint8_t p_irq_line)
+void irqClearMask(uint8_t p_irq_line) //This method clear a mask on a PIC IRQ line, which enables the IRQ line to fire interrupts
 {
     uint16_t port;
     uint8_t value;
@@ -126,20 +100,6 @@ void setInterruptDescriptorTableEntry(uint8_t p_number, uint64_t p_base, uint16_
     kernel.interruptDescriptorTable.interruptDescriptorTableEntries[p_number].reserved = 0;
 }
 
-/* void registerExceptions()
- * 
- * Register 32 exception handlers into the IDT on entries from 0 - 31.
- * 
- * All the entries have a selector equal to 0x8 (KERNEL_CODESEG) which the kernel code segment.
- * The flag of the entries are 0x8E (IDT_P_KERNEL_INTERRUPT_GATE = 10001110) :
- *          Present Bit (bit 7) : 1
- *          DPL Bits (bit 5-6) : 00
- *          Storage Bit (bit 4) : 0
- *          Type Bits (bit 0-3) : 1110
- * 
- * The assigned interrupt handlers isr0-31 are defined in asm/stage2/isr.asm and stage2/int/isr.h
- * 
- */
 
 void registerExceptions()
 {
@@ -177,21 +137,6 @@ void registerExceptions()
     setInterruptDescriptorTableEntry(31, (uint64_t)isr31, KERNEL_CODESEG, IDT_P_KERNEL_INTERRUPT_GATE);
 }
 
-/* void registerIRQs()
- * 
- * Register 64 IRQ handlers into the IDT on entries from 32 - 95. 
- * 16 of which are PIC IRQ Handlers
- * 
- * All the entries have a selector equal to 0x8 (KERNEL_CODESEG) which the kernel code segment.
- * The flag of the entries are 0x8E (IDT_P_KERNEL_INTERRUPT_GATE = 10001110) :
- *          Present Bit (bit 7) : 1
- *          DPL Bits (bit 5-6) : 00
- *          Storage Bit (bit 4) : 0
- *          Type Bits (bit 0-3) : 1110
- * 
- * The assigned interrupt handlers irq0-63 are defined in asm/stage2/isr.asm and stage2/int/isr.h
- * 
- */
 
 void registerIRQs()
 {
@@ -260,22 +205,6 @@ void registerIRQs()
     setInterruptDescriptorTableEntry(95, (uint64_t)irq63, KERNEL_CODESEG, IDT_P_KERNEL_INTERRUPT_GATE);
 }
 
-/* void registerAPIRQs()
- * 
- * Register 32 Application Processor (AP) handlers into the IDT on entries from 96 - 127 to be used
- * by IPIs (Inter-Processor Interrupts) for inter-processor communication
- * 
- * All the entries have a selector equal to 0x8 (KERNEL_CODESEG) which the kernel code segment.
- * The flag of the entries are 0x8E (IDT_P_KERNEL_INTERRUPT_GATE = 10001110) :
- *          Present Bit (bit 7) : 1
- *          DPL Bits (bit 5-6) : 00
- *          Storage Bit (bit 4) : 0
- *          Type Bits (bit 0-3) : 1110
- * 
- * The assigned interrupt handlers apirq0-31 are defined in asm/stage2/isr.asm and stage2/int/isr.h
- * 
- */
-
 void registerAPIRQs()
 {
     setInterruptDescriptorTableEntry(96, (uint64_t)apirq0, KERNEL_CODESEG, IDT_P_KERNEL_INTERRUPT_GATE);
@@ -312,24 +241,7 @@ void registerAPIRQs()
     setInterruptDescriptorTableEntry(127, (uint64_t)apirq31, KERNEL_CODESEG, IDT_P_KERNEL_INTERRUPT_GATE);
 }
 
-/* void registerSWIRQs()
- * 
- * Register 127 software interrupt handlers into the IDT on entries from 128 - 254 to be used
- * in implementing different system call types
- * 
- * All the entries have a selector equal to 0x8 (KERNEL_CODESEG) which the kernel code segment.
- * The flag of the entries are 0xEE (IDT_P_KERNEL_INTERRUPT_GATE = 11101110) :
- *          Present Bit (bit 7) : 1
- *          DPL Bits (bit 5-6) : 11 -> Notice the value of the DPL as this interrupt will be invoked 
- *                                  from th user space.
- *          Storage Bit (bit 4) : 0
- *          Type Bits (bit 0-3) : 1110
- * 
- * The assigned interrupt handlers swirq0-126 are defined in asm/stage2/isr.asm and stage2/int/isr.h
- * 
- */
-//! why is it an interrupt gate not trap gate for user mode amd why kernel code seg if user
-//! also why always used not unused not all present in the beginning
+
 void registerSWIRQs()
 {
     setInterruptDescriptorTableEntry(128, (uint64_t)swirq0, KERNEL_CODESEG, IDT_P_USER_INTERRUPT_GATE);
@@ -466,12 +378,6 @@ void registerSWIRQs()
     setInterruptDescriptorTableEntry(254, (uint64_t)swirq126, KERNEL_CODESEG, IDT_P_USER_INTERRUPT_GATE);
 }
 
-/* void setupInterruptDescriptorTable(bool p_init_pic)
- * 
- * This method performs initialization tasks for the IDT and the enablement of the 
- * the PIC.
- * 
- */
 
 void setupInterruptDescriptorTable()
 {
@@ -499,13 +405,4 @@ void setupInterruptDescriptorTable()
     interruptDescriptorTablePointer.base = (uint64_t) & (kernel.interruptDescriptorTable.interruptDescriptorTableEntries);
     // Load IDT
     idtInit();
-
-    // Clear Interrupt Mask for IRQ 2 & 7 to allow enable interrupt cascade
-    // Without this interrupts on the PIC slave will not reach the CPU and its
-    // interrupts will not fire
-    // if ( p_init_pic)
-    // {
-    //     irqClearMask(IRQ2-IRQ0);
-    //     irqClearMask(IRQ7-IRQ0);
-    // }
 }

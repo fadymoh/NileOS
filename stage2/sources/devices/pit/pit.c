@@ -4,23 +4,6 @@
 extern APIC apic;
 extern Kernel kernel;
 
-void setTimer ()
-{
-    // uint32_t divisor = 1193180 / kernel.pit.frequency;
-
-    // // Send the command byte.
-    // outportb(0x43, 0x34);
-
-    // // Divisor has to be sent byte-wise, so split here into upper/lower bytes.
-    // uint8_t l = (uint8_t)(divisor & 0xFF);
-    // uint8_t h = (uint8_t)( (divisor>>8) & 0xFF );
-
-    // // Send the frequency divisor.
-    // outportb(0x40, l);
-    // outportb(0x40, h);
-}
-
-
 void pit_sleep(uint16_t p_sleep,uint16_t p_apic_id,uint8_t p_interrupt,bool p_do_sleep)
 {
 
@@ -47,26 +30,6 @@ void pit_sleep(uint16_t p_sleep,uint16_t p_apic_id,uint8_t p_interrupt,bool p_do
     kernel.apicManager.apics[current_apic_id].wakeup_counter = 0;
     kernel.apicManager.apics[current_apic_id].wakeup_apic_id = 0;
 }
-void initializePit ()
-{
-    // kernel.pit.frequency = 50;
-    // kernel.pit.ticks = 0;
-    // kernel.pit.packets_received = 1;
-    // kernel.pit.compare_packets_received = 0;
-    // registerInterrupt(IRQ0,pit_fire);
-    // setTimer();
-}
-void setFrequencyTimer (uint32_t p_frequency)
-{
-//    if (kernel.pit.frequency != p_frequency)
-//     {
-//         if ( p_frequency > 2000)
-//             kernel.pit.frequency = 2000;
-//         else kernel.pit.frequency = p_frequency;
-//         setTimer();
-//     }
-}
-
 
 void pit_fire(InterruptContext *p_interruptContext)
 {
@@ -93,5 +56,5 @@ void pit_fire(InterruptContext *p_interruptContext)
             }
         }
     }
-    sendAPICEOI(&kernel.apicManager.apics[apic_id]); // Important: need to be changed the current apic
+    sendAPICEOI(&kernel.apicManager.apics[apic_id]);
 }

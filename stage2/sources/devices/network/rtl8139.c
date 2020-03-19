@@ -7,8 +7,6 @@ uint32_t current_packet_ptr;
 void rtl8139_handler(InterruptContext *reg)
 {
 
-    //printk("Handler Called\n");
-
     uint16_t status = inportw(rtl8139_device.io_base + 0x3e);
 
     if (status & TOK)

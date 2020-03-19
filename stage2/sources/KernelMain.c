@@ -189,7 +189,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   APICManager *apicManager = &(kernel.apicManager);
   service_init(&apicManagerService, (void *)apicManager, apic_t);
   kernel.apicManager.params.p_apics_count = kernel.acpi.cores_count;
-  initAPICManager_service(apicManager, &apicManagerService);
+  initAPICManager(apicManager, &apicManagerService);
   register_service_to_kernel(service_transporter, &apicManagerService, apic_t);
 
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ0 - IRQ0, IRQ0);

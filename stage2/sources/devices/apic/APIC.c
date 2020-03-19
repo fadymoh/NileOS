@@ -28,8 +28,6 @@ void initialize_apic(APIC *apic, uint16_t p_apic_id, uint64_t p_local_apic, bool
     apic->lapic_base = p_local_apic;
     kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.local_apicio_addr;
     apic->apicio_base = getVirtualAddress(&kernel.physicalMemoryManager);
-    // apic->apicio_base = getVirtualAddress(&kernel.physicalMemoryManager,kernel.acpi.local_apicio_addr);
-    printk(&kernel.console, "apic[%d]->apicio_base: %x\n", p_apic_id, apic->apicio_base);
     memset(apic->fired_interrupts, 0, 256);
     apic->lapic_reg = apic->lapic_base + 0x0020;
     apic->lapic_apicver = apic->lapic_base + 0x0030;
@@ -68,7 +66,6 @@ void initialize_apic(APIC *apic, uint16_t p_apic_id, uint64_t p_local_apic, bool
     apic->stack_ptr -= 0x10;
     uint64_t *sptr = (uint64_t *)(apic->stack_ptr);
     sptr[0] = 0;
-    //sptr[1] = (uint64_t) &apic->usermodeKernel;
 
     apic->pit_counter = 0;
     apic->wakeup_counter = 0;
@@ -96,13 +93,11 @@ void initAPICIO(APIC *apic)
 
 void sendFixedIPI(APIC *apic, uint8_t p_irq)
 {
-    //    printk("Before Sending fixed IPI \n");
     uint32_t _core_id = apic->apic_id << 24;
     writeLocalAPIC(apic->lapic_icr1, _core_id);
     writeLocalAPIC(apic->lapic_icr0, 0b00000000000000000100000000000000 | p_irq);
     sfence();
     for (; readLocalAPIC(apic->lapic_icr0) & 0x1000;);
-    //    printk("After Sending fixed IPI \n");
 }
 
 void disableAPICTimer(APIC *apic)
@@ -114,7 +109,6 @@ void enableAPICTimer(APIC *apic)
     kernel.interruptManager.params.p_interruptNumber = IRQ0;
     kernel.interruptManager.params.p_interruptHandler = pit_fire;
     dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
-
 
     apic->pit_counter = 0;
     writeLocalAPIC(apic->lapic_tmr_div, 0x3);
@@ -128,18 +122,7 @@ void enableAPICTimer(APIC *apic)
 
     writeLocalAPIC(apic->lapic_lvt_tmr, IRQ0 | apic->tmr_periodic);
     writeLocalAPIC(apic->lapic_tmr_div, 0x3);
-    //writeLocalAPIC(apic->lapic_tmr_init_cnt, 0x1000);
-    /*
-        000 = divide by 2
-	001 = divide by 4
-	010 = divide by 8ep
-	011 = divide by 16
-	100 = divide by 32
-	101 = divide by 64
-	110 = divide by 128
-	111 = divide by 1         
-         
-         */
+
     writeLocalAPIC(apic->lapic_tmr_init_cnt, ((0xFFFFFFFF - current_timer) / (5 * 30)) /*0xFF000000*/); // The higher this value the slower the interrupts
     apic->timer_enabled = true;
 }

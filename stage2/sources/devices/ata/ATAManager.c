@@ -68,42 +68,42 @@ void identifyPCI()
     PCIDevice *pciConfigHeader = getDiskPCIDevice();
     if (pciConfigHeader != NULL)
     {
-        printk("PCI ATA Detected:\n");
+        printk_fs("PCI ATA Detected:\n");
         uint8_t programming_interface = pciConfigHeader->pci_interface;
         if (isBitSet(programming_interface, 7))
         {
             uint16_t pci_device_id = pciConfigHeader->dev_id;
-            printk("DMA is Enabled\n");
-            printk("Device TYPE: %s\n", getDeviceTypeName(pci_device_id));
+            printk_fs("DMA is Enabled\n");
+            printk_fs("Device TYPE: %s\n", getDeviceTypeName(pci_device_id));
             if (pci_device_id == 0x1230 || pci_device_id == 0x7010 || pci_device_id == 0x7111)
             {
-                printk("Enabling Bus Mastering: %x\n", pci_device_id);
+                printk_fs("Enabling Bus Mastering: %x\n", pci_device_id);
                 enablePCIBusMastering(pciConfigHeader);
                 pciConfigWriteCommand(pciConfigHeader, 0x40, 0xA344);
                 pciConfigWriteCommand(pciConfigHeader, 0x42, 0xA344);
             }
             else
-                printk("Did not enable Bus Mastering: %d\n", pci_device_id);
+                printk_fs("Did not enable Bus Mastering: %d\n", pci_device_id);
 
             if ((pciConfigHeader->bars[4] & 0x1) == 0x1)
             {
                 kernel.ataManager.dma_port_address = pciConfigHeader->bars[4];
-                printk("DMA Bus Mastering is I/O Port Base: %x\n", kernel.ataManager.dma_port_address);
+                printk_fs("DMA Bus Mastering is I/O Port Base: %x\n", kernel.ataManager.dma_port_address);
 
                 clearStatus(kernel.ataManager.dma_port_address, 0);
-                printk("DMA Bus Mastering is I/O Port Base: %x\n", kernel.ataManager.dma_port_address);
+                printk_fs("DMA Bus Mastering is I/O Port Base: %x\n", kernel.ataManager.dma_port_address);
             }
             else
             {
                 kernel.ataManager.dma_mmio_address = pciConfigHeader->bars[4];
-                printk("DMA Bus Mastering is MMIO Base: %x\n", kernel.ataManager.dma_mmio_address);
+                printk_fs("DMA Bus Mastering is MMIO Base: %x\n", kernel.ataManager.dma_mmio_address);
             }
         }
         else
-            printk("DMA is not Enabled\n");
+            printk_fs("DMA is not Enabled\n");
     }
     else
-        printk("No PCI ATA Detected\n");
+        printk_fs("No PCI ATA Detected\n");
 }
 
 void initATAManager()
@@ -116,7 +116,6 @@ void initATAManager()
 
     kernel.ataManager.dma_phy_address1 = (uint8_t *)kvalloc(&kernel.memoryAllocator, 0x2000000);
     kernel.ataManager.dma_phy_address2 = (uint8_t *)kvalloc(&kernel.memoryAllocator, 0x2000000);
-    // printk("dma physical address 1        %x\n", kernel.ataManager.dma_phy_address1);
 
     memset(kernel.ataManager.dma_phy_address1, 0, 0x2000000);
     memset(kernel.ataManager.dma_phy_address2, 0, 0x2000000);
@@ -173,7 +172,7 @@ uint8_t detectATADisks()
             {
 
                 kernel.ataManager.ataDisks[si] = (ATADisk *)kmalloc(&kernel.memoryAllocator, sizeof(ATADisk));
-                printk("Detected disk %d on channel %d\n", j, i);
+                printk_fs("Detected disk %d on channel %d\n", j, i);
 
                 initATADisk(kernel.ataManager.ataDisks[si],
                             io_array[i],
@@ -188,7 +187,7 @@ uint8_t detectATADisks()
             else
             {
                 kernel.ataManager.ataDisks[si] = NULL;
-                printk("Could not detect disk %d on channel %d\n", j, i);
+                printk_fs("Could not detect disk %d on channel %d\n", j, i);
             }
             si++;
         }
@@ -211,7 +210,7 @@ void ata_400ns_delay(uint16_t p_io_port)
 
 void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
 {
-    printk("ata read handle interrupt\n");
+    printk_fs("ata read handle interrupt\n");
     if (!kernel.dmaBuffer.enabled)
         return;
     if (p_interruptContext->interrupt_number != IRQ14 &&
@@ -222,7 +221,7 @@ void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
     if (!(bm_status & 0x4))
     {
         inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
-        printk(">>>>> bm_status != 0x4 - > %x\n", bm_status);
+        printk_fs(">>>>> bm_status != 0x4 - > %x\n", bm_status);
         return;
     }
     inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
@@ -259,13 +258,13 @@ void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
             if (readDMADiskSectors(kernel.dmaBuffer.ataDisk, kernel.dmaBuffer.current_address, kernel.dmaBuffer.current_read) == READ_DMA_SUCCESS)
                 break;
             if (i > 0 && i % 100 == 0)
-                printk("READ: I am stuck here: %d\n", i);
+                printk_fs("READ: I am stuck here: %d\n", i);
         }
     }
     else
     {  kernel.dmaBuffer.ataDisk->done_read = true;
         uint64_t end_time = getRTCTimeStamp32();
-        printk("Finished reading: %d sectors in %d sec\n", kernel.dmaBuffer.total_read, end_time - kernel.dmaBuffer.start_time);
+        printk_fs("Finished reading: %d sectors in %d sec\n", kernel.dmaBuffer.total_read, end_time - kernel.dmaBuffer.start_time);
         sendFixedIPI(&kernel.apicManager.apics[kernel.dmaBuffer.core_id], ATA_IPI);
     }
     inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
@@ -282,7 +281,7 @@ void ataHandleWriteInterrupt(InterruptContext *p_interruptContext)
     if (!(bm_status & 0x4))
     {
         inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
-        printk(">>>>> bm_status != 0x4 - > %x\n", bm_status);
+        printk_fs(">>>>> bm_status != 0x4 - > %x\n", bm_status);
         return;
     }
     inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
@@ -315,7 +314,7 @@ void ataHandleWriteInterrupt(InterruptContext *p_interruptContext)
             if (writeDMADiskSectors(kernel.dmaBuffer.ataDisk, kernel.dmaBuffer.current_address, kernel.dmaBuffer.current_write) == WRITE_DMA_SUCCESS)
                 break;
             if (i > 0 && i % 100 == 0)
-                printk("WRITE: I am stuck here: %d\n", i);
+                printk_fs("WRITE: I am stuck here: %d\n", i);
         }
     }
     else
@@ -326,7 +325,7 @@ void ataHandleWriteInterrupt(InterruptContext *p_interruptContext)
             outportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_COMMAND, 0xE7);
         uint64_t end_time = getRTCTimeStamp32();
         kernel.dmaBuffer.write_done = true;
-        printk("Finished writing: %d sectors in %d sec\n", kernel.dmaBuffer.total_write, end_time - kernel.dmaBuffer.start_time);
+        printk_fs("Finished writing: %d sectors in %d sec\n", kernel.dmaBuffer.total_write, end_time - kernel.dmaBuffer.start_time);
 
         sendFixedIPI(&kernel.apicManager.apics[kernel.dmaBuffer.core_id], ATA_IPI);
     }

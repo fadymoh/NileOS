@@ -23,7 +23,7 @@ typedef struct{
 
 } APICManager;
 
-void initAPICManager_service(APICManager* apicManager, Service* p_service);
+void initAPICManager(APICManager* apicManager, Service* p_service);
 void startupAPIC(void* p_apicManager);
 void getCurrentCoreId(void* p_apicManager);
 bool touchCore (void* p_apicManager);

@@ -28,7 +28,6 @@ void scanBusesForCount(PCIService *p_pciService)
                     continue;
                 else
                 {
-                    // printk("Found a device..\n");
                     p_pciService->total_pci_devices += 1;
                     p_pciService->total_pci_devices2++;
                 }
@@ -40,7 +39,6 @@ void scanBusesForCount(PCIService *p_pciService)
 void scanBusesForAllocation(PCIService *p_pciService)
 {
     uint16_t allocated_pci_devices = 0;
-    // p_pciService->pciDevices = (PCIConfigHeader *) kmalloc(&kernel.memoryAllocator, sizeof(PCIConfigHeader)*p_pciService->total_pci_devices);
 
     for (uint16_t bus = 0; bus < MAX_PCI_BUSES; bus++)
     {
@@ -48,9 +46,7 @@ void scanBusesForAllocation(PCIService *p_pciService)
         {
             for (uint8_t j = 0; j < MAX_PCI_DEVICE_FUNCTIONS; j++)
             {
-                if (allocated_pci_devices < p_pciService->total_pci_devices) // If the allocated number of devices is equal to
-                                                                             // the counted devices then stop as there are no more
-                                                                             // devices to allocate
+                if (allocated_pci_devices < p_pciService->total_pci_devices) 
                 {
                     // initialize the next PCI device header
                     pciConfig_initialize(&p_pciService->pciDevices[allocated_pci_devices], bus, i, j);

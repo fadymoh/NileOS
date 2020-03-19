@@ -5,7 +5,7 @@
 #include "Terminal.h"
 #include "service.h"
 
-enum console_exposed_functions {add_string, add_hexa, add_hexa128, switch_terminal, add_to_terminal} ; 
+enum console_exposed_functions {add_string, add_hexa, add_hexa128, switch_terminal, add_to_terminal, clear_screen} ; 
 
 typedef struct
 {
@@ -49,4 +49,5 @@ bool console_switchTerminal(void* p_console_ptr);
 
 bool console_writeToTerminal(void* p_console_ptr);
 
+bool console_clearScreen(void *p_console_ptr);
 #endif

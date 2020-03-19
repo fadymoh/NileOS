@@ -4,7 +4,7 @@
 
 extern Kernel kernel;
 
-void initAPICManager_service(APICManager *apicManager, Service *p_service)
+void initAPICManager(APICManager *apicManager, Service *p_service)
 {
 
     kernel.apicManager.apics_count = apicManager->params.p_apics_count;
@@ -17,14 +17,14 @@ void initAPICManager_service(APICManager *apicManager, Service *p_service)
                         (i == 0) ? true : false);
     }
     initAPICIO(&kernel.apicManager.apics[0]);
-    printk("Done APICIO\n");
+    printk_debug("Done APICIO\n");
 
     p_service->add_service(p_service, startupAPIC, startupAPIC_s);
     p_service->add_service(p_service, getCurrentCoreId, getCurrentCoreId_s);
     p_service->add_service(p_service, touchCore, touchCore_s);
     p_service->add_service(p_service, moveInitialKernelStack, moveInitialKernelStack_s);
 
-    printk("APIC Manager Success! \n");
+    printk_debug("APIC Manager Success! \n");
 }
 
 void startupAPIC(void *p_apicManager)

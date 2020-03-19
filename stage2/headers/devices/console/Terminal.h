@@ -28,10 +28,6 @@ void terminal_putCharacterAt (Terminal * p_terminal,
                             uint8_t p_background_color, 
                             uint8_t p_foreground_color);
 
-void terminal_putCharacter (Terminal * p_terminal,
-                            const char p_character, 
-                            uint8_t p_background_color, 
-                            uint8_t p_foreground_color);
 
 void terminal_putCharacterAndAdvanceString (Terminal * p_terminal,
                                         const char p_character, 

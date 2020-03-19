@@ -45,17 +45,15 @@ char kbdus[128] = {
 void keyboard_handler(InterruptContext * r)
 {
     int i, scancode;
-    //get scancode with "timeout"
-    //printk("got into the keyboard handler\n");
 
-    for(i = 1000; i > 0; i++) {
+    for(i = 1000; i > 0; i++) 
+    {
         // Check if scan code is ready
-        if((inportb(0x64) & 1) == 0) continue;
-        // Get the scan code
-        scancode = inportb(0x60);
-        break;
+        if((inportb(0x64) & 1) != 0){
+            scancode = inportb(0x60);
+            break;
+        }
     }
-   // printk("scanCode %d\n", scancode);
 
     if(i > 0) {
         if(scancode & 0x80) {
@@ -63,13 +61,11 @@ void keyboard_handler(InterruptContext * r)
         }
         else if (scancode == 72) // up arrow
         {
-            // // Key down
-            // printk("Key pressed %c\n", kbdus[scancode]);
-            printk_debug("a7la kalam wla eh\n");
-            // // Send message to the focus window
-        } else if (scancode == 80) // down arrow
+            dispatch_kernel(&kernel.service_transporter, console_t, clear_screen);
+        } 
+        else if (scancode == 80) // down arrow
         {
-            printk_network("la msh a7la kalam\n");
+
         }
         else if (scancode == 75) // left
         {

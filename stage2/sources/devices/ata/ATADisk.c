@@ -43,14 +43,13 @@ uint8_t writePIODiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint8_t *p_buffer
             }
         }
     }
-    printk("Writing %d sectors\n", p_sector_count);
+    printk_fs("Writing %d sectors\n", p_sector_count);
     for (uint64_t idx = 0; idx < 256 * p_sector_count; idx++)
     {
         uint16_t writeword = p_buffer[idx * 2] | (p_buffer[idx * 2 + 1] << 8);
         outportw(io_port, writeword);
         if (idx % 256 == 0 && idx > 0)
         {
-            printk("idx: %d\n", idx);
             if (p_ataDisk->lba48)
                 outportb(io_port + ATA_REG_COMMAND, 0xEA);
             else
@@ -94,39 +93,6 @@ uint8_t readPIODiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint8_t *p_buffer,
     else
         outportb(io_port + ATA_REG_COMMAND, ATA_CMD_READ_PIO);
 
-    // if (inportb(io_port + ATA_REG_STATUS))
-    //     {
-    //         for (int i = 0;; i++)
-    //         {
-    //             uint8_t status = inportb(io_port + ATA_REG_STATUS);
-    //             if (status & ATA_SR_DRQ)
-    //                 break;
-    //             else if (status & ATA_SR_ERR)
-    //                 return READ_PIO_FAIL;
-    //             // ide_400ns_delay(p_ataDisk);
-    //         }
-    //     }
-
-    // int byteIndexInSector = 0;
-    // uint16_t sector_count = p_sector_count;
-    // if (sector_count == 0)
-    //     sector_count = 256;
-
-    // for (int sectorID = 1; sectorID <= sector_count; sectorID++)
-    // {
-    //     for (; byteIndexInSector < 256 * sectorID; byteIndexInSector++)
-    //     {
-    //         uint16_t readword = inportw(io_port);
-    //         p_buffer[byteIndexInSector * 2] = (uint8_t)readword;
-    //         p_buffer[byteIndexInSector * 2 + 1] = (uint8_t)(readword >> 8);
-    //     }
-    //     // ide_400ns_delay(p_ataDisk);
-    //     // ide_400ns_delay(p_ataDisk);
-    //     // ide_400ns_delay(p_ataDisk);
-    //     // ide_400ns_delay(p_ataDisk);
-    //     // // printk("\nreading %d\n", sectorID);
-
-    // }
     int idx = 0;
     uint16_t sector_count = p_sector_count;
     if (sector_count == 0 ) sector_count = 256;
@@ -150,7 +116,7 @@ uint8_t readPIODiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint8_t *p_buffer,
         }
     }
 
-    printk("PIO Read Sucess\n");
+    printk_fs("PIO Read Sucess\n");
     return READ_PIO_SUCCESS;
 }
 
@@ -250,7 +216,8 @@ uint8_t writeDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector
                 ide_400ns_delay(p_ataDisk);
                 status = inportb(io_port + ATA_REG_STATUS);
                 kernel.dmaBuffer.current_select = 0;
-                printk("DMA Write Error\n");
+                printk_fs("DMA Write Error\n");
+
                 return WRITE_DMA_FAIL;
             }
             else if (status & ATA_SR_DRQ)
@@ -258,7 +225,7 @@ uint8_t writeDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector
             status = inportb(control_base + ATA_REG_ALT_STATUS);
             if (!(status & ATA_SR_DRQ) && i > 5000)
             {
-                printk("stuck in write dma check status loop: %d, status: %x\n", i, status);
+                printk_fs("stuck in write dma check status loop: %d, status: %x\n", i, status);
                 if (i > 100000)
                 {
                     if (p_ataDisk->bm_offset == 0)
@@ -272,7 +239,8 @@ uint8_t writeDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector
                     ide_400ns_delay(p_ataDisk);
                     status = inportb(io_port + ATA_REG_STATUS);
                     kernel.dmaBuffer.current_select = 0;
-                    printk("DMA Write Error with stuck\n");
+                    printk_fs("DMA Write Error with stuck\n");
+
                     return WRITE_DMA_FAIL;
                 }
             }
@@ -281,13 +249,14 @@ uint8_t writeDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector
     if (status & ATA_SR_DRQ)
     {
         outportb(dma_port_address + BM0_COMMAND + p_ataDisk->bm_offset, (0 << 3) | (1 << 0));
+
         return WRITE_DMA_SUCCESS;
     }
+
     return WRITE_DMA_FAIL;
 }
 uint8_t readDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector_count)
 {
-    printk("geit hena\n");
     for (;;)
     {
         uint16_t io_port = p_ataDisk->io_port;
@@ -345,7 +314,7 @@ uint8_t readDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector_
                 status = inportb(control_base + ATA_REG_ALT_STATUS);
                 if (stuck > 2000)
                 {
-                    printk("stuck in DRDY select loop: %x\n", status);
+                    printk_fs("stuck in DRDY select loop: %x\n", status);
                     break;
                 }
                 stuck++;
@@ -378,7 +347,7 @@ uint8_t readDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector_
                 }
                 else if (status & ATA_SR_ERR)
                 {
-                    printk("p_sector count: %d, addr: %d\n", p_sector_count, addr);
+                    printk_fs("p_sector count: %d, addr: %d\n", p_sector_count, addr);
                     for (;;);
                     if (p_ataDisk->bm_offset == 0)
                         outportb(ATA_PRIMARY_DCR_AS, 0b00000000);
@@ -398,7 +367,7 @@ uint8_t readDMADiskSectors(ATADisk *p_ataDisk, uint64_t addr, uint16_t p_sector_
                 status = inportb(control_base + ATA_REG_ALT_STATUS);
                 if (!(status & ATA_SR_DRQ) && i > 5000)
                 {
-                    printk("stuck in read dma check status loop: %d, status: %x\n", i, status);
+                    printk_fs("stuck in read dma check status loop: %d, status: %x\n", i, status);
                     break;
                 }
             }
@@ -498,10 +467,6 @@ uint8_t readDMADisk(ATADisk *p_ataDisk, uint64_t p_addr, uint8_t *p_buffer, uint
     uint32_t read_dma_chunk = DMA_READ_CHUNK;
     if (kernel.dmaBuffer.lba48)
         read_dma_chunk = DMA_READ_CHUNK_EXT;
-    //!! whyy?
-    // kernel.dmaBuffer.current_write = 0;
-    // kernel.dmaBuffer.total_write = 0;
-    // kernel.dmaBuffer.target_write = 0;
 
     kernel.dmaBuffer.start_offset = p_start_offset;
     kernel.dmaBuffer.end_offset = p_end_offset;
