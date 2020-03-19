@@ -10,3 +10,5 @@ subsystems:
 	$(MAKE) -C pit CODE_HOME=$(CODE_HOME)
 	$(MAKE) -C ata CODE_HOME=$(CODE_HOME)
 	$(MAKE) -C network CODE_HOME=$(CODE_HOME)
+	$(MAKE) -C keyboard CODE_HOME=$(CODE_HOME)
+

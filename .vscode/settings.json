@@ -40,6 +40,8 @@
         "type_traits": "c",
         "utility": "c",
         "memory": "c",
-        "rtl8139.h": "c"
+        "rtl8139.h": "c",
+        "includes.h": "c",
+        "keyboard.h": "c"
     }
 }

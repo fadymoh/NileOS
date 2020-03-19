@@ -4,5 +4,8 @@
 #include "stdio.h"
 
 void printk (const char * str_template,...);
+void printk_debug (const char * str_template,...);
+void printk_network (const char * str_template,...);
+void printk_fs (const char * str_template,...);
 
 #endif

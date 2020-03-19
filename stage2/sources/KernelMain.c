@@ -6,8 +6,7 @@
 #include "checksum.h"
 #include "Library.h"
 #include "rtl8139.h"
-//63488
-#define sectors 63488
+#define sectors 4096
 Kernel kernel;
 InterruptDescriptorTablePointer interruptDescriptorTablePointer;
 
@@ -144,10 +143,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   /*
      * ─── REGISTER SERVICES ───────────────────────────────────────────
      */
-  Console *console = &(kernel.console);
-  service_init(&consoleService, (void *)console, console_t); //
-  console_preInialize(console, &consoleService);
-  register_service_to_kernel(service_transporter, &consoleService, console_t);
 
   PhysicalMemoryManager *physicalMemoryManager = &(kernel.physicalMemoryManager);
   service_init(&physicalMemoryService, (void *)physicalMemoryManager, physical_memory);
@@ -159,16 +154,14 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   initializePCIService(pci_manager, &pciService);
   register_service_to_kernel(service_transporter, &pciService, pci_t);
 
-  //printing physical memory
-  if (!statusOfPhysicalMemory)
-  {
-    printk("status of physical memory is false\n");
-    return;
-  }
-  dispatch_kernel(&kernel.service_transporter, physical_memory, PrintPhysicalMemory);
-
   //Stage 1 Map
   pageMapStage1();
+
+  Console *console = &(kernel.console);
+  service_init(&consoleService, (void *)console, console_t); //
+  console_preInialize(console, &consoleService);
+  register_service_to_kernel(service_transporter, &consoleService, console_t);
+  dispatch_kernel(&kernel.service_transporter, physical_memory, PrintPhysicalMemory);
 
   //collecting pci hardware
   dispatch_kernel(&kernel.service_transporter, pci_t, COLLECT_HW);
@@ -277,7 +270,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   kernel.dmaBuffer.enabled = true;
   uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 512 * sectors + 2);
   init_BlockService();
-  read_blocks(kernel.ataManager.ataDisks[0], buffer);
+  //read_blocks(kernel.ataManager.ataDisks[0], buffer);
 
   //printk("start reading\n");
   //readDMADisk(kernel.ataManager.ataDisks[0], 52825, buffer, sectors, 0, 0);
@@ -405,6 +398,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // printk("Done executing\n");
 
  rtl8139_init();
+ keyboard_init();
 }
 
 void userModeDemo()

@@ -20,6 +20,9 @@
 #include "ipi.h"
 #include "SharedMemory.h"
 #include "BlockService.h"
+#include "rtl8139.h"
+#include "keyboard.h"
+
 typedef struct 
 {
     service_transport_kernel service_transporter;

@@ -1,6 +1,7 @@
 #ifndef RTL8139_H
 #define RTL8139_H
 #include "Kernel.h"
+#include "ethernet.h"
 
 
 #define RTL8139_VENDOR_ID 0x10EC
@@ -72,7 +73,7 @@ typedef struct rtl8139_dev {
     int tx_cur;
 }rtl8139_dev_t;
 
-void rtl8139_send_packet(void * data, uint32_t len);
+//void rtl8139_send_packet(void * data, uint32_t len);
 
 void rtl8139_handler(InterruptContext * reg);
 
@@ -83,6 +84,5 @@ void read_mac_addr();
 void receive_packet();
 
 void get_mac_addr();
-
 
 #endif
