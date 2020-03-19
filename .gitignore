@@ -27,9 +27,12 @@ x86/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
-[Oo]bj/
+[Oo]bjects/
 [Ll]og/
 [Ll]ogs/
+[Ii]mages/
+[Mm]aps/
+[Ee]lfs/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
