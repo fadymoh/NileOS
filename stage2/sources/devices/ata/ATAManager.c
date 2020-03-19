@@ -211,6 +211,7 @@ void ata_400ns_delay(uint16_t p_io_port)
 
 void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
 {
+    printk("ata read handle interrupt\n");
     if (!kernel.dmaBuffer.enabled)
         return;
     if (p_interruptContext->interrupt_number != IRQ14 &&

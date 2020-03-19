@@ -6,8 +6,8 @@
 #include "checksum.h"
 #include "Library.h"
 #include "rtl8139.h"
-
-#define sectors 4096
+//63488
+#define sectors 63488
 Kernel kernel;
 InterruptDescriptorTablePointer interruptDescriptorTablePointer;
 
@@ -284,7 +284,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   // printk("ana hena mstanya interrupt yegi f hktb paragraph taweel 3ala ad m2dar 7ata");
 
-  buffer[512 * sectors + 1] = 0;
   // for (int i = 0; i < 512*75776; ++i)
   //   printk("%c",buffer[i]);
   printk("\nDONE!\n");
