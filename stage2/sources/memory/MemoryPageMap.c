@@ -532,3 +532,14 @@ bool buildApCoresPageTables(int cores_count)
 
     return true;
 }
+
+void refreshReserved ()
+{
+    for ( uint8_t i = 0 ; i < kernel.acpi.cores_count ; i ++)
+    {
+        mapReservedMemory (kernel.coresPageTables_ptr[i]);
+        dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+        int core_id = kernel.apicManager.returns.core_id;
+        if (i == core_id) enablePageDirectory((uint64_t)&(kernel.coresPageTables_ptr[i]->PGD));
+    }
+}

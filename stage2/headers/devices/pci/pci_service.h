@@ -21,6 +21,7 @@ typedef struct  PCIService_t {
 
     struct {
         PCIDevice* pciDevice_ptr; 
+        uint16_t count;
     } returns;
 
 }PCIService;

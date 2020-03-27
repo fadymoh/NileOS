@@ -42,6 +42,8 @@
         "memory": "c",
         "rtl8139.h": "c",
         "includes.h": "c",
-        "keyboard.h": "c"
+        "keyboard.h": "c",
+        "bitset": "c",
+        "chrono": "c"
     }
 }

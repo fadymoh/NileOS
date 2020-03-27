@@ -112,11 +112,15 @@ PCIDevice *getPCIDeviceAtIndex(void *pci_service)
             p_pciService->pciDevices[i].dev_id == p_device)
         {
             if (ind == p_index)
+            {
+                kernel.pciService.returns.pciDevice_ptr = &p_pciService->pciDevices[i];
                 return &p_pciService->pciDevices[i];
+            }
             else
                 ind++;
         }
     }
+    kernel.pciService.returns.pciDevice_ptr = NULL;
     return NULL;
 }
 
@@ -132,6 +136,8 @@ uint16_t getPCIDeviceCount(void *pci_service)
             p_pciService->pciDevices[i].dev_id == p_device)
             count++;
     }
+    
+    kernel.pciService.returns.count = count;
     return count;
 }
 

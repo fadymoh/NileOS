@@ -93,8 +93,13 @@ bool isAddress(void *p_physicalmemory_ptr)
         if (p_physicalMemoryManager->params.p_physical_address >= p_physicalMemoryManager->physicalMemoryEntry[i].start &&
             p_physicalMemoryManager->params.p_physical_address < p_physicalMemoryManager->physicalMemoryEntry[i].start +
                                                                      p_physicalMemoryManager->physicalMemoryEntry[i].size)
-            return true;
+            {
+                kernel.physicalMemoryManager.returns.isAddress = true;
+                return true;
+            }
     }
+
+    kernel.physicalMemoryManager.returns.isAddress = false;
     return false;
 }
 
@@ -121,10 +126,13 @@ uint64_t getVirtualAddress(void *p_physicalmemory_ptr)
         if (p_physicalMemoryManager->params.p_physical_address >= p_physicalMemoryManager->physicalMemoryEntry[i].start &&
             p_physicalMemoryManager->params.p_physical_address < p_physicalMemoryManager->physicalMemoryEntry[i].end)
         {
-            return p_physicalMemoryManager->physicalMemoryEntry[i].vstart +
+            kernel.physicalMemoryManager.returns.virtualAddress = p_physicalMemoryManager->physicalMemoryEntry[i].vstart +
                    (p_physicalMemoryManager->params.p_physical_address - p_physicalMemoryManager->physicalMemoryEntry[i].start);
+            return kernel.physicalMemoryManager.returns.virtualAddress;
         }
     }
+    
+    kernel.physicalMemoryManager.returns.virtualAddress = 0x0;
     return 0x0;
 }
 

@@ -298,9 +298,10 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
   printk(" THIS IS CORE #%d\n", kernel.apicManager.returns.core_id);
 
-  // printk("Done executing\n");
+  printk("Done executing\n");
 
-  rtl8139_init();
+  //rtl8139_init();
+  e1000Scan();
   keyboard_init();
 }
 

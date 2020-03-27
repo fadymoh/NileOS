@@ -19,7 +19,7 @@ cleanDebug:
 
 runvm: boot.flp
 	#qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,model=rtl8139,macaddr=52:54:00:91:46:20
-	qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net dump -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,id=simpleos_net -device rtl8139,netdev=simpleos_net,id=simpleos_nic
+	qemu-system-x86_64 -m 4096 -smp 2 -hda $(IMAGE)/boot.flp -net dump -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,id=simpleos_net -device e1000,netdev=simpleos_net,id=simpleos_nic
 	#qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,vlan=0,model=rtl8139,macaddr=52:54:00:91:46:f2 -net tap,ifname=virbr0 --enable-kvm
 
 runvbox: boot.flp

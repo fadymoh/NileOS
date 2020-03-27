@@ -303,6 +303,8 @@ SECTIONS\n \
 \tethernet.o(.text)\n\
 \tSpinlock.o (.text)\n\
 \tKMalloc.o (.text)\n\
+\tE1000.o (.text)\n\
+\tNetworkDriver.o (.text)\n\
 \tkeyboard.o (.text)\n\
 \
 ";

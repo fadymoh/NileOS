@@ -22,6 +22,7 @@
 #include "BlockService.h"
 #include "rtl8139.h"
 #include "keyboard.h"
+#include "E1000.h"
 
 typedef struct 
 {
@@ -63,6 +64,8 @@ typedef struct
     SharedMemory sharedMemory;
     BlockService blockService;
     
+    //Network
+    NetworkDriver* e1000;
     } Kernel;
 
 void switchToUserMode ();

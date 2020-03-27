@@ -67,6 +67,11 @@ typedef struct
         uint64_t number_of_frames_to_allocate;
     } params;
 
+    struct {
+        bool isAddress;
+        uint64_t virtualAddress;
+    } returns;
+
 }PhysicalMemoryManager;
 
 
