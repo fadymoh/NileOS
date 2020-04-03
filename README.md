@@ -4,35 +4,35 @@ NileOS is a distributed asymmetric tickless operating system for big data proces
 
 # Plan
 #### Mem management  
-&#160; &#160; &#160; &#160;1 physical memory management [✔]  
-&#160; &#160; &#160; &#160;2 virtual memory management [✔]  
-&#160; &#160; &#160; &#160;3 kmalloc [✔]
-&#160; &#160; &#160; &#160;4 shared memory service [✔]
-&#160; &#160; &#160; &#160;5 Heap service [x]
+- [x] physical memory management  
+- [x] virtual memory management  
+- [x] shared memory service  
+- [x] kmalloc  
+- [ ] Heap service  
 
 #### Filesystem  
-&#160; &#160; &#160; &#160;1 ATA/DMA Driver PIO Mode [✔]  
-&#160; &#160; &#160; &#160;2 ATA/DMA Driver DMA Mode [✔]  
-&#160; &#160; &#160; &#160;3 Block Service [x]  
+- [x] ATA/DMA Driver PIO Mode  
+- [x] ATA/DMA Driver DMA Mode  
+- [x] Block Service  
 
 #### Miscellaneous  
-&#160; &#160; &#160; &#160;1 Usermode [✔]  
-&#160; &#160; &#160; &#160;2 spinlock [✔]  
-&#160; &#160; &#160; &#160;3 Systemcalls [✔]  
-&#160; &#160; &#160; &#160;4 Real time clock [✔]  
-&#160; &#160; &#160; &#160;5 Keyboard Driver [✔]  
-&#160; &#160; &#160; &#160;6 Multi-Terminal Console [✔]  
-&#160; &#160; &#160; &#160;7 Multi-Core Setup [✔]  
-&#160; &#160; &#160; &#160;8 Have a shell [x]  
-&#160; &#160; &#160; &#160;9 Roles for the cores based on configuration [x]  
+- [x] Usermode  
+- [x] spinlock  
+- [x] Systemcalls  
+- [x] Real time clock  
+- [x] Keyboard Driver  
+- [x] Multi-Terminal Console  
+- [x] Multi-Core Setup  
+- [ ] Have a shell  
+- [ ] Roles for the cores based on configuration  
 
 #### Network protocols  
-&#160; &#160; &#160; &#160;1 RTL8139 Driver  [✔]  
-&#160; &#160; &#160; &#160;2 E1000  [x]  
-&#160; &#160; &#160; &#160;3 IP [x] 
-&#160; &#160; &#160; &#160;4 ARP [x]  
-&#160; &#160; &#160; &#160;5 Ping [x]  
-&#160; &#160; &#160; &#160;6 IPIOE [x]  
+- [x] RTL8139 Driver  
+- [ ] E1000  
+- [ ] IP  
+- [ ] ARP 
+- [ ] Ping  
+- [ ] IPIOE  
 
 ## Getting Started
 
