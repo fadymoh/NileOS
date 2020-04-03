@@ -34,7 +34,7 @@ void AllocateSharedMemory(void *p_sharedMemory)
         uint64_t virtualAddress = START_OFFSET + returnIndexInBitMap * TWO_MiB_MEMORY_PAGE_SIZE;
         AllocateSharedMemoryTwoMb(virtualAddress, numberOfBytes);
 
-         uint64_t pgd_index = virtualAddress >> (48 - 9);
+        uint64_t pgd_index = virtualAddress >> (48 - 9);
         uint64_t pud_index = (virtualAddress >> (48 - 18)) & 0b0000000111111111;
         uint64_t pmd_index = (virtualAddress >> (48 - 27)) & 0b0000000111111111;
         uint64_t idx = pgd_index * PAGE_TABLE_UNIT_SIZE + pud_index;
@@ -55,9 +55,9 @@ void AllocateSharedMemory(void *p_sharedMemory)
     return;
 }
 
-bool DeallocateSharedMemory(void* p_sharedMemory)
+bool DeallocateSharedMemory(void *p_sharedMemory)
 {
-    SharedMemory* sharedMemory = (SharedMemory*) p_sharedMemory;
+    SharedMemory *sharedMemory = (SharedMemory *)p_sharedMemory;
     uint64_t numberOfBytes = sharedMemory->params_t.numberOfBytes;
 
     uint64_t numberOfPagesToDeallocate =
@@ -75,7 +75,7 @@ bool DeallocateSharedMemory(void* p_sharedMemory)
         spinlock_unlock(&sharedMemory->spinlock);
         return;
     }
-    
+
     DeallocateSharedMemoryTwoMb(virtualAddress, numberOfBytes);
     sharedMemory->returns_t.virtualAddress = UINT64_MAX;
     spinlock_unlock(&sharedMemory->spinlock);
@@ -133,7 +133,7 @@ bool SetBitsToValue(char bitMap[], int length, int64_t returnIndexInBitMap, int 
         }
         else
         {
-            bitMap[charIndex] = bitMap[charIndex] & (~( 1 << (7 - bitIndex)));
+            bitMap[charIndex] = bitMap[charIndex] & (~(1 << (7 - bitIndex)));
         }
 
         bitIndex++;

@@ -13,6 +13,4 @@
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
 #endif
 
-
-
 #endif

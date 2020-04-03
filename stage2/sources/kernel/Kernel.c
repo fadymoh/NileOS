@@ -1,7 +1,7 @@
 
-void switchToUserMode ()
+void switchToUserMode()
 {
-    asm volatile("  \
+  asm volatile("  \
          cli; \
          mov $0x23, %ax; \
          mov %ax, %ds; \

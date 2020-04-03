@@ -85,33 +85,33 @@ void mapLimitedPages(LimitedMemoryPageMap *p_memoryPageMap, bool p_enable_dir);
 
 //------------E7naaaaaa -----------------
 
-uint64_t allocateVirtualMemoryBlock(Level_4 *l4);
-void bspLinkFirst3Levels(MemoryPageTable *p_memoryPageMap);
-bool deallocateVirtualMemoryBlock(Level_4 *l4, uint64_t address);
-bool mapKernelUsableMemory(MemoryPageTable *pagetable);
+uint64_t AllocateVirtualMemoryBlock(Level_4 *l4);
+void BspLinkFirst3Levels(MemoryPageTable *p_memoryPageMap);
+bool DeallocateVirtualMemoryBlock(Level_4 *l4, uint64_t address);
+bool MapKernelUsableMemory(MemoryPageTable *pagetable);
 
-bool buildApCoresPageTables(int cores_count);
-void pageMapStage1();
-void mapReservedMemory(MemoryPageTable *p_memoryPageMap);
+bool BuildApCoresPageTables(int cores_count);
+void PageMapStage1();
+void MapReservedMemory(MemoryPageTable *p_memoryPageMap);
 void enablePageDirectory(uint64_t page_directory_address);
 
 uint64_t LinkThirdStageToCollection(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address);
-bool LinkThirdStageToCollection_physical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address);
+bool LinkThirdStageToCollectionPhysical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address);
 bool LinkFourthStageToFrame(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address);
-bool LinkFourthStageToFrame_physical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address);
+bool LinkFourthStageToFramePhysical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address);
 /*
  * ─── TO BE SERVICED  ───────────────────────────────────────────────────────────
  */
 
-bool initVirtualMemoryService(MemoryPageTable **p_memoryPageTable, Service *p_service);
-bool LinkThirdStageToCollection_Wrapper(void *p_virtualMemory);
-bool LinkThirdStageToCollectionPhysical_Wrapper(void *p_virtualMemory);
-bool LinkFourthStageToFrame_Wrapper(void *p_virtualMemory);
-bool LinkFourthStageToFramePhysical_Wrapper(void *p_virtualMemory);
+bool InitVirtualMemoryService(MemoryPageTable **p_memoryPageTable, Service *p_service);
+bool LinkThirdStageToCollectionWrapper(void *p_virtualMemory);
+bool LinkThirdStageToCollectionPhysicalWrapper(void *p_virtualMemory);
+bool LinkFourthStageToFrameWrapper(void *p_virtualMemory);
+bool LinkFourthStageToFramePhysicalWrapper(void *p_virtualMemory);
 void DeallocateVirtualMemoryCollection(void *p_physical_memory, MemoryPageTable *page_table, uint64_t start_address);
 
 void AllocateSharedMemoryTwoMb(uint64_t virtualAddressStart, uint64_t size);
 void DeallocateSharedMemoryTwoMb(uint64_t virtualAddressStart, uint64_t size);
-void refreshReserved();
+void RefreshReserved();
 
 #endif

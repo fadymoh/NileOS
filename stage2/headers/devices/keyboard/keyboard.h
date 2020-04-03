@@ -2,7 +2,7 @@
 #define KEYBOARD_H
 #include "Kernel.h"
 
-void keyboard_handler(InterruptContext * r);
+void keyboard_handler(InterruptContext *r);
 
 void keyboard_init();
 

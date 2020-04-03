@@ -61,7 +61,7 @@ void keyboard_handler(InterruptContext * r)
         }
         else if (scancode == 72) // up arrow
         {
-            dispatch_kernel(&kernel.service_transporter, console_t, clear_screen);
+            DispatchKernel(&kernel.service_transporter, console_t, clear_screen);
         } 
         else if (scancode == 80) // down arrow
         {
@@ -73,12 +73,12 @@ void keyboard_handler(InterruptContext * r)
                 kernel.console.params.newIndex = 0;
             else
                 kernel.console.params.newIndex = (kernel.console.current_terminal_index + kernel.console.terminals_max_count - 1) % kernel.console.terminals_max_count;
-            dispatch_kernel(&kernel.service_transporter, console_t, switch_terminal);
+            DispatchKernel(&kernel.service_transporter, console_t, switch_terminal);
         }
         else if (scancode == 77) // right
         {
             kernel.console.params.newIndex = (kernel.console.current_terminal_index + 1) % kernel.console.terminals_max_count;
-            dispatch_kernel(&kernel.service_transporter, console_t, switch_terminal);           
+            DispatchKernel(&kernel.service_transporter, console_t, switch_terminal);           
         }
     }
 }
@@ -89,6 +89,6 @@ void keyboard_init()
 
     kernel.interruptManager.params.p_interruptNumber = irq_num;
     kernel.interruptManager.params.p_interruptHandler = keyboard_handler;
-    dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+    DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 }
 

@@ -1,6 +1,6 @@
 global idt_common_stub
 
-extern idt_handler
+extern IdtHandler
 
 
 %macro pushaq 0
@@ -82,7 +82,7 @@ idt_common_stub:
     pushaq
     cli
     mov rdi,rsp
-    mov rax,idt_handler
+    mov rax,IdtHandler
     call rax
     popaq
     add rsp,16

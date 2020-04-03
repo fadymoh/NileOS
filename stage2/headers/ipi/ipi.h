@@ -4,23 +4,25 @@
 #include "service.h"
 #include "defines.h"
 #include "includes.h"
+#include "APIC.h"
 
-
-enum ipi_exposed_functions {send_ipi} ; 
-
+enum ipi_exposed_functions
+{
+        send_ipi
+};
 
 typedef struct
 {
         // args
-        struct{
+        struct
+        {
                 uint16_t receiverCore_id;
                 uint8_t p_irq;
         } params;
-}Ipi;
+} Ipi;
 
-
-bool InitializeIPI(Ipi* ipi_ptr, Service* p_service);
-void sendIPI(void* p_ipi_ptr);
-
+bool InitializeIPI(Ipi *ipi_ptr, Service *p_service);
+void sendIPI(void *p_ipi_ptr);
+void SendFixedIPI(APIC *apic, uint8_t p_irq);
 
 #endif

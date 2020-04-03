@@ -11,12 +11,13 @@ bool parseAPIC(ACPI *p_acpi, ACPIMadt *madt)
     // Save the Local APIC address into a data member for future use
     p_acpi->local_apic_addr = madt->localApicAddr;
     kernel.physicalMemoryManager.params.p_physical_address = p_acpi->local_apic_addr;
-    if (!isAddress(&kernel.physicalMemoryManager))
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, is_address);
+    if (!kernel.physicalMemoryManager.returns.is_address)
     {
         kernel.physicalMemoryManager.params.p_physical_address = p_acpi->local_apic_addr;
         kernel.physicalMemoryManager.params.p_size = FOUR_KiB_MEMORY_PAGE_SIZE;
 
-        addPhysicalMemoryEntry(&kernel.physicalMemoryManager);
+        DispatchKernel(&kernel.service_transporter, physical_memory_t, add_physical_memory_entry);
     }
 
     // initialize the count of the cores
@@ -38,11 +39,12 @@ bool parseAPIC(ACPI *p_acpi, ACPIMadt *madt)
             APICIO *apicio = (APICIO *)header;
             p_acpi->local_apicio_addr = apicio->address;
             kernel.physicalMemoryManager.params.p_physical_address = p_acpi->local_apicio_addr;
-            if (!isAddress(&kernel.physicalMemoryManager))
+            DispatchKernel(&kernel.service_transporter, physical_memory_t, is_address);
+            if (!kernel.physicalMemoryManager.returns.is_address)
             {
                 kernel.physicalMemoryManager.params.p_physical_address = p_acpi->local_apicio_addr;
                 kernel.physicalMemoryManager.params.p_size = FOUR_KiB_MEMORY_PAGE_SIZE;
-                addPhysicalMemoryEntry(&kernel.physicalMemoryManager);
+                DispatchKernel(&kernel.service_transporter, physical_memory_t, add_physical_memory_entry);
             }
         }
         else if (type == APIC_TYPE_INTERRUPT_OVERRIDE) // If APIC Interrupt
@@ -62,7 +64,8 @@ bool parseAPIC(ACPI *p_acpi, ACPIMadt *madt)
 bool parseAPICV1(ACPI *p_acpi)
 {
     p_acpi->physicalMemoryManager->params.p_physical_address = p_acpi->rsdpDescriptor->rsdtAddr;
-    ACPIHeader *rsdt = (ACPIHeader *)getVirtualAddress(p_acpi->physicalMemoryManager);
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
+    ACPIHeader *rsdt = (ACPIHeader *)kernel.physicalMemoryManager.returns.virtualAddress;
 
     uint32_t *p = (uint32_t *)(rsdt + 1);
     uint32_t *end = (uint32_t *)(((uint8_t *)rsdt) + rsdt->length);
@@ -74,8 +77,9 @@ bool parseAPICV1(ACPI *p_acpi)
                                  // Convert to virtual address
 
         p_acpi->physicalMemoryManager->params.p_physical_address = address;
+        DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
 
-        address = getVirtualAddress(p_acpi->physicalMemoryManager);
+        address = kernel.physicalMemoryManager.returns.virtualAddress;
         // Get the header signature
         uint64_t signature = ((ACPIHeader *)address)->signature;
 
@@ -91,17 +95,19 @@ bool parseAPICV1(ACPI *p_acpi)
         }
         else // Unknown RSDT signature
         {
-            printk_debug("Found Unknown RSDT Signature\n");
+            printk("Found Unknown RSDT Signature\n");
         }
     }
-    // Return true
+
     return true;
 }
 
 bool parseAPICV2(ACPI *p_acpi)
 {
     p_acpi->physicalMemoryManager->params.p_physical_address = p_acpi->rsdpDescriptor->xsdtAddr;
-    ACPIHeader *rsdt = (ACPIHeader *)getVirtualAddress(p_acpi->physicalMemoryManager);
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
+
+    ACPIHeader *rsdt = (ACPIHeader *)kernel.physicalMemoryManager.returns.virtualAddress;
 
     uint64_t *p = (uint64_t *)(rsdt + 1);
     uint64_t *end = (uint64_t *)(((uint8_t *)rsdt) + rsdt->length);
@@ -112,7 +118,9 @@ bool parseAPICV2(ACPI *p_acpi)
         uint64_t address = *p++;
         // Convert to virtual address
         p_acpi->physicalMemoryManager->params.p_physical_address = address;
-        address = getVirtualAddress(p_acpi->physicalMemoryManager);
+        DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
+
+        address = kernel.physicalMemoryManager.returns.virtualAddress;
 
         // Get the header signature
         uint64_t signature = ((ACPIHeader *)address)->signature;

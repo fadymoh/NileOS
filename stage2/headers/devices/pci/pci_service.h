@@ -4,42 +4,45 @@
 #include "pci_device.h"
 #include "service.h"
 
-enum PCIService_exposed_functions{COLLECT_HW, GET_PCI_DEVICE, GET_PCI_DEVICE_INDEX, GET_PCI_DEVICE_COUNT, PCI_SERVICE_PRINT};
+enum PCIService_exposed_functions
+{
+    collect_hw,
+    get_pci_device,
+    get_pci_device_index,
+    get_pci_device_count,
+    print_all_pci
+};
 
+typedef struct PCIService_t
+{
+    PCIDevice pciDevices[MAX_PCI_BUSES];
+    int total_pci_devices;  // Total number of counted devices
+    int total_pci_devices2; // Total number of counted devices
 
-typedef struct  PCIService_t {
-        PCIDevice pciDevices[MAX_PCI_BUSES]; 
-        int total_pci_devices; // Total number of counted devices
-        int total_pci_devices2; // Total number of counted devices
-
-    struct {
+    struct
+    {
         uint16_t p_vendor;
         uint16_t p_device;
         uint16_t p_index;
         bool p_summary;
     } params;
 
-    struct {
-        PCIDevice* pciDevice_ptr; 
+    struct
+    {
+        PCIDevice *pciDevice_ptr;
         uint16_t count;
     } returns;
 
-}PCIService;
+} PCIService;
 
+void InitializePCIService(PCIService *p_PCIService_ptr, Service *p_service);
 
-
-void initializePCIService(PCIService* p_PCIService_ptr, Service* p_service);
-
-void scanBusesForCount(PCIService* p_pciConfigHeaderManager);
-void scanBusesForAllocation(PCIService* p_pciConfigHeaderManager);
-void collectHWInventory(void* pci_service);
-PCIDevice* getPCIDevice(void* pci_service);
-PCIDevice* getPCIDeviceAtIndex(void* pci_service);
-uint16_t getPCIDeviceCount(void* pci_service);
-void pciServicePrint (void* pci_service);
-
-
-
-
+void ScanBusesForCount(PCIService *p_pciConfigHeaderManager);
+void ScanBusesForAllocation(PCIService *p_pciConfigHeaderManager);
+void CollectHWInventory(void *pci_service);
+PCIDevice *GetPCIDevice(void *pci_service);
+PCIDevice *GetPCIDeviceAtIndex(void *pci_service);
+uint16_t GetPCIDeviceCount(void *pci_service);
+void PrintAllPCI(void *pci_service);
 
 #endif

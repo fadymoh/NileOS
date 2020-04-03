@@ -4,26 +4,29 @@
 #include "InterruptDescriptorTable.h"
 #include "service.h"
 
-enum interruptManager_exposed_functions {register_interrupt, service_interrupt} ; 
+enum interruptManager_exposed_functions
+{
+    register_interrupt,
+    service_interrupt
+};
 
-typedef void InterruptHandler (InterruptContext * p_interruptContext);
+typedef void InterruptHandler(InterruptContext *p_interruptContext);
 
 typedef struct InterruptManager_s
 {
-    InterruptHandler * interruptHandlers[IDT_SIZE];
+    InterruptHandler *interruptHandlers[IDT_SIZE];
 
-    struct 
+    struct
     {
         uint8_t p_interruptNumber;
-        InterruptHandler* p_interruptHandler;
-        InterruptContext* p_interruptContext;
+        InterruptHandler *p_interruptHandler;
+        InterruptContext *p_interruptContext;
     } params;
 
-}InterruptManager;
+} InterruptManager;
 
-
-void initializeInterruptManager (InterruptManager * p_interruptManager, Service* p_service);
-bool registerInterrupt(void* p_interruptManager);
-bool serviceInterrupt (void* p_interruptManager);
+void InitializeInterruptManager(InterruptManager *p_interruptManager, Service *p_service);
+bool RegisterInterrupt(void *p_interruptManager);
+bool ServiceInterrupt(void *p_interruptManager);
 
 #endif

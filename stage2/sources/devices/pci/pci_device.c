@@ -1,6 +1,6 @@
 #include "pci_device.h"
 
-uint16_t pciConfigReadWord(uint8_t p_bus, uint8_t p_device, uint8_t p_function, uint8_t p_offset)
+uint16_t PciConfigReadWord(uint8_t p_bus, uint8_t p_device, uint8_t p_function, uint8_t p_offset)
 {
     // Compose the address:
     //  Bit 23-16 : bus (so we shift left 16 bits))
@@ -16,7 +16,7 @@ uint16_t pciConfigReadWord(uint8_t p_bus, uint8_t p_device, uint8_t p_function, 
     return (uint16_t)((inportl(PCI_DATA) >> ((p_offset & 2) * 8)) & 0xffff);
 }
 
-void pciConfigWriteWord(uint8_t p_bus, uint8_t p_device, uint8_t p_function, uint8_t p_offset, uint16_t p_value)
+void PciConfigWriteWord(uint8_t p_bus, uint8_t p_device, uint8_t p_function, uint8_t p_offset, uint16_t p_value)
 {
     // Compose the address:
     //  Bit 23-16 : bus (so we shift left 16 bits))
@@ -32,7 +32,7 @@ void pciConfigWriteWord(uint8_t p_bus, uint8_t p_device, uint8_t p_function, uin
     outportl(PCI_DATA, p_value);
 }
 
-void pciConfig_initialize(PCIDevice *p_pciConfigHeader, uint8_t p_bus, uint8_t p_device, uint8_t p_function)
+void PciConfigInitialize(PCIDevice *p_pciConfigHeader, uint8_t p_bus, uint8_t p_device, uint8_t p_function)
 {
     // Initialize a pointer to itself
     p_pciConfigHeader->bus = 0;
@@ -47,38 +47,38 @@ void pciConfig_initialize(PCIDevice *p_pciConfigHeader, uint8_t p_bus, uint8_t p
 
     for (int i = 0, j = 0; i < PCI_HEADER_SIZE; i = i + 2, j++)
     {
-        ((uint16_t *)l_hdr)[j] = pciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, i);
+        ((uint16_t *)l_hdr)[j] = PciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, i);
     }
 }
 
-void pciConfigWriteCommand(PCIDevice *p_pciConfigHeader, uint32_t p_address, uint16_t p_command)
+void PciConfigWriteCommand(PCIDevice *p_pciConfigHeader, uint32_t p_address, uint16_t p_command)
 {
-    p_pciConfigHeader->command = pciConfigReadWord(p_pciConfigHeader->bus,
+    p_pciConfigHeader->command = PciConfigReadWord(p_pciConfigHeader->bus,
                                                    p_pciConfigHeader->device,
                                                    p_pciConfigHeader->func, p_address);
-    pciConfigWriteWord(p_pciConfigHeader->bus,
+    PciConfigWriteWord(p_pciConfigHeader->bus,
                        p_pciConfigHeader->device,
                        p_pciConfigHeader->func, p_address,
                        p_pciConfigHeader->command | p_command);
 }
 
-uint16_t readStatus(PCIDevice *p_pciConfigHeader)
+uint16_t ReadStatus(PCIDevice *p_pciConfigHeader)
 {
-    p_pciConfigHeader->status = pciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, PCI_STATUS_OFFSET);
+    p_pciConfigHeader->status = PciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, PCI_STATUS_OFFSET);
     return p_pciConfigHeader->status;
 }
 
-uint16_t pciConfigReadCommand(PCIDevice *p_pciConfigHeader)
+uint16_t PciConfigReadCommand(PCIDevice *p_pciConfigHeader)
 {
-    p_pciConfigHeader->command = pciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, PCI_COMMAND_OFFSET);
+    p_pciConfigHeader->command = PciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, PCI_COMMAND_OFFSET);
     return p_pciConfigHeader->command;
 }
 
-bool enablePCIBusMastering(PCIDevice *p_pciConfigHeader)
+bool EnablePCIBusMastering(PCIDevice *p_pciConfigHeader)
 {
-    p_pciConfigHeader->command = pciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, 4);
-    pciConfigWriteWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, 4, p_pciConfigHeader->command | 0x00000006);
-    p_pciConfigHeader->command = pciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, 4);
+    p_pciConfigHeader->command = PciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, 4);
+    PciConfigWriteWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, 4, p_pciConfigHeader->command | 0x00000006);
+    p_pciConfigHeader->command = PciConfigReadWord(p_pciConfigHeader->bus, p_pciConfigHeader->device, p_pciConfigHeader->func, 4);
 
     if (p_pciConfigHeader->command & 0x00000006)
         return true;
@@ -86,7 +86,7 @@ bool enablePCIBusMastering(PCIDevice *p_pciConfigHeader)
         return false;
 }
 
-uint8_t getPCIBarType(PCIDevice *p_pciConfigHeader, uint8_t p_num)
+uint8_t GetPCIBarType(PCIDevice *p_pciConfigHeader, uint8_t p_num)
 {
     // If bar number is within range
     if (p_num < BAR_COUNT)
@@ -97,7 +97,7 @@ uint8_t getPCIBarType(PCIDevice *p_pciConfigHeader, uint8_t p_num)
     return PCI_BAR_OUT_OF_RANGE;
 }
 
-uint32_t getPCIBar(PCIDevice *p_pciConfigHeader, uint8_t p_type)
+uint32_t GetPCIBar(PCIDevice *p_pciConfigHeader, uint8_t p_type)
 {
     for (int i = 0; i < BAR_COUNT; i++)
     {
@@ -107,7 +107,7 @@ uint32_t getPCIBar(PCIDevice *p_pciConfigHeader, uint8_t p_type)
     return 0xFFFFFFFF;
 }
 
-void pciPrint(PCIDevice *p_pciConfigHeader)
+void PciPrint(PCIDevice *p_pciConfigHeader)
 {
     printk(" %x/%x     Int-line:%d   Int-ping:%d, Programable: %x\n",
            p_pciConfigHeader->vend_id,

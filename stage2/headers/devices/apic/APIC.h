@@ -7,15 +7,16 @@
 #include "Spinlock.h"
 #include "GlobalDescriptorTablePointer.h"
 
+#define LAPIC_SVR_APIC_ENABLE 0x100 | 0xff
 
-#define LAPIC_SVR_APIC_ENABLE   0x100 | 0xff
+#define sfence() __asm__ __volatile__("sfence" :: \
+                                          : "memory")
 
-#define sfence() __asm__ __volatile__("sfence":::"memory")
+#define IO_APIC_MMREG_IOREGSEL 0x00
+#define IO_APIC_MMREG_IOWIN 0x10
 
-#define IO_APIC_MMREG_IOREGSEL  0x00
-#define IO_APIC_MMREG_IOWIN     0x10
-
-typedef struct{
+typedef struct
+{
         uint16_t apic_id;
         uint64_t apicio_base;
         uint64_t lapic_base;
@@ -57,21 +58,18 @@ typedef struct{
         bool ipioe_auto_replies;
         bool ipioe_raised;
         uint8_t fired_interrupts[256];
-        uint8_t role [5];
-
+        uint8_t role[5];
 
 } APIC;
 
-
-uint32_t ioapicRead (APIC * apic,uint8_t p_index);
-void ioapicWrite (APIC * apic,uint8_t p_index,uint32_t p_value);
-void initialize_apic (APIC * apic,uint16_t p_apic_id,uint64_t p_local_apic,bool p_bsp);
-void initAPICIO (APIC * apic);
-void sendFixedIPI (APIC * apic,uint8_t p_irq);
-void disableAPICTimer (APIC * apic);
-void enableAPICTimer (APIC * apic);
-void sendAPICEOI (APIC * apic);
-void mapAPICIRQ (APIC * apic,uint8_t p_irq,uint8_t p_vector);
-bool startup (APIC * apic);
+uint32_t ioapicRead(APIC *apic, uint8_t p_index);
+void ioapicWrite(APIC *apic, uint8_t p_index, uint32_t p_value);
+void initialize_apic(APIC *apic, uint16_t p_apic_id, uint64_t p_local_apic, bool p_bsp);
+void initAPICIO(APIC *apic);
+void disableAPICTimer(APIC *apic);
+void enableAPICTimer(APIC *apic);
+void sendAPICEOI(APIC *apic);
+void mapAPICIRQ(APIC *apic, uint8_t p_irq, uint8_t p_vector);
+bool startup(APIC *apic);
 
 #endif

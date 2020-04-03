@@ -28,7 +28,7 @@
 // interrupt handler routines.
 
 
-extern  void idt_handler(InterruptContext * p_interruptContext);
+extern  void IdtHandler(InterruptContext * p_interruptContext);
 
 
 // 32 Exception Handlers of the hardware. 

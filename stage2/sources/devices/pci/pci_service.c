@@ -8,13 +8,13 @@ void initializePCIService(PCIService *p_PCIService_ptr, Service *p_service)
     p_PCIService_ptr->total_pci_devices = 0;
     p_PCIService_ptr->total_pci_devices2 = 0;
 
-    p_service->add_service(p_service, collectHWInventory, COLLECT_HW);
-    p_service->add_service(p_service, getPCIDevice, GET_PCI_DEVICE);
-    p_service->add_service(p_service, getPCIDeviceAtIndex, GET_PCI_DEVICE_INDEX);
-    p_service->add_service(p_service, getPCIDeviceCount, GET_PCI_DEVICE_COUNT);
-    p_service->add_service(p_service, pciServicePrint, PCI_SERVICE_PRINT);
+    p_service->add_service(p_service, CollectHWInventory, collect_hw);
+    p_service->add_service(p_service, GetPCIDevice, get_pci_device);
+    p_service->add_service(p_service, GetPCIDeviceAtIndex, get_pci_device_index);
+    p_service->add_service(p_service, GetPCIDeviceCount, get_pci_device_count);
+    p_service->add_service(p_service, PrintAllPCI, print_all_pci);
 }
-void scanBusesForCount(PCIService *p_pciService)
+void ScanBusesForCount(PCIService *p_pciService)
 {
     PCIDevice pciDevice;
     for (uint16_t bus = 0; bus < MAX_PCI_BUSES; bus++)
@@ -23,7 +23,7 @@ void scanBusesForCount(PCIService *p_pciService)
         {
             for (uint8_t j = 0; j < MAX_PCI_DEVICE_FUNCTIONS; j++)
             {
-                pciConfig_initialize(&pciDevice, bus, i, j);
+                PciConfigInitialize(&pciDevice, bus, i, j);
                 if (pciDevice.vend_id == 0xFFFF)
                     continue;
                 else
@@ -36,7 +36,7 @@ void scanBusesForCount(PCIService *p_pciService)
     }
 }
 
-void scanBusesForAllocation(PCIService *p_pciService)
+void ScanBusesForAllocation(PCIService *p_pciService)
 {
     uint16_t allocated_pci_devices = 0;
 
@@ -49,7 +49,7 @@ void scanBusesForAllocation(PCIService *p_pciService)
                 if (allocated_pci_devices < p_pciService->total_pci_devices) 
                 {
                     // initialize the next PCI device header
-                    pciConfig_initialize(&p_pciService->pciDevices[allocated_pci_devices], bus, i, j);
+                    PciConfigInitialize(&p_pciService->pciDevices[allocated_pci_devices], bus, i, j);
 
                     // If vendor id is 0xFFFF then invalid device and we should skip it
                     // So the next valid device will overwrite it
@@ -73,13 +73,13 @@ void scanBusesForAllocation(PCIService *p_pciService)
     }
 }
 
-void collectHWInventory(void *pci_service)
+void CollectHWInventory(void *pci_service)
 {
-    scanBusesForCount((PCIService *)pci_service);
-    scanBusesForAllocation((PCIService *)pci_service);
+    ScanBusesForCount((PCIService *)pci_service);
+    ScanBusesForAllocation((PCIService *)pci_service);
 }
 
-PCIDevice *getPCIDevice(void *pci_service)
+PCIDevice *GetPCIDevice(void *pci_service)
 {
 
     PCIService *p_pciService = (PCIService *)pci_service;
@@ -98,7 +98,8 @@ PCIDevice *getPCIDevice(void *pci_service)
     p_pciService->returns.pciDevice_ptr = NULL;
     return NULL;
 }
-PCIDevice *getPCIDeviceAtIndex(void *pci_service)
+
+PCIDevice *GetPCIDeviceAtIndex(void *pci_service)
 {
     PCIService *p_pciService = (PCIService *)pci_service;
     uint16_t p_vendor = p_pciService->params.p_vendor;
@@ -124,7 +125,7 @@ PCIDevice *getPCIDeviceAtIndex(void *pci_service)
     return NULL;
 }
 
-uint16_t getPCIDeviceCount(void *pci_service)
+uint16_t GetPCIDeviceCount(void *pci_service)
 {
     uint16_t count = 0;
     PCIService *p_pciService = (PCIService *)pci_service;
@@ -141,7 +142,7 @@ uint16_t getPCIDeviceCount(void *pci_service)
     return count;
 }
 
-void pciServicePrint(void *pci_service)
+void PrintAllPCI(void *pci_service)
 {
     PCIService *p_pciService = (PCIService *)pci_service;
     bool p_summary = p_pciService->params.p_summary;
@@ -149,6 +150,6 @@ void pciServicePrint(void *pci_service)
     printk("Total Number of PCI Devices: %d\n", total_pcis);
     for (int i = 0; i < total_pcis; ++i)
     {
-        pciPrint(&p_pciService->pciDevices[i]);
+        PciPrint(&p_pciService->pciDevices[i]);
     }
 }

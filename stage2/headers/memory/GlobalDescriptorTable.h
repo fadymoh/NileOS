@@ -28,7 +28,6 @@
 
 #define GDT_SIZE    7       // Number of entries in the GDT
 
-
 typedef struct GlobalDescriptorTable
 {
         // An array of GlobalDescriptorTableEntry that represents the GDT Entries
@@ -40,9 +39,7 @@ typedef struct GlobalDescriptorTable
         // A TSSEntry object that should contain the Kernel TSS Entry
         TSSEntry tssEntry;
 
-}GlobalDescriptorTable;
-
-
+} GlobalDescriptorTable;
 
 void initGlobalDescriptorTable ();
 void initAPGlobalDescriptorTable ();

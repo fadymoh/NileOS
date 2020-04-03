@@ -78,9 +78,9 @@ void identifyPCI()
             if (pci_device_id == 0x1230 || pci_device_id == 0x7010 || pci_device_id == 0x7111)
             {
                 printk_fs("Enabling Bus Mastering: %x\n", pci_device_id);
-                enablePCIBusMastering(pciConfigHeader);
-                pciConfigWriteCommand(pciConfigHeader, 0x40, 0xA344);
-                pciConfigWriteCommand(pciConfigHeader, 0x42, 0xA344);
+                EnablePCIBusMastering(pciConfigHeader);
+                PciConfigWriteCommand(pciConfigHeader, 0x40, 0xA344);
+                PciConfigWriteCommand(pciConfigHeader, 0x42, 0xA344);
             }
             else
                 printk_fs("Did not enable Bus Mastering: %d\n", pci_device_id);
@@ -265,7 +265,9 @@ void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
     {  kernel.dmaBuffer.ataDisk->done_read = true;
         uint64_t end_time = getRTCTimeStamp32();
         printk_fs("Finished reading: %d sectors in %d sec\n", kernel.dmaBuffer.total_read, end_time - kernel.dmaBuffer.start_time);
-        sendFixedIPI(&kernel.apicManager.apics[kernel.dmaBuffer.core_id], ATA_IPI);
+        kernel.ipiManager.params.receiverCore_id = kernel.dmaBuffer.core_id;
+        kernel.ipiManager.params.p_irq = ATA_IPI;
+        DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
     }
     inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
 }
@@ -326,8 +328,9 @@ void ataHandleWriteInterrupt(InterruptContext *p_interruptContext)
         uint64_t end_time = getRTCTimeStamp32();
         kernel.dmaBuffer.write_done = true;
         printk_fs("Finished writing: %d sectors in %d sec\n", kernel.dmaBuffer.total_write, end_time - kernel.dmaBuffer.start_time);
-
-        sendFixedIPI(&kernel.apicManager.apics[kernel.dmaBuffer.core_id], ATA_IPI);
+        kernel.ipiManager.params.receiverCore_id = kernel.dmaBuffer.core_id;
+        kernel.ipiManager.params.p_irq = ATA_IPI;
+        DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
     }
     inportb(kernel.dmaBuffer.ataDisk->io_port + ATA_REG_STATUS);
 }

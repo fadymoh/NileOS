@@ -44,6 +44,7 @@
         "includes.h": "c",
         "keyboard.h": "c",
         "bitset": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "apicmanager.h": "c"
     }
 }

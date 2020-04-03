@@ -49,6 +49,19 @@ typedef struct
     uint8_t int_line;
 }E1000;
 
+typedef struct{
+        uint8_t     h_dest [ETH_ALEN];          /* destination eth addr	*/
+        uint8_t     h_source [ETH_ALEN];	/* source ether addr	*/
+        uint16_t    h_proto;
+        uint8_t     h_data [ETH_FRAME_LEN_WITH_TCP_SUDO];
+}EthernetPacket;
+
+
+typedef struct{
+    EthernetPacket * ethernetPacket;
+    uint16_t packet_size;
+}NetworkPacket;
+
 void e1000WriteCommand(E1000 * p_e1000, uint16_t p_address, uint32_t p_value);
 uint32_t e1000ReadCommand(E1000 * p_e1000,uint16_t p_address);
 

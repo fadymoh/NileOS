@@ -29,11 +29,12 @@ void userModeDemo();
 void syscall(InterruptContext *p_interruptContext)
 {
 
-  dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
   int core_id = kernel.apicManager.returns.core_id;
 
   if (p_interruptContext->interrupt_number == 0x80)
   {
+
     printk("We're now in syscall, interrupt: %d,rax: %d,rsi: %d , rdi: %d, core: %d\n", p_interruptContext->interrupt_number, p_interruptContext->rax, p_interruptContext->rsi, p_interruptContext->rdi, core_id);
     pit_sleep(p_interruptContext->rdi, p_interruptContext->rsi, WAKEUP_IPI, true);
   }
@@ -63,7 +64,7 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 {
   enablePageDirectory((uint64_t) & (kernel.bootstrapCorePageTable_ptr->PGD));
 
-  dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
 
   enablePageDirectory((uint64_t) & (kernel.coresPageTables_ptr[kernel.apicManager.returns.core_id]->PGD));
   int core_id = kernel.apicManager.returns.core_id;
@@ -71,7 +72,7 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   kernel.apicManager.params.p_start_stack = p_start_stack;
   kernel.apicManager.params.p_end_stack = p_end_stack;
-  dispatch_kernel(&kernel.service_transporter, apic_t, moveInitialKernelStack_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, move_initial_kernel_stack);
 
   kernel.globalDescriptorTablePointer = &globalDescriptorTablePointer;
   initGlobalDescriptorTable();
@@ -79,7 +80,7 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   tssFlush();
   idtInit();
 
-  dispatch_kernel(&kernel.service_transporter, apic_t, touchCore_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, touch_core);
   //printk(" ..... Done\n");
 
   int sleep_time = core_id * 150 + 500;
@@ -114,39 +115,39 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   init_fast_memcpy_handlers();
   init_fast_memswap_handlers();
   service_transport_kernel *service_transporter = &(kernel.service_transporter);
-  init_service_transport(service_transporter);
+  InitServiceTransportLayer(service_transporter);
 
   /*
      * ─── REGISTER SERVICES ───────────────────────────────────────────
      */
 
   PhysicalMemoryManager *physicalMemoryManager = &(kernel.physicalMemoryManager);
-  service_init(&physicalMemoryService, (void *)physicalMemoryManager, physical_memory);
-  bool statusOfPhysicalMemory = initializePhysicalMemory(physicalMemoryManager, &physicalMemoryService);
-  register_service_to_kernel(service_transporter, &physicalMemoryService, physical_memory);
+  service_init(&physicalMemoryService, (void *)physicalMemoryManager, physical_memory_t);
+  bool statusOfPhysicalMemory = InitializePhysicalMemory(physicalMemoryManager, &physicalMemoryService);
+  RegisterServiceToKernel(service_transporter, &physicalMemoryService, physical_memory_t);
 
   PCIService *pci_manager = &(kernel.pciService);
   service_init(&pciService, (void *)pci_manager, pci_t);
   initializePCIService(pci_manager, &pciService);
-  register_service_to_kernel(service_transporter, &pciService, pci_t);
+  RegisterServiceToKernel(service_transporter, &pciService, pci_t);
 
-  //Stage 1 Map
-  pageMapStage1();
+  // //Stage 1 Map
+  PageMapStage1();
 
   Console *console = &(kernel.console);
   service_init(&consoleService, (void *)console, console_t); //
   console_preInialize(console, &consoleService);
-  register_service_to_kernel(service_transporter, &consoleService, console_t);
-  dispatch_kernel(&kernel.service_transporter, physical_memory, PrintPhysicalMemory);
+  RegisterServiceToKernel(service_transporter, &consoleService, console_t);
+  //DispatchKernel(&kernel.service_transporter, physical_memory_t, print_physical_memory);
 
   //collecting pci hardware
-  dispatch_kernel(&kernel.service_transporter, pci_t, COLLECT_HW);
+  DispatchKernel(&kernel.service_transporter, pci_t, collect_hw);
   int totalPCI_Devices = pci_manager->total_pci_devices;
   pci_manager->params.p_summary = true;
 
   //initializing physical memory bitmap
-  dispatch_kernel(&kernel.service_transporter, physical_memory, CreatePhysicalPagesBitMap);
-  dispatch_kernel(&kernel.service_transporter, physical_memory, InitializePhysicalMemoryFrame);
+  DispatchKernel(&kernel.service_transporter, physical_memory_t, create_physical_pages_bitmap);
+  DispatchKernel(&kernel.service_transporter, physical_memory_t, initialize_physical_memory_frame);
 
   /*
      * ─── INITIALIZING VIRTUAL MEMORY SERVICE ─────────────────────────
@@ -154,9 +155,9 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   kernel.bootstrapCorePageTable_ptr = (MemoryPageTable *)kvalloc(&(kernel.memoryAllocator), sizeof(MemoryPageTable));
   MemoryPageTable *virtualMemory = kernel.bootstrapCorePageTable_ptr;
-  service_init(&virtualMemoryService, (void *)virtualMemory, virtual_memory);
-  initVirtualMemoryService(&(kernel.bootstrapCorePageTable_ptr), &virtualMemoryService);
-  register_service_to_kernel(service_transporter, &virtualMemoryService, virtual_memory);
+  service_init(&virtualMemoryService, (void *)virtualMemory, virtual_memory_t);
+  InitVirtualMemoryService(&(kernel.bootstrapCorePageTable_ptr), &virtualMemoryService);
+  RegisterServiceToKernel(service_transporter, &virtualMemoryService, virtual_memory_t);
 
   /*
      * ─── BUILDING AP CORES PAGE TABLES ────────────────────────────────────
@@ -164,10 +165,12 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   enablePageDirectory((uint64_t) & (kernel.bootstrapCorePageTable_ptr->PGD));
   kernel.acpi.physicalMemoryManager = &kernel.physicalMemoryManager;
+
   if (init_acpi(&kernel.acpi))
   {
-    mapReservedMemory(kernel.bootstrapCorePageTable_ptr);
-    buildApCoresPageTables(kernel.acpi.cores_count);
+    MapReservedMemory(kernel.bootstrapCorePageTable_ptr);
+    BuildApCoresPageTables(kernel.acpi.cores_count);
+
     kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.rsdpDescriptor->xsdtAddr;
     kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.rsdpDescriptor->rsdtAddr;
     kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.local_apic_addr;
@@ -177,7 +180,6 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   {
     return;
   }
-
   // allocate memory for each core's GDT
   kernel.globalDescriptorTable = (GlobalDescriptorTable *)kmalloc(&kernel.memoryAllocator, sizeof(GlobalDescriptorTable) * kernel.acpi.cores_count);
   kernel.globalDescriptorTablePointer = &globalDescriptorTablePointer;
@@ -190,7 +192,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   service_init(&apicManagerService, (void *)apicManager, apic_t);
   kernel.apicManager.params.p_apics_count = kernel.acpi.cores_count;
   initAPICManager(apicManager, &apicManagerService);
-  register_service_to_kernel(service_transporter, &apicManagerService, apic_t);
+  RegisterServiceToKernel(service_transporter, &apicManagerService, apic_t);
 
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ0 - IRQ0, IRQ0);
 
@@ -200,19 +202,20 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   //printing pci devices
   kernel.pciService.params.p_summary = true;
-  dispatch_kernel(&kernel.service_transporter, pci_t, PCI_SERVICE_PRINT);
+  DispatchKernel(&kernel.service_transporter, pci_t, print_all_pci);
 
   InterruptManager *interruptManager = &(kernel.interruptManager);
   service_init(&interruptService, (void *)interruptManager, interruptManager_t);
-  initializeInterruptManager(interruptManager, &interruptService);
-  register_service_to_kernel(service_transporter, &interruptService, interruptManager_t);
+  InitializeInterruptManager(interruptManager, &interruptService);
+  RegisterServiceToKernel(service_transporter, &interruptService, interruptManager_t);
 
   printk("Finished Setting up IVT\n");
 
   //starting up APIC
   kernel.apicManager.params.p_start_stack = p_start_stack;
   kernel.apicManager.params.p_end_stack = p_end_stack;
-  dispatch_kernel(&kernel.service_transporter, apic_t, moveInitialKernelStack_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, move_initial_kernel_stack);
+
   //TODO:: ata trial 1startupAPIC_s
   initATAManager();
   uint8_t ata_disks = detectATADisks();
@@ -231,11 +234,11 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   kernel.interruptManager.params.p_interruptNumber = IRQ14;
   kernel.interruptManager.params.p_interruptHandler = ataHandleInterrupt;
-  dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+  DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
   kernel.interruptManager.params.p_interruptNumber = IRQ15;
   kernel.interruptManager.params.p_interruptHandler = ataHandleInterrupt;
-  dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+  DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ14 - IRQ0, IRQ14);
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ15 - IRQ0, IRQ15);
@@ -257,52 +260,66 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   //syscall interrupt registering
   kernel.interruptManager.params.p_interruptNumber = 0x80;
   kernel.interruptManager.params.p_interruptHandler = syscall;
-  dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+  DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
   Ipi *ipi_manager = &kernel.ipiManager;
   service_init(&ipiService, (void *)ipi_manager, ipi_t);
   InitializeIPI(ipi_manager, &ipiService);
-  register_service_to_kernel(service_transporter, &ipiService, ipi_t);
+  RegisterServiceToKernel(service_transporter, &ipiService, ipi_t);
 
   // printk("Core 0 is now about to wake up core 1\n");
   // ipi_manager->params.receiverCore_id = 1;
   // ipi_manager->params.p_irq = WAKEUP_IPI;
-  // dispatch_kernel(&kernel.service_transporter, ipi_t, send_ipi);
+  // DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
   // printk("Core 0 done sending wake up interrupt\n");
 
   kernel.interruptManager.params.p_interruptNumber = 0;
   kernel.interruptManager.params.p_interruptHandler = zero_handler;
-  dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+  DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
   kernel.interruptManager.params.p_interruptNumber = 13;
   kernel.interruptManager.params.p_interruptHandler = fault_handler;
-  dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+  DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
   // userModeDemo();
 
   generateServices();
   service1 *s1 = ((service1 *)kernel.void_pointers[1]);
 
-  printk("X: %d, Y: %d\n", s1->x, s1->y);
-  dispatch_kernel(&kernel.service_transporter, service1_t, void_method2);
-  printk("X: %d, Y: %d\n", s1->x, s1->y);
+  printk_debug("printing values before dispatching service functions: X: %d, Y: %d\n", s1->x, s1->y);
+  DispatchKernel(&kernel.service_transporter, service1_t, void_method2);
+  printk_debug("printing values after dispatching service functions: X: %d, Y: %d\n", s1->x, s1->y);
 
   SharedMemory *sharedMemory = &(kernel.sharedMemory);
   service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
   initSharedMemoryService(sharedMemory, &sharedMemoryService);
-  register_service_to_kernel(service_transporter, &sharedMemoryService, sharedMemory_t);
+  RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
 
   enableAPICTimer(&kernel.apicManager.apics[0]);
-  dispatch_kernel(&kernel.service_transporter, apic_t, startupAPIC_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, startup_APIC);
 
-  dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+  DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
   printk(" THIS IS CORE #%d\n", kernel.apicManager.returns.core_id);
 
   printk("Done executing\n");
 
-  //rtl8139_init();
-  e1000Scan();
   keyboard_init();
+
+  rtl8139_init();
+
+  // e1000Scan();
+
+  // e1000StartLink((E1000 *)kernel.e1000->driver);
+
+  // while (kernel.apicManager.apics[0].pit_counter / 100 <= 6)
+  //   ;
+
+  // printk("It is 6\n");
+  // e1000StartLink((E1000 *)kernel.e1000->driver);
+
+  // kernel.ipiManager.params.receiverCore_id = 0;
+  // kernel.ipiManager.params.p_irq = 11 + 32;
+  // DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
 }
 
 void userModeDemo()

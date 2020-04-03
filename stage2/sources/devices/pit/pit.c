@@ -7,7 +7,7 @@ extern Kernel kernel;
 void pit_sleep(uint16_t p_sleep,uint16_t p_apic_id,uint8_t p_interrupt,bool p_do_sleep)
 {
 
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     uint16_t current_apic_id = kernel.apicManager.returns.core_id;
 
 
@@ -33,15 +33,16 @@ void pit_sleep(uint16_t p_sleep,uint16_t p_apic_id,uint8_t p_interrupt,bool p_do
 
 void pit_fire(InterruptContext *p_interruptContext)
 {
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    // this function gets called on every pit_fire interrupt which is quite alot??
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     uint8_t apic_id = kernel.apicManager.returns.core_id;
     if (p_interruptContext->interrupt_number == IRQ0)
     {
         kernel.apicManager.apics[apic_id].pit_counter++;
-        kernel.pit.ticks++;
         if (kernel.apicManager.apics[apic_id].pit_counter % 100 == 0)
         {
             printk("Core: %d         Timer Tick: %d\n", apic_id, kernel.apicManager.apics[apic_id].pit_counter/100);
+                    kernel.pit.ticks++;
         }
         for (uint16_t i = 0; i < kernel.apicManager.apics_count; i++)
         {
@@ -50,8 +51,9 @@ void pit_fire(InterruptContext *p_interruptContext)
                 if (kernel.apicManager.apics[i].wakeup_apic_id == apic_id &&
                     kernel.apicManager.apics[i].wakeup_counter < kernel.apicManager.apics[apic_id].pit_counter)
                 {
-                    sendFixedIPI(&kernel.apicManager.apics[i],
-                                 kernel.apicManager.apics[i].wakeup_interrupt);
+                    kernel.ipiManager.params.receiverCore_id = i;
+                    kernel.ipiManager.params.p_irq = kernel.apicManager.apics[i].wakeup_interrupt;
+                    DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
                 }
             }
         }

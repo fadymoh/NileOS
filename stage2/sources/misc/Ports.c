@@ -24,9 +24,11 @@
  * the value of the p_data
  * 
  */
-void outportb (uint16_t p_port,uint8_t p_data)
+void outportb(uint16_t p_port, uint8_t p_data)
 {
-    asm volatile ("outb %1, %0" : : "dN" (p_port), "a" (p_data));
+    asm volatile("outb %1, %0"
+                 :
+                 : "dN"(p_port), "a"(p_data));
 }
 
 /* void outportw (uint16_t p_port,uint16_t p_data)
@@ -38,10 +40,11 @@ void outportb (uint16_t p_port,uint8_t p_data)
  * 
  */
 
-
-void outportw (uint16_t p_port,uint16_t p_data)
+void outportw(uint16_t p_port, uint16_t p_data)
 {
-    asm volatile ("outw %1, %0" : : "dN" (p_port), "a" (p_data));
+    asm volatile("outw %1, %0"
+                 :
+                 : "dN"(p_port), "a"(p_data));
 }
 
 /* void outportl (uint16_t p_port,uint32_t p_data)
@@ -53,10 +56,11 @@ void outportw (uint16_t p_port,uint16_t p_data)
  * 
  */
 
-
-void outportl (uint16_t p_port,uint32_t p_data)
+void outportl(uint16_t p_port, uint32_t p_data)
 {
-    asm volatile ("outl %1, %0" : : "dN" (p_port), "a" (p_data));
+    asm volatile("outl %1, %0"
+                 :
+                 : "dN"(p_port), "a"(p_data));
 }
 
 /* uint8_t inportb( uint16_t p_port)
@@ -73,10 +77,12 @@ void outportl (uint16_t p_port,uint32_t p_data)
  * 
  */
 
-uint8_t inportb( uint16_t p_port)
+uint8_t inportb(uint16_t p_port)
 {
     uint8_t l_ret;
-    asm volatile("inb %1, %0" : "=a" (l_ret) : "dN" (p_port));
+    asm volatile("inb %1, %0"
+                 : "=a"(l_ret)
+                 : "dN"(p_port));
     return l_ret;
 }
 
@@ -89,14 +95,14 @@ uint8_t inportb( uint16_t p_port)
  * 
  */
 
-
-uint16_t inportw( uint16_t p_port)
+uint16_t inportw(uint16_t p_port)
 {
     uint16_t l_ret;
-    asm volatile ("inw %1, %0" : "=a" (l_ret) : "dN" (p_port));
+    asm volatile("inw %1, %0"
+                 : "=a"(l_ret)
+                 : "dN"(p_port));
     return l_ret;
 }
-
 
 /* uint16_t inportl( uint16_t p_port)
  * 
@@ -107,9 +113,11 @@ uint16_t inportw( uint16_t p_port)
  * 
  */
 
-uint32_t inportl( uint16_t p_port)
+uint32_t inportl(uint16_t p_port)
 {
     uint32_t l_ret;
-    asm volatile ("inl %1, %0" : "=a" (l_ret) : "dN" (p_port));
+    asm volatile("inl %1, %0"
+                 : "=a"(l_ret)
+                 : "dN"(p_port));
     return l_ret;
 }

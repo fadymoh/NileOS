@@ -482,7 +482,7 @@ uint8_t readDMADisk(ATADisk *p_ataDisk, uint64_t p_addr, uint8_t *p_buffer, uint
     kernel.dmaBuffer.target_read = p_sector_count;
     kernel.dmaBuffer.ataDisk = p_ataDisk;
 
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     kernel.dmaBuffer.core_id = kernel.apicManager.returns.core_id;
     kernel.dmaBuffer.read = true;
     while (readDMADiskSectors(kernel.dmaBuffer.ataDisk, kernel.dmaBuffer.current_address, kernel.dmaBuffer.current_read) != READ_DMA_SUCCESS);
@@ -510,7 +510,7 @@ uint8_t writeDMADisk(ATADisk *p_ataDisk, uint64_t p_addr, uint8_t *p_buffer, uin
     kernel.dmaBuffer.target_write = p_sector_count;
     kernel.dmaBuffer.ataDisk = p_ataDisk;
 
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     kernel.dmaBuffer.core_id = kernel.apicManager.returns.core_id;
     kernel.dmaBuffer.read = false;
     fast_memcpy(kernel.dmaBuffer.ataDisk->dma_phy_address,

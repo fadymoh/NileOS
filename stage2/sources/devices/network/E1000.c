@@ -7,6 +7,7 @@ static uint16_t e1000_models[E1000_MODELS_COUNT] = {E1000_DEV,
                                                     E1000_DEV3,
                                                     E1000_DEV4};
 extern Kernel kernel;
+
 void e1000WriteCommand(E1000 *p_e1000, uint16_t p_address, uint32_t p_value)
 {
     if (p_e1000->bar_type == 0)
@@ -19,6 +20,7 @@ void e1000WriteCommand(E1000 *p_e1000, uint16_t p_address, uint32_t p_value)
         outportl(p_e1000->io_base + 4, p_value);
     }
 }
+
 uint32_t e1000ReadCommand(E1000 *p_e1000, uint16_t p_address)
 {
     if (p_e1000->bar_type == 0)
@@ -108,12 +110,12 @@ void e1000ReadMACAddress(E1000 *p_e1000)
             return;
     }
     printk_network("MAC Address: %y:%y:%y:%y:%y:%y",
-                          p_e1000->mac[0],
-                          p_e1000->mac[1],
-                          p_e1000->mac[2],
-                          p_e1000->mac[3],
-                          p_e1000->mac[4],
-                          p_e1000->mac[5]);
+                   p_e1000->mac[0],
+                   p_e1000->mac[1],
+                   p_e1000->mac[2],
+                   p_e1000->mac[3],
+                   p_e1000->mac[4],
+                   p_e1000->mac[5]);
     return;
 }
 
@@ -124,7 +126,7 @@ void e1000Scan()
     {
         kernel.pciService.params.p_vendor = INTEL_VEND;
         kernel.pciService.params.p_device = e1000_models[i];
-        dispatch_kernel(&kernel.service_transporter, pci_t, GET_PCI_DEVICE_COUNT);
+        DispatchKernel(&kernel.service_transporter, pci_t, get_pci_device_count);
         uint16_t count = kernel.pciService.returns.count;
         if (count > 0)
         {
@@ -133,7 +135,7 @@ void e1000Scan()
                 kernel.pciService.params.p_vendor = INTEL_VEND;
                 kernel.pciService.params.p_device = e1000_models[i];
                 kernel.pciService.params.p_index = j;
-                dispatch_kernel(&kernel.service_transporter, pci_t, GET_PCI_DEVICE_INDEX);
+                DispatchKernel(&kernel.service_transporter, pci_t, get_pci_device_index);
                 PCIDevice *e1000PCIDevice = kernel.pciService.returns.pciDevice_ptr;
                 if (e1000PCIDevice != NULL)
                 {
@@ -274,48 +276,105 @@ void e1000TXInit(E1000 *p_e1000)
     e1000WriteCommand(p_e1000, REG_TIPG, 0x00602006);
 }
 
+EthernetPacket * getEthernetPacketFromSKB(void *skb)
+{
+    NetworkPacket * networkPacket = (NetworkPacket *) skb;
+    return networkPacket->ethernetPacket;
+}
+
+#define	ETHERTYPE_IP	    0x0800	/* IP protocol */
+#define ETHERTYPE_ARP	    0x0806	/* Addr. resolution protocol */
+#define ETHERTYPE_NDFS      0x0811
+#define ETHERTYPE_IPIOE     0x0812
+#define ETHERTYPE_GIPIOE    0x0813
+
+void processEthernetPacket (NetworkDriver * p_networkDriver,void * skb)
+{
+    // IMPORTANT: we need to check dest mac address match my mack address of broadcast.
+    
+    EthernetPacket * p_ethernetPacket = getEthernetPacketFromSKB(skb);    
+  //  printk ("Got Packet: %d\n",ntohs(p_ethernetPacket->h_proto));
+    if ( ntohs(p_ethernetPacket->h_proto) == ETHERTYPE_NDFS && (p_networkDriver->scope & SCOPE_NDFS))
+        printk("Got NDFS Packet\n");
+    else if ( ntohs(p_ethernetPacket->h_proto) == ETHERTYPE_IPIOE && (p_networkDriver->scope & SCOPE_IPIOE))
+        printk("Got IPIO Packet\n");
+    else if (ntohs(p_ethernetPacket->h_proto) == ETHERTYPE_ARP  && (p_networkDriver->scope & SCOPE_IP))
+        printk("Got ARP Packet\n");
+    else if (ntohs(p_ethernetPacket->h_proto) == ETHERTYPE_IP && (p_networkDriver->scope & SCOPE_IP ))
+        printk("Got IP Packet\n");
+}
+
+
+void e1000HandleReceive(NetworkDriver *p_networkDriver)
+{
+    // we need to spinlock if latched to more than one APIC
+    E1000 *p_e1000 = (E1000 *)p_networkDriver->driver;
+    //if ( p_e1000->mac[5] == 0xa7) return;
+
+    uint16_t current_head = e1000ReadCommand(p_e1000, REG_RXDESCHEAD);
+    if (current_head == p_e1000->rx_cur)
+        return;
+    while ((p_e1000->rx_descs[p_e1000->rx_cur]->status & 0x1))
+    {
+        kernel.pit.packets_received++;
+        uint8_t *buf = (uint8_t *)p_e1000->rx_descs[p_e1000->rx_cur]->addr;
+        uint16_t len = p_e1000->rx_descs[p_e1000->rx_cur]->length;
+        NetworkPacket networkPacket;
+        networkPacket.ethernetPacket = (EthernetPacket *)buf;
+        networkPacket.packet_size = len;
+        current_head = e1000ReadCommand(p_e1000, REG_RXDESCHEAD);
+        /*   if ( p_e1000->mac[5] == 0xa7)
+        { 
+            printk (">>>>>>> E1000: processing packet\n");
+            printk ("p_e1000->rx_cur: %d\n",p_e1000->rx_cur);
+            printk ("p_e1000->head: %d\n",current_head);
+            printk ("Length: %d\n",len);
+        }*/
+        p_e1000->rx_descs[p_e1000->rx_cur]->status = 0;
+        p_e1000->rx_cur = (p_e1000->rx_cur + 1) % E1000_NUM_RX_DESC;
+        processEthernetPacket(p_networkDriver, (void *)&networkPacket);
+        //if ( p_e1000->mac[5] == 0xa7) printk ("<<<<<<< E1000: processing packet\n");
+    }
+    e1000WriteCommand(p_e1000, REG_RXDESCTAIL, p_e1000->rx_cur);
+}
+
 void e1000InterruptHandler(InterruptContext *p_interruptContext)
 {
-    //    console_addStringToCurrentTerminal(&kernel.console,"E1000 Fired on \n",COLOR_RED,COLOR_LIGHT_BROWN);
-    //    printk_network (">>>>>>>> E1000 Fired on: %d \n",getCurrentCoreId());
-    //for (uint8_t i = 0; kernel.e1000 != NULL; i++)
-    //{
 
-        if (kernel.e1000->type == E1000_TYPE &&
-            ((E1000 *)kernel.e1000->driver)->int_line == p_interruptContext->interrupt_number)
+    if (kernel.e1000->type == E1000_TYPE &&
+        ((E1000 *)kernel.e1000->driver)->int_line == p_interruptContext->interrupt_number)
+    {
+        uint32_t status = e1000ReadCommand((E1000 *)kernel.e1000->driver, REG_ICR);
+        if (status & 0x04)
         {
-            uint32_t status = e1000ReadCommand(kernel.e1000->driver, REG_ICR);
-            if (status & 0x04)
-            {
-                printk_network("-- >> start link\n");
-                e1000StartLink(kernel.e1000);
-            }
-            else if (status & 0x10)
-            {
-                printk_network("Good threshhold\n");
-                //e1000HandleReceive(kernel.e1000);
-            }
-            else if (status & 0x80)
-            {
-                                printk_network("Good threshhold 2\n");
-
-                //e1000HandleReceive(kernel.e1000);
-            }
+            printk_network("-- >> start link\n");
+            e1000StartLink((E1000 *)kernel.e1000->driver);
         }
+        else if (status & 0x10)
+        {
+            printk("Good threshhold\n");
+            e1000HandleReceive(kernel.e1000);
+        }
+        else if (status & 0x80)
+        {
+            printk_network("Good threshhold 2\n");
+
+            //e1000HandleReceive(kernel.e1000);
+        }
+    }
     //}
 
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     int core_id = kernel.apicManager.returns.core_id;
 
     sendAPICEOI(&kernel.apicManager.apics[core_id]);
 }
 
-void e1000EnableInterrupt(E1000 * p_e1000)
+void e1000EnableInterrupt(E1000 *p_e1000)
 {
-    e1000WriteCommand(p_e1000,REG_IMASK ,0x1F6DC);
-    e1000WriteCommand(p_e1000,REG_IMASK ,0xff & ~4);
-    e1000ReadCommand(p_e1000,REG_ICR);
-    
+    e1000WriteCommand(p_e1000, REG_IMASK, 0x1F6DC);
+    e1000WriteCommand(p_e1000, REG_IMASK, 0xff & ~4);
+    e1000ReadCommand(p_e1000, REG_ICR);
 }
 
 E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
@@ -323,26 +382,26 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     E1000 *p_e1000 = (E1000 *)kmalloc(&kernel.memoryAllocator, sizeof(E1000));
     memset(p_e1000->mac_str, 0, 18);
     spinlock_init(&p_e1000->spinlock);
-    p_e1000->bar_type = getPCIBarType(p_pciConfigHeader, 0);
-    p_e1000->io_base = getPCIBar(p_pciConfigHeader, PCI_BAR_IO) & ~1;
-    p_e1000->mem_base = getPCIBar(p_pciConfigHeader, PCI_BAR_MEM) & ~3;
+    p_e1000->bar_type = GetPCIBarType(p_pciConfigHeader, 0);
+    p_e1000->io_base = GetPCIBar(p_pciConfigHeader, PCI_BAR_IO) & ~1;
+    p_e1000->mem_base = GetPCIBar(p_pciConfigHeader, PCI_BAR_MEM) & ~3;
     kernel.physicalMemoryManager.params.p_physical_address = p_e1000->mem_base;
-    dispatch_kernel(&kernel.service_transporter, physical_memory, isaddress);
-    if (p_e1000->bar_type == 0 && !kernel.physicalMemoryManager.returns.isAddress)
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, is_address);
+    if (p_e1000->bar_type == 0 && !kernel.physicalMemoryManager.returns.is_address)
     {
         kernel.physicalMemoryManager.params.p_physical_address = p_e1000->mem_base;
         kernel.physicalMemoryManager.params.p_size = FOUR_KiB_MEMORY_PAGE_SIZE * 20;
-        dispatch_kernel(&kernel.service_transporter, physical_memory, AddPhysicalMemoryEntry);
-        refreshReserved();
+        DispatchKernel(&kernel.service_transporter, physical_memory_t, add_physical_memory_entry);
+        RefreshReserved();
     }
 
-    if (enablePCIBusMastering(p_pciConfigHeader))
+    if (EnablePCIBusMastering(p_pciConfigHeader))
         printk_network("NIC enablePCIBusMastering: succeeded\n");
     else
         printk_network("NIC: enablePCIBusMastering: failed\n");
 
     kernel.physicalMemoryManager.params.p_physical_address = p_e1000->mem_base;
-    dispatch_kernel(&kernel.service_transporter, physical_memory, GetVirtualAddress);
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
     p_e1000->mem_base = kernel.physicalMemoryManager.returns.virtualAddress;
 
     e1000DetectEEProm(p_e1000);
@@ -363,7 +422,7 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     printk_network("Registering Interrupt\n");
     kernel.interruptManager.params.p_interruptNumber = p_pciConfigHeader->int_line + IRQ0;
     kernel.interruptManager.params.p_interruptHandler = e1000InterruptHandler;
-    dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+    DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
     e1000RXInit(p_e1000);
     e1000TXInit(p_e1000);
     p_e1000->int_line = p_pciConfigHeader->int_line + IRQ0;
@@ -375,7 +434,7 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
         {
             //if (kernel.apicManager.apics[i].role[j] == ROLE_NET)
             //{*/
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
 
     int core_id = kernel.apicManager.returns.core_id;
 

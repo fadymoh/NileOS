@@ -56,10 +56,10 @@ SECTIONS
 	E1000.o (.text)
 	NetworkDriver.o (.text)
 	keyboard.o (.text)
-	service1_K.o (.text)
-	service1_U.o (.text)
 	hamada_K.o (.text)
 	hamada_U.o (.text)
+	service1_K.o (.text)
+	service1_U.o (.text)
 
 	Kernel.o (.text)
 		. = ALIGN(4K);

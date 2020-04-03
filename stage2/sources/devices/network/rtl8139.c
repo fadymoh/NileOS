@@ -44,7 +44,7 @@ void rtl8139_init()
 
     kernel.pciService.params.p_device = RTL8139_DEVICE_ID;
     kernel.pciService.params.p_vendor = RTL8139_VENDOR_ID;
-    dispatch_kernel(&kernel.service_transporter, pci_t, GET_PCI_DEVICE);
+    DispatchKernel(&kernel.service_transporter, pci_t, get_pci_device);
     PCIDevice *pci_rtl8139_device = kernel.pciService.returns.pciDevice_ptr;
 
     // First get the network device using PCI
@@ -54,14 +54,14 @@ void rtl8139_init()
     // Get io base or mem base by extracting the high 28/30 bits
     rtl8139_device.io_base = ret & (~0x3);
     rtl8139_device.mem_base = ret & (~0xf);
-    printk_network("rtl8139 use %s access (base: %x)\n", (rtl8139_device.bar_type == 0) ? "mem based" : "port based", (rtl8139_device.bar_type != 0) ? rtl8139_device.io_base : rtl8139_device.mem_base);
+    printk("rtl8139 use %s access (base: %x)\n", (rtl8139_device.bar_type == 0) ? "mem based" : "port based", (rtl8139_device.bar_type != 0) ? rtl8139_device.io_base : rtl8139_device.mem_base);
 
     // Set current TSAD
     rtl8139_device.tx_cur = 0;
 
-    if (!enablePCIBusMastering(pci_rtl8139_device))
+    if (!EnablePCIBusMastering(pci_rtl8139_device))
     {
-        printk_network("Enabling Bus Mastering for Network Driver Failed\n");
+        printk("Enabling Bus Mastering for Network Driver Failed\n");
         return;
     }
 
@@ -96,7 +96,7 @@ void rtl8139_init()
 
     kernel.interruptManager.params.p_interruptNumber = irq_num;
     kernel.interruptManager.params.p_interruptHandler = rtl8139_handler;
-    dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+    DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
     read_mac_addr();
 }

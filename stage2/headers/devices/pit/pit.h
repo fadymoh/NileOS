@@ -14,6 +14,6 @@ typedef struct PIT_s
 } PIT;
 
 void pit_fire(InterruptContext *p_interruptContext);
-void pit_sleep(uint16_t p_sleep,uint16_t p_apic_id,uint8_t p_interrupt,bool p_do_sleep);
+void pit_sleep(uint16_t p_sleep, uint16_t p_apic_id, uint8_t p_interrupt, bool p_do_sleep);
 
 #endif

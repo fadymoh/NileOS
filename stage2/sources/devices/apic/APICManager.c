@@ -12,17 +12,19 @@ void initAPICManager(APICManager *apicManager, Service *p_service)
     for (uint8_t i = 0; i < kernel.apicManager.apics_count; i++)
     {
         kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.local_apic_addr;
+        DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
+
         initialize_apic(&kernel.apicManager.apics[i], i,
-                        getVirtualAddress(&kernel.physicalMemoryManager),
+                        kernel.physicalMemoryManager.returns.virtualAddress,
                         (i == 0) ? true : false);
     }
     initAPICIO(&kernel.apicManager.apics[0]);
     printk_debug("Done APICIO\n");
 
-    p_service->add_service(p_service, startupAPIC, startupAPIC_s);
-    p_service->add_service(p_service, getCurrentCoreId, getCurrentCoreId_s);
-    p_service->add_service(p_service, touchCore, touchCore_s);
-    p_service->add_service(p_service, moveInitialKernelStack, moveInitialKernelStack_s);
+    p_service->add_service(p_service, startupAPIC, startup_APIC);
+    p_service->add_service(p_service, getCurrentCoreId, get_current_core_id);
+    p_service->add_service(p_service, touchCore, touch_core);
+    p_service->add_service(p_service, moveInitialKernelStack, move_initial_kernel_stack);
 
     printk_debug("APIC Manager Success! \n");
 }
@@ -36,13 +38,15 @@ void startupAPIC(void *p_apicManager)
 void getCurrentCoreId(void *p_apicManager)
 {
     kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.local_apic_addr;
-    uint64_t lapic_reg = getVirtualAddress(&kernel.physicalMemoryManager);
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
+    uint64_t lapic_reg = kernel.physicalMemoryManager.returns.virtualAddress;
+
     kernel.apicManager.returns.core_id = getAPICId(lapic_reg + 0x0020);
 }
 
 bool touchCore(void *p_apicManager)
 {
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     uint64_t apic_id = kernel.apicManager.returns.core_id;
     if (apic_id < kernel.apicManager.apics_count)
     {
@@ -56,10 +60,11 @@ bool touchCore(void *p_apicManager)
 
 bool moveInitialKernelStack(void *p_apicManager)
 {
-    uint64_t p_start_stack = ((APICManager *)p_apicManager)->params.p_start_stack;
-    uint64_t p_end_stack = ((APICManager *)p_apicManager)->params.p_end_stack;
-    dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
-    APIC *apic = &kernel.apicManager.apics[kernel.apicManager.returns.core_id];
+    APICManager *apicManager = (APICManager *)p_apicManager;
+    uint64_t p_start_stack = apicManager->params.p_start_stack;
+    uint64_t p_end_stack = apicManager->params.p_end_stack;
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
+    APIC *apic = &(apicManager->apics[kernel.apicManager.returns.core_id]);
     // If current stack is larger than the new stack, fail return false
     if (p_start_stack - p_end_stack > KERNEL_STACK_SIZE_IN_PAGES * MEM_PAGE_SIZE)
         return false;
@@ -77,6 +82,7 @@ bool moveInitialKernelStack(void *p_apicManager)
     // Declare pointers to the old and new stacks start addresses
     uint64_t *src = (uint64_t *)old_stack_pointer;
     uint64_t *dest = (uint64_t *)new_stack_pointer;
+
     // Loop to Copy data upwards. We copy 8 bytes in on go
     for (uint64_t i = ((p_start_stack - old_stack_pointer) / 8) - 1;; i--)
     {

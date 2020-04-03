@@ -222,7 +222,7 @@ bool createLibraryFile(ostream &libraryFileStream)
             sprintf(buffer, "\t%sService.add_service(&%sService, %s, %s);\n", serviceObject.serviceName.c_str(), serviceObject.serviceName.c_str(), serviceFunction.first.c_str(), serviceFunction.second.c_str());
             libraryFileStream << buffer;
         }
-        sprintf(buffer, "\tregister_service_to_kernel(&kernel.service_transporter, &%sService, %s_t);\n", serviceObject.serviceName.c_str(), serviceObject.serviceName.c_str());
+        sprintf(buffer, "\tRegisterServiceToKernel(&kernel.service_transporter, &%sService, %s_t);\n", serviceObject.serviceName.c_str(), serviceObject.serviceName.c_str());
         
         libraryFileStream << buffer << "";
     }

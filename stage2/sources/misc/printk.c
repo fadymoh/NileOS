@@ -17,11 +17,11 @@ void printk(const char *str_template, ...)
     if (kernel.console.params.newIndex != kernel.console.current_terminal_index)
     {
         // write to the terminal buffer only
-        dispatch_kernel(&kernel.service_transporter, console_t, add_to_terminal);
+        DispatchKernel(&kernel.service_transporter, console_t, add_to_terminal);
     }
     else
     {
-        dispatch_kernel(&kernel.service_transporter, console_t, add_string);
+        DispatchKernel(&kernel.service_transporter, console_t, add_string);
     }
 
     va_end(args);
@@ -41,11 +41,11 @@ void printk_network(const char *str_template, ...)
     if (kernel.console.params.newIndex != kernel.console.current_terminal_index)
     {
         // write to the terminal buffer only
-        dispatch_kernel(&kernel.service_transporter, console_t, add_to_terminal);
+        DispatchKernel(&kernel.service_transporter, console_t, add_to_terminal);
     }
     else
     {
-        dispatch_kernel(&kernel.service_transporter, console_t, add_string);
+        DispatchKernel(&kernel.service_transporter, console_t, add_string);
     }
     va_end(args);
 }
@@ -64,11 +64,11 @@ void printk_debug(const char *str_template, ...)
     if (kernel.console.params.newIndex != kernel.console.current_terminal_index)
     {
         // write to the terminal buffer only
-        dispatch_kernel(&kernel.service_transporter, console_t, add_to_terminal);
+        DispatchKernel(&kernel.service_transporter, console_t, add_to_terminal);
     }
     else
     {
-        dispatch_kernel(&kernel.service_transporter, console_t, add_string);
+        DispatchKernel(&kernel.service_transporter, console_t, add_string);
     }
     va_end(args);
 }
@@ -87,11 +87,11 @@ void printk_fs(const char *str_template, ...)
     if (kernel.console.params.newIndex != kernel.console.current_terminal_index)
     {
         // write to the terminal buffer only
-        dispatch_kernel(&kernel.service_transporter, console_t, add_to_terminal);
+        DispatchKernel(&kernel.service_transporter, console_t, add_to_terminal);
     }
     else
     {
-        dispatch_kernel(&kernel.service_transporter, console_t, add_string);
+        DispatchKernel(&kernel.service_transporter, console_t, add_string);
     }
     va_end(args);
 }

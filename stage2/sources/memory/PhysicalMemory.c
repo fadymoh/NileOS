@@ -2,7 +2,7 @@
 #include "Kernel.h"
 extern Kernel kernel;
 
-bool initializePhysicalMemory(PhysicalMemoryManager *p_physicalmemory_ptr, Service *p_service)
+bool InitializePhysicalMemory(PhysicalMemoryManager *p_physicalmemory_ptr, Service *p_service)
 {
     uint16_t i = 0;
 
@@ -34,27 +34,18 @@ bool initializePhysicalMemory(PhysicalMemoryManager *p_physicalmemory_ptr, Servi
                      p_physicalmemory_ptr->physicalMemoryEntry[i].type == E820_MEMORY_ENTRY_TYPE_ACPI_NVS ||
                      p_physicalmemory_ptr->physicalMemoryEntry[i].type == E820_MEMORY_ENTRY_TYPE_ACPI_RECLAINMED)
                 p_physicalmemory_ptr->reserved_memory_size += p_physicalmemory_ptr->physicalMemoryEntry[i].size;
-
-            /*   if ( i > 0 ) {  // Check Previous
-                
-                        if ( p_physicalMemoryManager->physicalMemoryEntry[i-1].start + p_physicalMemoryManager->physicalMemoryEntry[i-1].size < p_physicalMemoryManager->physicalMemoryEntry[i].start)
-                        {
-                            p_physicalMemoryManager->physicalMemoryEntry[i-1].size = p_physicalMemoryManager->physicalMemoryEntry[i].start - p_physicalMemoryManager->physicalMemoryEntry[i-1].start;
-                        p_physicalMemoryManager->physicalMemoryEntry[i-1].end = p_physicalMemoryManager->physicalMemoryEntry[i-1].start + p_physicalMemoryManager->physicalMemoryEntry[i-1].size;
-                        }
-            }*/
         }
         //initializing all the functions needed area
 
-        p_service->add_service(p_service, printPhysicalMemory, PrintPhysicalMemory);
-        p_service->add_service(p_service, addPhysicalMemoryEntry, AddPhysicalMemoryEntry);
-        p_service->add_service(p_service, getVirtualAddress, GetVirtualAddress);
-        p_service->add_service(p_service, isUsableAddress, isUsable);
-        p_service->add_service(p_service, isAddress, isaddress);
-        p_service->add_service(p_service, createPhysicalPagesBitMap, CreatePhysicalPagesBitMap);
-        p_service->add_service(p_service, initializePhysicalMemoryFrame, InitializePhysicalMemoryFrame);
-        p_service->add_service(p_service, allocatePhysicalFrames, AllocatePhysicalFrames);
-        p_service->add_service(p_service, deallocatePhysicalFrame, DeallocatePhysicalFrame);
+        p_service->add_service(p_service, PrintPhysicalMemory, print_physical_memory);
+        p_service->add_service(p_service, AddPhysicalMemoryEntry, add_physical_memory_entry);
+        p_service->add_service(p_service, GetVirtualAddress, get_virtual_address);
+        p_service->add_service(p_service, IsUsableAddress, is_usable_address);
+        p_service->add_service(p_service, IsAddress, is_address);
+        p_service->add_service(p_service, CreatePhysicalPagesBitMap, create_physical_pages_bitmap);
+        p_service->add_service(p_service, InitializePhysicalMemoryFrames, initialize_physical_memory_frame);
+        p_service->add_service(p_service, AllocatePhysicalFrames, allocate_physical_frames);
+        p_service->add_service(p_service, DeallocatePhysicalFrame, deallocate_physical_frame);
         //---------------------------------------------
 
         p_physicalmemory_ptr->reserved_plus_usable_size = p_physicalmemory_ptr->reserved_memory_size + p_physicalmemory_ptr->usable_memory_size;
@@ -65,7 +56,7 @@ bool initializePhysicalMemory(PhysicalMemoryManager *p_physicalmemory_ptr, Servi
         return false;
 }
 
-void printPhysicalMemory(void *p_physicalmemory_ptr)
+void PrintPhysicalMemory(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
 
@@ -83,7 +74,7 @@ void printPhysicalMemory(void *p_physicalmemory_ptr)
     }
 }
 
-bool isAddress(void *p_physicalmemory_ptr)
+void IsAddress(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
 
@@ -93,17 +84,16 @@ bool isAddress(void *p_physicalmemory_ptr)
         if (p_physicalMemoryManager->params.p_physical_address >= p_physicalMemoryManager->physicalMemoryEntry[i].start &&
             p_physicalMemoryManager->params.p_physical_address < p_physicalMemoryManager->physicalMemoryEntry[i].start +
                                                                      p_physicalMemoryManager->physicalMemoryEntry[i].size)
-            {
-                kernel.physicalMemoryManager.returns.isAddress = true;
-                return true;
-            }
+        {
+            kernel.physicalMemoryManager.returns.is_address = true;
+            return;
+        }
     }
 
-    kernel.physicalMemoryManager.returns.isAddress = false;
-    return false;
+    kernel.physicalMemoryManager.returns.is_address = false;
 }
 
-bool isUsableAddress(void *p_physicalmemory_ptr)
+void IsUsableAddress(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     for (uint16_t i = 0; i < p_physicalMemoryManager->memory_entries; i++)
@@ -112,12 +102,16 @@ bool isUsableAddress(void *p_physicalmemory_ptr)
                  p_physicalMemoryManager->params.p_physical_address + p_physicalMemoryManager->params.p_size < p_physicalMemoryManager->physicalMemoryEntry[i].end &&
                  (p_physicalMemoryManager->physicalMemoryEntry[i].type == E820_MEMORY_ENTRY_TYPE_USABLE) ||
              p_physicalMemoryManager->params.p_physical_address < FIRST_MEMORY_1_MiB))
-            return true;
+            {
+                kernel.physicalMemoryManager.returns.is_usable_address = true;
+                return;
+            }
     }
-    return false;
+    
+    kernel.physicalMemoryManager.returns.is_usable_address = false;
 }
 
-uint64_t getVirtualAddress(void *p_physicalmemory_ptr)
+void GetVirtualAddress(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     uint16_t i = 0;
@@ -127,50 +121,51 @@ uint64_t getVirtualAddress(void *p_physicalmemory_ptr)
             p_physicalMemoryManager->params.p_physical_address < p_physicalMemoryManager->physicalMemoryEntry[i].end)
         {
             kernel.physicalMemoryManager.returns.virtualAddress = p_physicalMemoryManager->physicalMemoryEntry[i].vstart +
-                   (p_physicalMemoryManager->params.p_physical_address - p_physicalMemoryManager->physicalMemoryEntry[i].start);
-            return kernel.physicalMemoryManager.returns.virtualAddress;
+                                                                  (p_physicalMemoryManager->params.p_physical_address - p_physicalMemoryManager->physicalMemoryEntry[i].start);
+            return;
         }
     }
-    
+
     kernel.physicalMemoryManager.returns.virtualAddress = 0x0;
-    return 0x0;
 }
 
-void addPhysicalMemoryEntry(void *p_physicalmemory_ptr)
+void AddPhysicalMemoryEntry(void *p_physicalmemory_ptr)
 {
-
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
-    if (!isAddress(p_physicalmemory_ptr)) //sending the original void* pointer. Need to validate that it works!
+    IsAddress(p_physicalmemory_ptr);
+    if (!kernel.physicalMemoryManager.returns.is_address)
     {
-        //printk ("addPhysicalMemoryEntry: %x\n",p_physical_address);
         p_physicalMemoryManager->physicalMemoryEntry[p_physicalMemoryManager->memory_entries].start = p_physicalMemoryManager->params.p_physical_address;
         p_physicalMemoryManager->physicalMemoryEntry[p_physicalMemoryManager->memory_entries].size = p_physicalMemoryManager->params.p_size;
         p_physicalMemoryManager->physicalMemoryEntry[p_physicalMemoryManager->memory_entries].type = E820_MEMORY_ENTRY_TYPE_RESEARVED;
         p_physicalMemoryManager->physicalMemoryEntry[p_physicalMemoryManager->memory_entries].end =
             p_physicalMemoryManager->physicalMemoryEntry[p_physicalMemoryManager->memory_entries].start +
             p_physicalMemoryManager->physicalMemoryEntry[p_physicalMemoryManager->memory_entries].size;
+
         p_physicalMemoryManager->memory_entries++;
     }
-    //else printk ("!!!!! addPhysicalMemoryEntry: %x\n",p_physical_address);
+    else
+    {
+        printk("Adding physicalMemoryEntry with address: %x failed!\n", p_physicalMemoryManager->params.p_physical_address);
+    }
 }
 
-uint64_t getReservedAndUsableMemorySize(void *p_physicalmemory_ptr)
+uint64_t GetReservedAndUsableMemorySize(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     uint64_t total = p_physicalMemoryManager->usable_memory_size + p_physicalMemoryManager->reserved_memory_size;
     return total;
 }
-void set_bit(char *initial_bitmap_address, int bit_number, int v)
+
+void SetBit(char *initial_bitmap_address, int bit_number)
 {
     // get char index
     char *indexed_bitmap = &(initial_bitmap_address[bit_number / 8]);
     *(indexed_bitmap) |= (1 << (7 - (bit_number % 8)));
     int num = 0 | *(indexed_bitmap);
-
-    if (!v)
-        return;
 }
-void clear_bit(char *initial_bitmap_address, int bit_number, int v)
+
+void ClearBit(char *initial_bitmap_address, int bit_number)
 {
     // get char index
     char *indexed_bitmap = &(initial_bitmap_address[bit_number / 8]);
@@ -178,17 +173,19 @@ void clear_bit(char *initial_bitmap_address, int bit_number, int v)
 
     int num = 0 + (unsigned char)*((unsigned char *)indexed_bitmap);
 }
-int get_bit(char *initial_bitmap_address, int bit_number, int v)
+
+int GetBit(char *initial_bitmap_address, int bit_number)
 {
     char *indexed_bitmap = &(initial_bitmap_address[bit_number / 8]);
     int num = 0 + (unsigned char)*((unsigned char *)indexed_bitmap);
 
     return (*(indexed_bitmap) >> (7 - (bit_number % 8))) & 1;
 }
-void createPhysicalPagesBitMap(void *p_physicalmemory_ptr)
+
+void CreatePhysicalPagesBitMap(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
-    uint64_t total_memory = getReservedAndUsableMemorySize(p_physicalmemory_ptr);
+    uint64_t total_memory = GetReservedAndUsableMemorySize(p_physicalmemory_ptr);
     int number_of_page_frames = total_memory / FOUR_KiB_MEMORY_PAGE_SIZE;
     printk("number of page frames: %d\n", number_of_page_frames);
     int physical_memory_start = 0x0;
@@ -206,34 +203,29 @@ void createPhysicalPagesBitMap(void *p_physicalmemory_ptr)
         uint64_t address = page_frame_number * FOUR_KiB_MEMORY_PAGE_SIZE;
         kernel.physicalMemoryManager.params.p_physical_address = address;
         kernel.physicalMemoryManager.params.p_size = FOUR_KiB_MEMORY_PAGE_SIZE;
-        if (isUsableAddress(p_physicalmemory_ptr) && page_frame_number >= kernelFrames)
+        IsUsableAddress(p_physicalmemory_ptr);
+        if (kernel.physicalMemoryManager.returns.is_usable_address && page_frame_number >= kernelFrames)
         {
-            // set the bit to 1
-            set_bit(p_physicalMemoryManager->physical_memory_bitmap, page_frame_number, 0);
+            SetBit(p_physicalMemoryManager->physical_memory_bitmap, page_frame_number);
         }
         else
         {
-            // set the bit to 0
-            clear_bit(p_physicalMemoryManager->physical_memory_bitmap, page_frame_number, 0);
+            ClearBit(p_physicalMemoryManager->physical_memory_bitmap, page_frame_number);
         }
     }
 
     for (int page_frame_number = 0; page_frame_number < number_of_page_frames; ++page_frame_number)
     {
-        if (get_bit(p_physicalMemoryManager->physical_memory_bitmap, page_frame_number, 0))
+        if (GetBit(p_physicalMemoryManager->physical_memory_bitmap, page_frame_number))
         {
             ++numberofusableframes;
         }
     }
-    //printk("number of usable frames: %d\n", numberofusableframes);
-    //printk("number of frames overall: %d\n", number_of_page_frames);
+
     p_physicalMemoryManager->available_frame = numberofusableframes;
-    // printk("number of usable frames: %d\n", numberofusableframes);
-    // printk("number of usable frames from memory: %d\n", p_physicalMemoryManager->usable_memory_size / FOUR_KiB_MEMORY_PAGE_SIZE);
-    // printk("total number of frames: %d\n", number_of_page_frames);
 }
 
-void initializePhysicalMemoryFrame(void *p_physicalmemory_ptr)
+void InitializePhysicalMemoryFrames(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     p_physicalMemoryManager->physical_memory_frame_collection_ptr = (PhysicalMemoryFrameCollection *)kmalloc(&(kernel.memoryAllocator),
@@ -248,7 +240,7 @@ void initializePhysicalMemoryFrame(void *p_physicalmemory_ptr)
         int end_of_frames = page_frame_number * 512 + 512;
         for (int frames_start = page_frame_number * 512; frames_start < end_of_frames; ++frames_start)
         {
-            if (get_bit(p_physicalMemoryManager->physical_memory_bitmap, frames_start, 0))
+            if (GetBit(p_physicalMemoryManager->physical_memory_bitmap, frames_start))
             {
                 ++available_frames;
             }
@@ -263,7 +255,7 @@ void initializePhysicalMemoryFrame(void *p_physicalmemory_ptr)
 /*
  * ─── RETURN THE PHYSICAL ADDRESS ────────────────────────────────────────────────
  */
-uint64_t allocateOnePhysicalFrame(void *p_physicalmemory_ptr)
+uint64_t AllocateOnePhysicalFrame(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     // spin lock
@@ -282,9 +274,9 @@ uint64_t allocateOnePhysicalFrame(void *p_physicalmemory_ptr)
 
             for (int page_number = start_bit_index; page_number < end_bit_address; ++page_number)
             {
-                if (get_bit(p_physicalMemoryManager->physical_memory_bitmap, page_number, 1))
+                if (GetBit(p_physicalMemoryManager->physical_memory_bitmap, page_number))
                 {
-                    clear_bit(p_physicalMemoryManager->physical_memory_bitmap, page_number, 1);
+                    ClearBit(p_physicalMemoryManager->physical_memory_bitmap, page_number);
                     p_physicalMemoryManager->physical_memory_frame_collection_ptr[i].available_frames--;
 
                     return page_number * FOUR_KiB_MEMORY_PAGE_SIZE;
@@ -296,13 +288,14 @@ uint64_t allocateOnePhysicalFrame(void *p_physicalmemory_ptr)
 
     return -1;
 }
-void allocatePhysicalFrames(void *p_physicalmemory_ptr)
+
+void AllocatePhysicalFrames(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     int number_of_frames_to_allocate = p_physicalMemoryManager->params.number_of_frames_to_allocate;
     for (int i = 0; i < number_of_frames_to_allocate; ++i)
     {
-        uint64_t physical_address = allocateOnePhysicalFrame(p_physicalmemory_ptr);
+        uint64_t physical_address = AllocateOnePhysicalFrame(p_physicalmemory_ptr);
         if (physical_address == -1)
             printk("failed to allocate a page\n");
         // else
@@ -310,7 +303,7 @@ void allocatePhysicalFrames(void *p_physicalmemory_ptr)
     }
 }
 
-void deallocatePhysicalFrame(void *p_physicalmemory_ptr)
+void DeallocatePhysicalFrame(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
 
@@ -318,18 +311,15 @@ void deallocatePhysicalFrame(void *p_physicalmemory_ptr)
 
     uint64_t frame_to_deall = p_physicalMemoryManager->params.p_physical_address / 4096; //to get the frame.. each frame is 4KB
 
-    if (get_bit(p_physicalMemoryManager->physical_memory_bitmap, frame_to_deall, 1))
+    if (GetBit(p_physicalMemoryManager->physical_memory_bitmap, frame_to_deall))
     {
         printk("deallocating of an unallocated memory.. should not happen!\n");
         return;
     }
 
-    //printk("Frame to De-allocate: %d\n", frame_to_deall);
-    set_bit(p_physicalMemoryManager->physical_memory_bitmap, frame_to_deall, 1);
+    SetBit(p_physicalMemoryManager->physical_memory_bitmap, frame_to_deall);
 
     uint64_t address_of_collection = (frame_to_deall / 512) * TWO_MiB_MEMORY_PAGE_SIZE; //not sure.. double check!
-    //printk("Status of dealloc frame: %d\n", get_bit(p_physicalMemoryManager->physical_memory_bitmap, frame_to_deall, 1));
-    //  printk("address of collection: %d\n", address_of_collection);
 
     int size = p_physicalMemoryManager->number_physical_memory_frame_collection;
     for (int i = 0; i < size; ++i)
@@ -338,25 +328,22 @@ void deallocatePhysicalFrame(void *p_physicalmemory_ptr)
         {
             p_physicalMemoryManager->physical_memory_frame_collection_ptr[i].available_frames++;
 
-            //printk("Physical Memory Collection index: %d\n", i);
-            // printk("Physical Memory Collection available frames: %d\n", p_physicalMemoryManager->physical_memory_frame_collection_ptr[i].available_frames);
-
             // should sort afterwards
         }
     }
 
-    //Spin Unlock hereeeeee
+    //Spin Unlock here
 }
 
-void deallocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
+void DeallocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
 {
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
-    uint64_t frame_to_deall = p_physicalMemoryManager->params.p_physical_address; //to get the frame.. each frame is 4KB
+    uint64_t frameToDeallocate = p_physicalMemoryManager->params.p_physical_address; //to get the frame.. each frame is 4KB
 
-    for (uint64_t start = frame_to_deall; start < frame_to_deall + TWO_MiB_MEMORY_PAGE_SIZE; start += FOUR_KiB_MEMORY_PAGE_SIZE)
+    for (uint64_t address = frameToDeallocate; address < frameToDeallocate + TWO_MiB_MEMORY_PAGE_SIZE; address += FOUR_KiB_MEMORY_PAGE_SIZE)
     {
-        p_physicalMemoryManager->params.p_physical_address = start; 
-        deallocatePhysicalFrame(p_physicalmemory_ptr);
+        p_physicalMemoryManager->params.p_physical_address = address;
+        DeallocatePhysicalFrame(p_physicalmemory_ptr);
     }
 }
 
@@ -364,14 +351,12 @@ void deallocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
  * ─── ALLOCATING A COLLECTION THAT HAS 512 FREE PHYSICAL FRAMES ──────────────────
  */
 
-uint64_t allocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
+uint64_t AllocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
 {
-
     PhysicalMemoryManager *p_physicalMemoryManager = (PhysicalMemoryManager *)p_physicalmemory_ptr;
     // spin lock
 
     int size = p_physicalMemoryManager->number_physical_memory_frame_collection;
-    // printk("Size: %d\n", size);
 
     for (int i = 0; i < size; ++i)
     {
@@ -385,9 +370,9 @@ uint64_t allocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
 
             for (int page_number = start_bit_index; page_number < end_bit_address; ++page_number)
             {
-                if (get_bit(p_physicalMemoryManager->physical_memory_bitmap, page_number, 0)) //reduant check.. but let's leave it for now
+                if (GetBit(p_physicalMemoryManager->physical_memory_bitmap, page_number)) //redundant check.. but let's leave it for now
                 {
-                    clear_bit(p_physicalMemoryManager->physical_memory_bitmap, page_number, 0);
+                    ClearBit(p_physicalMemoryManager->physical_memory_bitmap, page_number);
                     p_physicalMemoryManager->physical_memory_frame_collection_ptr[i].available_frames--;
                 }
                 else
@@ -395,7 +380,6 @@ uint64_t allocateOnePhysicalFrameCollection(void *p_physicalmemory_ptr)
                     printk("There is a problem that happned when allocating a frame. a bit in between was already cleared");
                 }
             }
-            //printk("index of collection: %d\n", i);
             return p_physicalMemoryManager->physical_memory_frame_collection_ptr[i].initial_physical_address;
         }
     }
@@ -414,11 +398,12 @@ uint64_t AllocateUsableCollection(void *p_physicalmemory_ptr)
 
     //uint64_t start_address_after_kernel = kernel.memoryAllocator.kernel_memory_end_address;
 
-    uint64_t physical_address = allocateOnePhysicalFrameCollection(p_physicalMemoryManager);
+    uint64_t physical_address = AllocateOnePhysicalFrameCollection(p_physicalMemoryManager);
 
-    return physical_memory;
-    //if (physical_address == -1)
-    //printk("failed to allocate a collection\n");
-    //else
-    //printk("address allocated: %d \n", physical_address);
+    if (physical_address == -1)
+        printk_debug("failed to allocate a collection\n");
+    else
+        printk_debug("address allocated: %d \n", physical_address);
+
+    return physical_address;
 }

@@ -11,7 +11,7 @@ extern Kernel kernel;
 #define clr_offset 0b1111111111111111111111111111111111111111111000000000000000000000
 #define set_offset 0b0000000000000000000000000000000000000000000111111111111111111111
 
-bool initVirtualMemoryService(MemoryPageTable **p_memoryPageTable, Service *p_service)
+bool InitVirtualMemoryService(MemoryPageTable **p_memoryPageTable, Service *p_service)
 {
 
     uint64_t total_memory_size = kernel.physicalMemoryManager.usable_memory_size + kernel.physicalMemoryManager.reserved_memory_size;
@@ -39,19 +39,17 @@ bool initVirtualMemoryService(MemoryPageTable **p_memoryPageTable, Service *p_se
     memset(bootstrapCorePageTable->PUD, 0, PGD_ENTRIES_LIMIT * PAGE_TABLE_UNIT_SIZE * sizeof(uint64_t));
     memset((uint64_t *)bootstrapCorePageTable->PMD_ptr, 255, sizeof(TablePage) * PGD_ENTRIES_LIMIT * PAGE_TABLE_UNIT_SIZE);
 
-    bspLinkFirst3Levels(bootstrapCorePageTable);
+    BspLinkFirst3Levels(bootstrapCorePageTable);
 
-    mapKernelUsableMemory(bootstrapCorePageTable);
-    mapReservedMemory(bootstrapCorePageTable);
+    MapKernelUsableMemory(bootstrapCorePageTable);
+    MapReservedMemory(bootstrapCorePageTable);
 
-    p_service->add_service(p_service, LinkThirdStageToCollection_Wrapper, linkThirdStageToCollection);
-    p_service->add_service(p_service, LinkThirdStageToCollectionPhysical_Wrapper, linkThirdStageToCollectionPhysical);
-    p_service->add_service(p_service, LinkFourthStageToFrame_Wrapper, linkFourthStageToFrame);
-    p_service->add_service(p_service, LinkFourthStageToFramePhysical_Wrapper, linkFourthStageToFramePhysical);
-
-    printk("Second Stage mapping successfull! \n");
+    p_service->add_service(p_service, LinkThirdStageToCollectionWrapper, linkThirdStageToCollection);
+    p_service->add_service(p_service, LinkThirdStageToCollectionPhysicalWrapper, linkThirdStageToCollectionPhysical);
+    p_service->add_service(p_service, LinkFourthStageToFrameWrapper, linkFourthStageToFrame);
+    p_service->add_service(p_service, LinkFourthStageToFramePhysicalWrapper, linkFourthStageToFramePhysical);
 }
-bool LinkThirdStageToCollection_Wrapper(void *p_virtualMemory)
+bool LinkThirdStageToCollectionWrapper(void *p_virtualMemory)
 {
     // void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address
 
@@ -59,24 +57,24 @@ bool LinkThirdStageToCollection_Wrapper(void *p_virtualMemory)
                                p_virtualMemory,
                                ((MemoryPageTable *)p_virtualMemory)->params.start_address);
 }
-bool LinkThirdStageToCollectionPhysical_Wrapper(void *p_virtualMemory)
+bool LinkThirdStageToCollectionPhysicalWrapper(void *p_virtualMemory)
 {
-    LinkThirdStageToCollection_physical(&kernel.physicalMemoryManager,
+    LinkThirdStageToCollectionPhysical(&kernel.physicalMemoryManager,
                                         p_virtualMemory,
                                         ((MemoryPageTable *)p_virtualMemory)->params.start_address,
                                         ((MemoryPageTable *)p_virtualMemory)->params.physical_address);
 }
 
-bool LinkFourthStageToFrame_Wrapper(void *p_virtualMemory)
+bool LinkFourthStageToFrameWrapper(void *p_virtualMemory)
 {
     LinkFourthStageToFrame(&kernel.physicalMemoryManager,
                            p_virtualMemory,
                            ((MemoryPageTable *)p_virtualMemory)->params.start_address);
 }
 
-bool LinkFourthStageToFramePhysical_Wrapper(void *p_virtualMemory)
+bool LinkFourthStageToFramePhysicalWrapper(void *p_virtualMemory)
 {
-    LinkFourthStageToFrame_physical(&kernel.physicalMemoryManager,
+    LinkFourthStageToFramePhysical(&kernel.physicalMemoryManager,
                                     p_virtualMemory,
                                     ((MemoryPageTable *)p_virtualMemory)->params.start_address,
                                     ((MemoryPageTable *)p_virtualMemory)->params.physical_address);
@@ -135,7 +133,9 @@ void mapLimitedUsableMemory(LimitedMemoryPageMap *p_memoryPageMap, uint64_t p_st
     {
         kernel.physicalMemoryManager.params.p_physical_address = physical_address;
         kernel.physicalMemoryManager.params.p_size = TWO_MiB_MEMORY_PAGE_SIZE;
-        if (isUsableAddress(p_memoryPageMap->physicalMemoryManager))
+        DispatchKernel(&kernel.service_transporter, physical_memory_t, is_usable_address);
+
+        if (kernel.physicalMemoryManager.returns.is_usable_address)
         {
             pgd_index = virtual_address >> (48 - 9);
             pud_index = (virtual_address >> (48 - 18)) & 0b0000000111111111;
@@ -168,7 +168,8 @@ bool isReservedMemory(PhysicalMemoryEntry entry)
 {
     return (entry.start > 0x0100000 && (entry.type == E820_MEMORY_ENTRY_TYPE_RESEARVED || entry.type == E820_MEMORY_ENTRY_TYPE_ACPI_RECLAINMED || entry.type == E820_MEMORY_ENTRY_TYPE_ACPI_NVS));
 }
-void mapReservedMemory(MemoryPageTable *p_memoryPageMap)
+
+void MapReservedMemory(MemoryPageTable *p_memoryPageMap)
 {
     //! maybe it overlaps m3 shmem
     uint64_t physical_address = 0x0;
@@ -195,7 +196,7 @@ void mapReservedMemory(MemoryPageTable *p_memoryPageMap)
             for (; physical_address < kernel.physicalMemoryManager.physicalMemoryEntry[i].start +
                                           kernel.physicalMemoryManager.physicalMemoryEntry[i].size;)
             {
-                LinkFourthStageToFrame_physical(&kernel.physicalMemoryManager, p_memoryPageMap, start_vaddress, physical_address);
+                LinkFourthStageToFramePhysical(&kernel.physicalMemoryManager, p_memoryPageMap, start_vaddress, physical_address);
                 start_vaddress += FOUR_KiB_MEMORY_PAGE_SIZE;
                 physical_address += FOUR_KiB_MEMORY_PAGE_SIZE;
             }
@@ -205,7 +206,7 @@ void mapReservedMemory(MemoryPageTable *p_memoryPageMap)
     }
 }
 
-void pageMapStage1()
+void PageMapStage1()
 {
     LimitedMemoryPageMap *memoryPageMap = (LimitedMemoryPageMap *)KERNEL_MEMORY_MAP_ADDRESS;
     uint64_t pmd_address = KERNEL_MEMORY_MAP_ADDRESS + sizeof(LimitedMemoryPageMap);
@@ -244,7 +245,7 @@ void pageMapStage1()
     kernel.memoryAllocator.kernel_memory_end_address = KERNELKMALLOC_INITIAL_MEMORY_ADDRESS + KERNELKMALLOC_INITIAL_MEMORY_SIZE - 1;
 }
 
-void bspLinkFirst3Levels(MemoryPageTable *p_memoryPageMap)
+void BspLinkFirst3Levels(MemoryPageTable *p_memoryPageMap)
 {
     uint64_t physical_address = 0x0;
     uint16_t pgd_index = 0;
@@ -297,7 +298,7 @@ void AllocateSharedMemoryTwoMb(uint64_t virtualAddressStart, uint64_t size)
                 // if (start == virtualAddressStart)
                 //     printk("Allocated Physical Address: %x\n", address);
 
-                LinkThirdStageToCollection_physical((void *)&kernel.physicalMemoryManager, kernel.coresPageTables_ptr[coreIndex], start, address);
+                LinkThirdStageToCollectionPhysical((void *)&kernel.physicalMemoryManager, kernel.coresPageTables_ptr[coreIndex], start, address);
             }
         }
     }
@@ -328,7 +329,7 @@ void DeallocateVirtualMemoryCollection(void *p_physical_memory, MemoryPageTable 
     uint64_t physical_memory_address = TP->tpage[pmd_index];
 
     p_physical_memory_ptr->params.p_physical_address = physical_memory_address;
-    deallocateOnePhysicalFrameCollection(p_physical_memory_ptr);
+    DeallocateOnePhysicalFrameCollection(p_physical_memory_ptr);
 
     TP->tpage[pmd_index] = 0xFFFFFFFFFFFFFFFF;
     TP->tpage[pmd_index] = 0xFFFFFFFFFFFFFFF0;
@@ -336,7 +337,7 @@ void DeallocateVirtualMemoryCollection(void *p_physical_memory, MemoryPageTable 
     return true;
 }
 
-uint64_t allocateVirtualMemoryBlock(Level_4 *l4)
+uint64_t AllocateVirtualMemoryBlock(Level_4 *l4)
 {
 
     for (uint64_t i = 0; i < l4->numBlocks / 8; i++)
@@ -373,7 +374,7 @@ uint64_t allocateVirtualMemoryBlock(Level_4 *l4)
     return -1;
 }
 
-bool deallocateVirtualMemoryBlock(Level_4 *l4, uint64_t address)
+bool DeallocateVirtualMemoryBlock(Level_4 *l4, uint64_t address)
 {
     int block_index = (address - (uint64_t)l4->PTE_ptr) / FOUR_KiB_MEMORY_PAGE_SIZE;
     int idx1 = block_index / 8;
@@ -393,7 +394,7 @@ uint64_t LinkThirdStageToCollection(void *p_physical_memory, MemoryPageTable *bs
     uint64_t pgd_index = start_address >> (48 - 9);
     uint64_t pud_index = (start_address >> (48 - 18)) & 0b0000000111111111;
     uint64_t pmd_index = (start_address >> (48 - 27)) & 0b0000000111111111;
-    uint64_t physical_memory_address = allocateOnePhysicalFrameCollection(p_physical_memory);
+    uint64_t physical_memory_address = AllocateOnePhysicalFrameCollection(p_physical_memory);
     uint64_t returned_padd = physical_memory_address;
 
     uint64_t idx = pgd_index * PAGE_TABLE_UNIT_SIZE + pud_index;
@@ -405,12 +406,10 @@ uint64_t LinkThirdStageToCollection(void *p_physical_memory, MemoryPageTable *bs
                             MEMORY_PAGE_TABLE_ENTRY_RW |
                             MEMORY_PAGE_TABLE_ENTRY_USER);
 
-
-
     return returned_padd;
 }
 
-bool LinkThirdStageToCollection_physical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address)
+bool LinkThirdStageToCollectionPhysical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address)
 {
     PhysicalMemoryManager *p_physical_memory_ptr = (PhysicalMemoryManager *)p_physical_memory;
 
@@ -444,12 +443,12 @@ bool LinkFourthStageToFrame(void *p_physical_memory, MemoryPageTable *bsp_table,
 
     if (TP_PMD->tpage[pmd_index] == 0xFFFFFFFFFFFFFFFF)
     {
-        uint64_t returned_pte = allocateVirtualMemoryBlock(&kernel.L4);
+        uint64_t returned_pte = AllocateVirtualMemoryBlock(&kernel.L4);
         TP_PMD->tpage[pmd_index] = (returned_pte | MEMORY_PAGE_TABLE_ENTRY_PRESENT | MEMORY_PAGE_TABLE_ENTRY_RW | MEMORY_PAGE_TABLE_ENTRY_USER);
     }
 
     TablePage *TP_PTE = (TablePage *)(TP_PMD->tpage[pmd_index] & clr_offset4);
-    uint64_t physical_memory_address = allocateOnePhysicalFrame(p_physical_memory);
+    uint64_t physical_memory_address = AllocateOnePhysicalFrame(p_physical_memory);
 
     TP_PTE->tpage[pte_index] = (physical_memory_address |
                                 MEMORY_PAGE_TABLE_ENTRY_2MIB | //! should be 4kb ONLY!
@@ -460,7 +459,7 @@ bool LinkFourthStageToFrame(void *p_physical_memory, MemoryPageTable *bsp_table,
     return true;
 }
 
-bool LinkFourthStageToFrame_physical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address)
+bool LinkFourthStageToFramePhysical(void *p_physical_memory, MemoryPageTable *bsp_table, uint64_t start_address, uint64_t physical_address)
 {
     PhysicalMemoryManager *p_physical_memory_ptr = (PhysicalMemoryManager *)p_physical_memory;
 
@@ -477,7 +476,7 @@ bool LinkFourthStageToFrame_physical(void *p_physical_memory, MemoryPageTable *b
 
     if (pte_address == 0xFFFFFFFFFFFFFFFF)
     {
-        uint64_t returned_pte = allocateVirtualMemoryBlock(&kernel.L4);
+        uint64_t returned_pte = AllocateVirtualMemoryBlock(&kernel.L4);
         bsp_table->PMD_ptr[idx].tpage[pmd_index] = (returned_pte | MEMORY_PAGE_TABLE_ENTRY_PRESENT | MEMORY_PAGE_TABLE_ENTRY_RW | MEMORY_PAGE_TABLE_ENTRY_USER);
         pte_address = bsp_table->PMD_ptr[idx].tpage[pmd_index];
     }
@@ -493,19 +492,19 @@ bool LinkFourthStageToFrame_physical(void *p_physical_memory, MemoryPageTable *b
     return true;
 }
 
-bool mapKernelUsableMemory(MemoryPageTable *pagetable)
+bool MapKernelUsableMemory(MemoryPageTable *pagetable)
 {
     int num_collections = KERNEL_MEMORY_SIZE / FOUR_KiB_MEMORY_PAGE_SIZE;
     int current_address = 0;
     // ONE TO ONE MAPPING FOR "KERNEL MEMORY SIZE"
     for (int i = 0; i < num_collections; i++)
     {
-        LinkFourthStageToFrame_physical((void *)&kernel.physicalMemoryManager, pagetable, current_address, current_address);
+        LinkFourthStageToFramePhysical((void *)&kernel.physicalMemoryManager, pagetable, current_address, current_address);
         current_address += FOUR_KiB_MEMORY_PAGE_SIZE;
     }
 }
 
-bool buildApCoresPageTables(int cores_count)
+bool BuildApCoresPageTables(int cores_count)
 {
     kernel.coresPageTables_ptr = kvalloc(&(kernel.memoryAllocator), sizeof(MemoryPageTable *) * (cores_count));
     kernel.coresPageTables_ptr[0] = kernel.bootstrapCorePageTable_ptr;
@@ -525,21 +524,22 @@ bool buildApCoresPageTables(int cores_count)
 
         memset((uint64_t *)kernel.coresPageTables_ptr[i]->PMD_ptr, 255, sizeof(TablePage) * PGD_ENTRIES_LIMIT * PAGE_TABLE_UNIT_SIZE);
 
-        bspLinkFirst3Levels(kernel.coresPageTables_ptr[i]);
-        mapKernelUsableMemory(kernel.coresPageTables_ptr[i]);
-        mapReservedMemory(kernel.coresPageTables_ptr[i]);
+        BspLinkFirst3Levels(kernel.coresPageTables_ptr[i]);
+        MapKernelUsableMemory(kernel.coresPageTables_ptr[i]);
+        MapReservedMemory(kernel.coresPageTables_ptr[i]);
     }
 
     return true;
 }
 
-void refreshReserved ()
+void RefreshReserved()
 {
-    for ( uint8_t i = 0 ; i < kernel.acpi.cores_count ; i ++)
+    for (uint8_t i = 0; i < kernel.acpi.cores_count; i++)
     {
-        mapReservedMemory (kernel.coresPageTables_ptr[i]);
-        dispatch_kernel(&kernel.service_transporter, apic_t, getCurrentCoreId_s);
+        MapReservedMemory(kernel.coresPageTables_ptr[i]);
+        DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
         int core_id = kernel.apicManager.returns.core_id;
-        if (i == core_id) enablePageDirectory((uint64_t)&(kernel.coresPageTables_ptr[i]->PGD));
+        if (i == core_id)
+            enablePageDirectory((uint64_t) & (kernel.coresPageTables_ptr[i]->PGD));
     }
 }

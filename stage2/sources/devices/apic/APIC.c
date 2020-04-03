@@ -1,7 +1,6 @@
 #include "APIC.h"
 
 #include "Kernel.h"
-//#include "UKernel.h"
 #define APIC_DISABLE 0x010000
 extern Kernel kernel;
 
@@ -27,7 +26,8 @@ void initialize_apic(APIC *apic, uint16_t p_apic_id, uint64_t p_local_apic, bool
     apic->apic_id = p_apic_id;
     apic->lapic_base = p_local_apic;
     kernel.physicalMemoryManager.params.p_physical_address = kernel.acpi.local_apicio_addr;
-    apic->apicio_base = getVirtualAddress(&kernel.physicalMemoryManager);
+    DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
+    apic->apicio_base = kernel.physicalMemoryManager.returns.virtualAddress;
     memset(apic->fired_interrupts, 0, 256);
     apic->lapic_reg = apic->lapic_base + 0x0020;
     apic->lapic_apicver = apic->lapic_base + 0x0030;
@@ -91,24 +91,16 @@ void initAPICIO(APIC *apic)
     sfence();
 }
 
-void sendFixedIPI(APIC *apic, uint8_t p_irq)
-{
-    uint32_t _core_id = apic->apic_id << 24;
-    writeLocalAPIC(apic->lapic_icr1, _core_id);
-    writeLocalAPIC(apic->lapic_icr0, 0b00000000000000000100000000000000 | p_irq);
-    sfence();
-    for (; readLocalAPIC(apic->lapic_icr0) & 0x1000;);
-}
-
 void disableAPICTimer(APIC *apic)
 {
     writeLocalAPIC(apic->lapic_lvt_tmr, APIC_DISABLE);
 }
+
 void enableAPICTimer(APIC *apic)
 {
     kernel.interruptManager.params.p_interruptNumber = IRQ0;
     kernel.interruptManager.params.p_interruptHandler = pit_fire;
-    dispatch_kernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
+    DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
 
     apic->pit_counter = 0;
     writeLocalAPIC(apic->lapic_tmr_div, 0x3);
