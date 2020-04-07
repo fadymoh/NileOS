@@ -47,7 +47,6 @@ void e1000DetectEEProm(E1000 *p_e1000)
         else
             p_e1000->eerprom_exists = false;
     }
-    //return p_e1000->eerprom_exists;
 }
 
 uint32_t e1000EEpromRead(E1000 *p_e1000, uint8_t addr)
@@ -122,7 +121,6 @@ int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t
     // we need to spinlock in case of concurrency
 
     E1000 *p_e1000 = (E1000 *)p_networkDriver->driver;
-    //  if ( p_e1000->mac[5] == 0xa7) printk (">>>>>>> E1000: sending out packet\n");
     spinlock_lock(&p_e1000->spinlock);
     p_e1000->tx_descs[p_e1000->tx_cur]->addr = v2p2m((uint64_t)p_data);
     p_e1000->tx_descs[p_e1000->tx_cur]->length = p_len;
@@ -139,13 +137,10 @@ int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t
     if (p_e1000->tx_descs[old_cur]->status & 0xff)
     {
         spinlock_unlock(&p_e1000->spinlock);
-        //    if ( p_e1000->mac[5] == 0xa7) printk ("<<<<<<< E1000: sending out packet\n");
         return 0;
     }
-    while (!(p_e1000->tx_descs[old_cur]->status & 0xff))
-        ;
+    while (!(p_e1000->tx_descs[old_cur]->status & 0xff));
     spinlock_unlock(&p_e1000->spinlock);
-    //  if ( p_e1000->mac[5] == 0xa7) printk ("<<<<<<< E1000: sending out packet\n");
     return 0;
 }
 void e1000Scan()
@@ -261,7 +256,7 @@ void e1000RXInit(E1000 *p_e1000)
 
     /* set the Receive Delay Timer Register */
     // according to linux, anything but zero will make the hardware hang
-    e1000WriteCommand(p_e1000, REG_RCTRL, 1000);
+    e1000WriteCommand(p_e1000, REG_RCTRL, 0);
 
     ptr = (uint8_t *)(kvalloc(&kernel.memoryAllocator, sizeof(struct e1000_rx_desc) * E1000_NUM_RX_DESC + 16));
     descs = (struct e1000_rx_desc *)ptr;
@@ -278,20 +273,18 @@ void e1000RXInit(E1000 *p_e1000)
     e1000WriteCommand(p_e1000, REG_RXDESCLO, (uint32_t)((uint64_t)ptr & 0x00000000ffffffffULL));
     e1000WriteCommand(p_e1000, REG_RXDESCHI, (uint32_t)((uint64_t)ptr >> 32));
 
-    e1000WriteCommand(p_e1000, REG_RXDESCLEN, (E1000_NUM_RX_DESC * 16) * sizeof(struct e1000_rx_desc));
+    e1000WriteCommand(p_e1000, REG_RXDESCLEN, (E1000_NUM_RX_DESC * 16));
 
     e1000WriteCommand(p_e1000, REG_RXDESCHEAD, 0);
     e1000WriteCommand(p_e1000, REG_RXDESCTAIL, E1000_NUM_RX_DESC - 1);
     p_e1000->rx_cur = 0;
-    /* Enable Receives */
-    //e1000WriteCommand(p_e1000,REG_RCTRL, rctl | RCTL_EN);
 
+    /* Enable Receives */
     e1000WriteCommand(p_e1000, REG_RCTRL, 0x601801A);
 }
 
 void e1000TXInit(E1000 *p_e1000)
 {
-    printk("sending back\n");
     uint8_t *ptr;
     struct e1000_tx_desc *descs;
     uint32_t tctl;
@@ -312,8 +305,6 @@ void e1000TXInit(E1000 *p_e1000)
     e1000WriteCommand(p_e1000, REG_TXDESCHI, (uint32_t)((uint64_t)ptr >> 32));
     e1000WriteCommand(p_e1000, REG_TXDESCLO, (uint32_t)((uint64_t)ptr & 0x00000000ffffffffULL));
 
-    //now setup total length of descriptors
-
     //setup numbers
     e1000WriteCommand(p_e1000, REG_TXDESCHEAD, 0);
     e1000WriteCommand(p_e1000, REG_TXDESCTAIL, 0);
@@ -326,19 +317,10 @@ void e1000TXInit(E1000 *p_e1000)
             (TCTL_COLLISION_THRESHOLD << TCTL_CT_SHIFT);
 
     e1000WriteCommand(p_e1000, REG_TCTRL, tctl);
-    //e1000WriteCommand(p_e1000, REG_TCTRL, TCTL_EN | TCTL_PSP | (15 << TCTL_CT_SHIFT) | (64 << TCTL_COLD_SHIFT) | TCTL_RTLC);
-    //e1000WriteCommand(p_e1000, REG_TCTRL, 0b0110000000000111111000011111010);
-    //e1000WriteCommand(p_e1000, REG_TCTRL, 0x3183F0FA);
-    //e1000WriteCommand(p_e1000, REG_TIPG, 0x00602006);
 }
 
 void e1000InterruptHandler(InterruptContext *p_interruptContext)
 {
-    //    console_addStringToCurrentTerminal(&kernel.console,"E1000 Fired on \n",COLOR_RED,COLOR_LIGHT_BROWN);
-    //    printk_network (">>>>>>>> E1000 Fired on: %d \n",getCurrentCoreId());
-    //for (uint8_t i = 0; kernel.e1000 != NULL; i++)
-    //{
-
     if (kernel.e1000->type == E1000_TYPE &&
         ((E1000 *)kernel.e1000->driver)->int_line == p_interruptContext->interrupt_number)
     {
@@ -360,13 +342,13 @@ void e1000InterruptHandler(InterruptContext *p_interruptContext)
             e1000HandleReceive(kernel.e1000);
         }
     }
-    //}
 
     DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     int core_id = kernel.apicManager.returns.core_id;
 
     E1000 *p_e1000 = (E1000 *)kernel.e1000->driver;
 
+    // clear interrupts
     e1000WriteCommand(p_e1000, REG_ICR, e1000ReadCommand(p_e1000, REG_ICR) | 0xFFFFFFFF);
 
     sendAPICEOI(&kernel.apicManager.apics[core_id]);
@@ -377,61 +359,38 @@ void e1000EnableInterrupt(E1000 *p_e1000)
     // clearing the Interrupt mask
     e1000WriteCommand(p_e1000, REG_IMASK, 0x0000);
     e1000WriteCommand(p_e1000, REG_IMASK, 0x009D);
-    // clearning any pending interrupt events
+    // clearing any pending interrupt events
     e1000ReadCommand(p_e1000, REG_ICR);
 }
-
-void e1000CheckLink(E1000 *p_e1000)
-{
-    uint32_t status = e1000ReadCommand(p_e1000, REG_STATUS);
-    printk("e1000: link is %s\n", (status & 2) ? "up" : "down");
-    //p_e1000->link = status & 2;
-}
-
-#define ETHERTYPE_IP 0x0800  /* IP protocol */
-#define ETHERTYPE_ARP 0x0806 /* Addr. resolution protocol */
 
 void e1000HandleReceive(NetworkDriver *p_networkDriver)
 {
     // we need to spinlock if latched to more than one APIC
     E1000 *p_e1000 = (E1000 *)p_networkDriver->driver;
-    //if ( p_e1000->mac[5] == 0xa7) return;
 
     uint16_t current_head = e1000ReadCommand(p_e1000, REG_RXDESCHEAD);
     if (current_head == p_e1000->rx_cur)
         return;
     int counter = 0;
-    //while ((p_e1000->rx_descs[p_e1000->rx_cur]->status & 0x1))
+    printk("handling receive! %d\n", counter++);
+    while ((p_e1000->rx_descs[p_e1000->rx_cur]->status & 0x1))
     {
         kernel.pit.packets_received++;
-        printk("handling receive! %d\n", counter++);
         uint8_t *buf = (uint8_t *)p_e1000->rx_descs[p_e1000->rx_cur]->addr;
         uint16_t len = p_e1000->rx_descs[p_e1000->rx_cur]->length;
         NetworkPacket networkPacket;
         networkPacket.ethernetPacket = (EthernetPacket *)buf;
         networkPacket.packet_size = len;
         current_head = e1000ReadCommand(p_e1000, REG_RXDESCHEAD);
-        printk("current head: %d\t", current_head);
-        /*   if ( p_e1000->mac[5] == 0xa7)
-        { 
-            printk (">>>>>>> E1000: processing packet\n");
-            printk ("p_e1000->rx_cur: %d\n",p_e1000->rx_cur);
-            printk ("p_e1000->head: %d\n",current_head);
-            printk ("Length: %d\n",len);
-        }*/
+        printk("current head: %d\n", current_head);
+
         p_e1000->rx_descs[p_e1000->rx_cur]->status = 0;
         uint16_t old_cur = p_e1000->rx_cur;
         p_e1000->rx_cur = (p_e1000->rx_cur + 1) % E1000_NUM_RX_DESC;
         processEthernetPacket(p_networkDriver, (void *)&networkPacket);
-        // EthernetPacket *p_ethernetPacket = getEthernetPacketFromSKB();
-        // if (ntohs(p_ethernetPacket->h_proto) == ETHERTYPE_ARP)
-        //     //processARPPacket(p_networkDriver, (void *)&networkPacket);
-        //     printk("got ARP Packet!\n");
-        // else if (ntohs(p_ethernetPacket->h_proto) == ETHERTYPE_IP)
-        //     printk("got IP Packet!\n");
-        //e1000WriteCommand(p_e1000, REG_RXDESCTAIL, old_cur);
+
+        e1000WriteCommand(p_e1000, REG_RXDESCTAIL, old_cur);
     }
-    e1000WriteCommand(p_e1000, REG_RXDESCTAIL, p_e1000->rx_cur);
 }
 
 E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
@@ -464,12 +423,11 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     e1000DetectEEProm(p_e1000);
     e1000ReadMACAddress(p_e1000);
 
-    //uint32_t status_reg = e1000ReadCommand(p_e1000, REG_STATUS);
-    //e1000PrintStatus(status_reg);
     printk_network("Starting Interface \n");
     e1000StartLink(p_e1000);
 
-    e1000WriteCommand(p_e1000, 0x000C4, 1000000000 / (3 * 256));
+    // i believe this is incorrect to have as it slows down the driver!
+    //e1000WriteCommand(p_e1000, 0x000C4, 1000000000 / (3 * 256));
 
     for (int i = 0; i < 0x80; i++)
     {
@@ -485,25 +443,6 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     e1000RXInit(p_e1000);
     e1000TXInit(p_e1000);
     p_e1000->int_line = p_pciConfigHeader->int_line + IRQ0;
-    bool wire_flag = false;
-    // uint32_t tctl;
-    // tctl = e1000ReadCommand(p_e1000, REG_TCTRL);
-    // tctl &= ~((0xff << 4) | (0x3ff << 12));
-    // tctl |= (TCTL_EN | TCTL_PSP | (0x0f << 4) | (0x40 << 12));
-    // e1000WriteCommand(p_e1000, REG_TCTRL, tctl);
-
-    // uint32_t rctl;
-    // rctl = e1000ReadCommand(p_e1000, REG_RCTRL);
-    // //rctl &= ~(RCTL_BSIZE_4096);
-    // rctl |= (RCTL_EN | /*RCTL_UPE | RCTL_MPE |*/ RCTL_BAM | RCTL_BSIZE_8192 | RCTL_SECRC);
-    // e1000WriteCommand(p_e1000, REG_RCTRL, rctl);
-
-    // e1000CheckLink(p_e1000);
-
-    // //set link up
-    // e1000WriteCommand(p_e1000, REG_CTRL, 0x20 | ECTRL_SLU); //set link up, activate auto-speed detection
-
-    // e1000CheckLink(p_e1000);
 
     DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
 

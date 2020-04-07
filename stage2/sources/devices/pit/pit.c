@@ -43,14 +43,14 @@ void pit_fire(InterruptContext *p_interruptContext)
             printk("Core: %d         Timer Tick: %d\n", apic_id, kernel.apicManager.apics[apic_id].pit_counter / 100);
             kernel.pit.ticks++;
         }
-        if (kernel.apicManager.apics[apic_id].pit_counter % 500 == 0)
-        {
-            printk("dispatching IPI to network!\n");
-            kernel.ipiManager.params.receiverCore_id = 0;
-            kernel.ipiManager.params.p_irq = 11 + 32;
-            DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
-            //e1000Scan();
-        }
+        // if (kernel.apicManager.apics[apic_id].pit_counter % 500 == 0)
+        // {
+        //     printk("dispatching IPI to network!\n");
+        //     kernel.ipiManager.params.receiverCore_id = 0;
+        //     kernel.ipiManager.params.p_irq = 11 + 32;
+        //     DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
+        //     //e1000Scan();
+        // }
         for (uint16_t i = 0; i < kernel.apicManager.apics_count; i++)
         {
             if (i != apic_id)
