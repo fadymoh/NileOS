@@ -139,7 +139,8 @@ int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t
         spinlock_unlock(&p_e1000->spinlock);
         return 0;
     }
-    while (!(p_e1000->tx_descs[old_cur]->status & 0xff));
+    while (!(p_e1000->tx_descs[old_cur]->status & 0xff))
+        ;
     spinlock_unlock(&p_e1000->spinlock);
     return 0;
 }
@@ -280,7 +281,8 @@ void e1000RXInit(E1000 *p_e1000)
     p_e1000->rx_cur = 0;
 
     /* Enable Receives */
-    e1000WriteCommand(p_e1000, REG_RCTRL, 0x601801A);
+    e1000WriteCommand(p_e1000, REG_RCTRL, RCTL_EN| RCTL_SBP| RCTL_UPE | RCTL_MPE | RCTL_LBM_NONE | RTCL_RDMTS_HALF | RCTL_BAM | RCTL_SECRC  | RCTL_BSIZE_8192);
+    //e1000WriteCommand(p_e1000, REG_RCTRL, 0x601801A);
 }
 
 void e1000TXInit(E1000 *p_e1000)
@@ -300,14 +302,14 @@ void e1000TXInit(E1000 *p_e1000)
     }
     ptr = (uint8_t *)v2p2m((uint64_t)ptr);
 
-    e1000WriteCommand(p_e1000, REG_TXDESCLEN, E1000_NUM_TX_DESC * 16);
-
     e1000WriteCommand(p_e1000, REG_TXDESCHI, (uint32_t)((uint64_t)ptr >> 32));
     e1000WriteCommand(p_e1000, REG_TXDESCLO, (uint32_t)((uint64_t)ptr & 0x00000000ffffffffULL));
 
     //setup numbers
     e1000WriteCommand(p_e1000, REG_TXDESCHEAD, 0);
     e1000WriteCommand(p_e1000, REG_TXDESCTAIL, 0);
+    e1000WriteCommand(p_e1000, REG_TXDESCLEN, E1000_NUM_TX_DESC * 16);
+
     p_e1000->tx_cur = 0;
     /* Program the Transmit Control Register */
 
@@ -317,6 +319,7 @@ void e1000TXInit(E1000 *p_e1000)
             (TCTL_COLLISION_THRESHOLD << TCTL_CT_SHIFT);
 
     e1000WriteCommand(p_e1000, REG_TCTRL, tctl);
+    e1000WriteCommand(p_e1000, REG_TIPG, 0x0060200A);
 }
 
 void e1000InterruptHandler(InterruptContext *p_interruptContext)
