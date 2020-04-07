@@ -305,21 +305,24 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   keyboard_init();
 
-  rtl8139_init();
+  //rtl8139_init();
 
-  // e1000Scan();
-
-  // e1000StartLink((E1000 *)kernel.e1000->driver);
+  disableInterrupts();
+  e1000Scan();
+  enableInterrupts();
+  //e1000StartLink((E1000 *)kernel.e1000->driver);
 
   // while (kernel.apicManager.apics[0].pit_counter / 100 <= 6)
   //   ;
 
-  // printk("It is 6\n");
-  // e1000StartLink((E1000 *)kernel.e1000->driver);
-
-  // kernel.ipiManager.params.receiverCore_id = 0;
-  // kernel.ipiManager.params.p_irq = 11 + 32;
-  // DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
+  printk("It is 6\n");
+  //  // e1000StartLink((E1000 *)kernel.e1000->driver);
+  //  // e1000Scan();
+  kernel.ipiManager.params.receiverCore_id = 0;
+  kernel.ipiManager.params.p_irq = 11 + 32;
+  DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
+  uint32_t status_reg = e1000ReadCommand((E1000 *)kernel.e1000->driver, REG_STATUS);
+  e1000PrintStatus(status_reg);
 }
 
 void userModeDemo()

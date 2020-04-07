@@ -300,10 +300,12 @@ SECTIONS\n \
 \tServiceTransport.o (.text)\n\
 \tnumbers.o (.text)\n\
 \trtl8139.o (.text)\n\
-\tethernet.o(.text)\n\
 \tSpinlock.o (.text)\n\
 \tKMalloc.o (.text)\n\
 \tE1000.o (.text)\n\
+\tARP.o (.text)\n\
+\tIP.o (.text)\n\
+\tEthernet.o (.text)\n\
 \tNetworkDriver.o (.text)\n\
 \tkeyboard.o (.text)\n\
 \

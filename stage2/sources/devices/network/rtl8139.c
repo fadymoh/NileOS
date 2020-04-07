@@ -110,7 +110,7 @@ void receive_packet()
     void *packet = kmalloc(&kernel.memoryAllocator, packet_length);
 
     fast_memcpy(packet, t, packet_length);
-    ethernet_handle_packet(packet, packet_length);
+   // ethernet_handle_packet(packet, packet_length);
 
     current_packet_ptr = (current_packet_ptr + packet_length + 4 + 3) & RX_READ_POINTER_MASK;
 

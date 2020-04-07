@@ -1,7 +1,7 @@
 #ifndef RTL8139_H
 #define RTL8139_H
 #include "Kernel.h"
-#include "ethernet.h"
+#include "Ethernet.h"
 
 
 #define RTL8139_VENDOR_ID 0x10EC

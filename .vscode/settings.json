@@ -45,6 +45,9 @@
         "keyboard.h": "c",
         "bitset": "c",
         "chrono": "c",
-        "apicmanager.h": "c"
+        "apicmanager.h": "c",
+        "icmp.h": "c",
+        "ethernet.h": "c",
+        "udp.h": "c"
     }
 }

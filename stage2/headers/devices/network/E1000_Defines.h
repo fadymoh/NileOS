@@ -118,13 +118,16 @@
 
 // TCTL Register
 
-#define TCTL_EN                         (1 << 1)    // Transmit Enable
-#define TCTL_PSP                        (1 << 3)    // Pad Short Packets
-#define TCTL_CT_SHIFT                   4           // Collision Threshold
-#define TCTL_COLD_SHIFT                 12          // Collision Distance
-#define TCTL_SWXOFF                     (1 << 22)   // Software XOFF Transmission
-#define TCTL_RTLC                       (1 << 24)   // Re-transmit on Late Collision
+#define E1000_TCTL_RTLC   0x01000000    /* Re-transmit on late collision */
 
+#define TCTL_EN                         0x00000002  // Transmit Enable
+#define TCTL_PSP                        0x00000008  // Pad Short Packets
+#define TCTL_CT                         0x00000ff0  // Collision Threshold
+#define TCTL_COLD_SHIFT                 0x003ff000  // Collision Distance
+#define TCTL_SWXOFF                     (1 << 22)   // Software XOFF Transmission
+#define TCTL_RTLC                       0x10000000  // Re-transmit on Late Collision
+#define TCTL_COLLISION_THRESHOLD        15
+#define TCTL_CT_SHIFT                   4
 #define TSTA_DD                         (1 << 0)    // Descriptor Done
 #define TSTA_EC                         (1 << 1)    // Excess Collisions
 #define TSTA_LC                         (1 << 2)    // Late Collision
