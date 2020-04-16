@@ -33,9 +33,15 @@ typedef struct arp_header_t {
     uint8_t target_protocol_address [4];
 } arp_header_t;
 
+typedef struct arp_table_entry_t
+{
+    uint32_t ip_addr;
+    uint64_t mac_addr : 48;
+} arp_table_entry;
 
 arp_header_t * getARPPacketFromSKB(void *skb);
 void processARPPacket (NetworkDriver * p_networkDriver,void * skb);
+void RequestMACAddress(NetworkDriver *p_networkDriver, uint8_t* ipAddress);
 
 
 #endif /* ARPPACKET_H_ */

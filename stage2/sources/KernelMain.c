@@ -85,27 +85,30 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   int sleep_time = core_id * 150 + 500;
 
-  // printk("Now switching to usermode\n");
-  //switchToUserMode();
+  //  printk("Now switching to usermode\n");
+  // switchToUserMode();
   // printk("Now in usermode\n");
+  // asm volatile("hlt;");
 
-  uint64_t rax_val = 0; // SYSCALL ID FOR SLEEP
-  uint64_t rdi_val = sleep_time;
-  uint64_t rsi_val = 0;
-  uint64_t ret;
-  uint64_t others = 0;
+  //  userModeDemo();
 
-  asm volatile("mov %2,%%r8\n"
-               "mov %3,%%r9\n"
-               "int $0x80"
-               : "=a"(ret)
-               : "0"(rax_val), "r"(others), "r"(others), "b"(others), "c"(others), "d"(others), "S"(rsi_val), "D"(rdi_val));
+  // uint64_t rax_val = 0; // SYSCALL ID FOR SLEEP
+  // uint64_t rdi_val = sleep_time;
+  // uint64_t rsi_val = 0;
+  // uint64_t ret;
+  // uint64_t others = 0;
+
+  // asm volatile("mov %2,%%r8\n"
+  //              "mov %3,%%r9\n"
+  //              "int $0x80"
+  //              : "=a"(ret)
+  //              : "0"(rax_val), "r"(others), "r"(others), "b"(others), "c"(others), "d"(others), "S"(rsi_val), "D"(rdi_val));
 
   // printk("Core %d is now up again...\n", core_id);
 
-  //  printk("Core %d is about to sleep for %d...\n", core_id, sleep_time);
-  // pit_sleep(sleep_time, 0 ,WAKEUP_IPI, true);
-  // printk("Core %d is now up again...\n", core_id);
+  // printk("Core %d is about to sleep for %d...\n", core_id, sleep_time);
+  //  pit_sleep(sleep_time, 0 ,WAKEUP_IPI, true);
+  //  printk("Core %d is now up again...\n", core_id);
   while (1)
     ;
 }
@@ -184,6 +187,10 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   kernel.globalDescriptorTable = (GlobalDescriptorTable *)kmalloc(&kernel.memoryAllocator, sizeof(GlobalDescriptorTable) * kernel.acpi.cores_count);
   kernel.globalDescriptorTablePointer = &globalDescriptorTablePointer;
 
+  Ipi *ipi_manager = &kernel.ipiManager;
+  service_init(&ipiService, (void *)ipi_manager, ipi_t);
+  InitializeIPI(ipi_manager, &ipiService);
+  RegisterServiceToKernel(service_transporter, &ipiService, ipi_t);
   /*
  * ─── INITIALIZE APIC MANAGER SERVICE ────────────────────────────────────────────
  */
@@ -242,30 +249,20 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ14 - IRQ0, IRQ14);
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ15 - IRQ0, IRQ15);
-
+  //!read from disk demo
   kernel.dmaBuffer.enabled = true;
   uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 512 * sectors + 2);
-  init_BlockService();
+  //init_BlockService();
+  //! main method to test
   //read_blocks(kernel.ataManager.ataDisks[0], buffer);
-
-  //printk("start reading\n");
-  //readDMADisk(kernel.ataManager.ataDisks[0], 52825, buffer, sectors, 0, 0);
-
-  // for (int i = 0; i < 512*75776; ++i)
-  //   printk("%c",buffer[i]);
-  printk("\nDONE!\n");
-
+  //printk("\nDONE!\n");
+  //! end of demo
   //TODO: end ata trial 1
 
   //syscall interrupt registering
   kernel.interruptManager.params.p_interruptNumber = 0x80;
   kernel.interruptManager.params.p_interruptHandler = syscall;
   DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
-
-  Ipi *ipi_manager = &kernel.ipiManager;
-  service_init(&ipiService, (void *)ipi_manager, ipi_t);
-  InitializeIPI(ipi_manager, &ipiService);
-  RegisterServiceToKernel(service_transporter, &ipiService, ipi_t);
 
   // printk("Core 0 is now about to wake up core 1\n");
   // ipi_manager->params.receiverCore_id = 1;
@@ -283,17 +280,17 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   // userModeDemo();
 
-  generateServices();
-  service1 *s1 = ((service1 *)kernel.void_pointers[1]);
+  // generateServices();
+  // service1 *s1 = ((service1 *)kernel.void_pointers[1]);
 
-  printk_debug("printing values before dispatching service functions: X: %d, Y: %d\n", s1->x, s1->y);
-  DispatchKernel(&kernel.service_transporter, service1_t, void_method2);
-  printk_debug("printing values after dispatching service functions: X: %d, Y: %d\n", s1->x, s1->y);
+  // printk_debug("printing values before dispatching service functions: X: %d, Y: %d\n", s1->x, s1->y);
+  // DispatchKernel(&kernel.service_transporter, service1_t, void_method2);
+  // printk_debug("printing values after dispatching service functions: X: %d, Y: %d\n", s1->x, s1->y);
 
-  SharedMemory *sharedMemory = &(kernel.sharedMemory);
-  service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
-  initSharedMemoryService(sharedMemory, &sharedMemoryService);
-  RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
+  // SharedMemory *sharedMemory = &(kernel.sharedMemory);
+  // service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
+  // initSharedMemoryService(sharedMemory, &sharedMemoryService);
+  // RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
 
   enableAPICTimer(&kernel.apicManager.apics[0]);
   DispatchKernel(&kernel.service_transporter, apic_t, startup_APIC);
@@ -310,19 +307,20 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   disableInterrupts();
   e1000Scan();
   enableInterrupts();
-  //e1000StartLink((E1000 *)kernel.e1000->driver);
+  printk("Finished Setting up the Network Driver!\n");
+  // //e1000StartLink((E1000 *)kernel.e1000->driver);
 
-  // while (kernel.apicManager.apics[0].pit_counter / 100 <= 6)
-  //   ;
+  // // while (kernel.apicManager.apics[0].pit_counter / 100 <= 6)
+  // //   ;
 
-  printk("It is 6\n");
-  //  // e1000StartLink((E1000 *)kernel.e1000->driver);
-  //  // e1000Scan();
-  kernel.ipiManager.params.receiverCore_id = 0;
-  kernel.ipiManager.params.p_irq = 11 + 32;
-  DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
-  uint32_t status_reg = e1000ReadCommand((E1000 *)kernel.e1000->driver, REG_STATUS);
-  e1000PrintStatus(status_reg);
+  // printk("It is 6\n");
+  // //  // e1000StartLink((E1000 *)kernel.e1000->driver);
+  // //  // e1000Scan();
+  // kernel.ipiManager.params.receiverCore_id = 0;
+  // kernel.ipiManager.params.p_irq = 11 + 32;
+  // DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
+  // uint32_t status_reg = e1000ReadCommand((E1000 *)kernel.e1000->driver, REG_STATUS);
+  // e1000PrintStatus(status_reg);
 }
 
 void userModeDemo()

@@ -65,7 +65,13 @@ void keyboard_handler(InterruptContext * r)
         } 
         else if (scancode == 80) // down arrow
         {
+            uint8_t ipAddress[4];
+            ipAddress[0] = 192;
+            ipAddress[1] = 168;
+            ipAddress[2] = 1;
+            ipAddress[3] = 2;
 
+            RequestMACAddress(kernel.e1000, ipAddress);
         }
         else if (scancode == 75) // left
         {
@@ -81,6 +87,7 @@ void keyboard_handler(InterruptContext * r)
             DispatchKernel(&kernel.service_transporter, console_t, switch_terminal);           
         }
     }
+    sendAPICEOI(&kernel.apicManager.apics[0]);
 }
 void keyboard_init()
 {

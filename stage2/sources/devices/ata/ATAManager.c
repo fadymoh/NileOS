@@ -258,13 +258,14 @@ void ataHandleReadInterrupt(InterruptContext *p_interruptContext)
             if (readDMADiskSectors(kernel.dmaBuffer.ataDisk, kernel.dmaBuffer.current_address, kernel.dmaBuffer.current_read) == READ_DMA_SUCCESS)
                 break;
             if (i > 0 && i % 100 == 0)
-                printk_fs("READ: I am stuck here: %d\n", i);
+                printk("READ: I am stuck here: %d\n", i);
         }
     }
     else
-    {  kernel.dmaBuffer.ataDisk->done_read = true;
+    {  
+        kernel.dmaBuffer.ataDisk->done_read = true;
         uint64_t end_time = getRTCTimeStamp32();
-        printk_fs("Finished reading: %d sectors in %d sec\n", kernel.dmaBuffer.total_read, end_time - kernel.dmaBuffer.start_time);
+        printk("Finished reading: %d sectors in %d sec\n", kernel.dmaBuffer.total_read, end_time - kernel.dmaBuffer.start_time);
         kernel.ipiManager.params.receiverCore_id = kernel.dmaBuffer.core_id;
         kernel.ipiManager.params.p_irq = ATA_IPI;
         DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);

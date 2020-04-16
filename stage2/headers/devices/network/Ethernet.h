@@ -27,5 +27,6 @@ typedef struct{
 
 EthernetPacket * getEthernetPacketFromSKB(void *skb);
 void processEthernetPacket (NetworkDriver * p_networkDriver,void * skb);
+void ReverseSourceAndDestination(uint8_t *source, uint8_t *destination);
 
 #endif

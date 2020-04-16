@@ -39,7 +39,7 @@ boot.flp: subsystems
 	$(CAT) $(BIN)/bootstage1.bin $(BIN)/bootstage2.bin $(BIN)/stage1.bin $(BIN)/trampoline.bin /dev/zero | $(DD) bs=512 count=61440 of=$(IMAGE)/boot.flp
 	# $(DD) if=$(IMAGE)/ramdisk.img bs=512 seek=25 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=$(BIN)/KernelMain.bin bs=512 seek=51225 of=$(IMAGE)/boot.flp conv=notrunc,noerror
-	$(DD) if=$(BIN)/text.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
+	$(DD) if=$(BIN)/test.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	# $(DD) if=$(BIN)/bosml.bin bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=/dev/zero bs=1 count=1 of=$(IMAGE)/boot.flp conv=sync seek=64026623
 	cp $(IMAGE)/boot.flp $(IMAGE)/boot.raw

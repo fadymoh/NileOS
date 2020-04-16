@@ -76,17 +76,14 @@ void e1000ReadMACAddress(E1000 *p_e1000)
         printk_network("EEPROM Exists\n");
         uint32_t temp;
         temp = e1000EEpromRead(p_e1000, 0);
-        printk_network("EEPROM Exists 1\n");
 
         p_e1000->mac[0] = temp & 0xff;
         p_e1000->mac[1] = temp >> 8;
         temp = e1000EEpromRead(p_e1000, 1);
-        printk_network("EEPROM Exists 2\n");
 
         p_e1000->mac[2] = temp & 0xff;
         p_e1000->mac[3] = temp >> 8;
         temp = e1000EEpromRead(p_e1000, 2);
-        printk_network("EEPROM Exists 3\n");
 
         p_e1000->mac[4] = temp & 0xff;
         p_e1000->mac[5] = temp >> 8;
@@ -107,7 +104,7 @@ void e1000ReadMACAddress(E1000 *p_e1000)
         else
             return;
     }
-    printk_network("MAC Address: %y:%y:%y:%y:%y:%y",
+    printk_network("MAC Address: %y:%y:%y:%y:%y:%y\n",
                    p_e1000->mac[0],
                    p_e1000->mac[1],
                    p_e1000->mac[2],
@@ -119,7 +116,6 @@ void e1000ReadMACAddress(E1000 *p_e1000)
 int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t p_len)
 {
     // we need to spinlock in case of concurrency
-
     E1000 *p_e1000 = (E1000 *)p_networkDriver->driver;
     spinlock_lock(&p_e1000->spinlock);
     p_e1000->tx_descs[p_e1000->tx_cur]->addr = v2p2m((uint64_t)p_data);
@@ -128,6 +124,7 @@ int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t
     p_e1000->tx_descs[p_e1000->tx_cur]->status = 0;
     uint16_t current_head = e1000ReadCommand(p_e1000, REG_TXDESCHEAD);
     uint16_t old_cur = p_e1000->tx_cur;
+
     if (old_cur + 1 == current_head)
     {
         printk("E1000 buffer overflow\n");
@@ -139,8 +136,7 @@ int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t
         spinlock_unlock(&p_e1000->spinlock);
         return 0;
     }
-    while (!(p_e1000->tx_descs[old_cur]->status & 0xff))
-        ;
+    while (!(p_e1000->tx_descs[old_cur]->status & 0xff));
     spinlock_unlock(&p_e1000->spinlock);
     return 0;
 }
@@ -207,43 +203,43 @@ void e1000StartLink(E1000 *p_e1000)
 
 void e1000PrintStatus(uint32_t status_reg)
 {
-    printk("e1000 NIC Status:\n");
+    printk_network("e1000 NIC Status:\n");
     uint8_t extract = status_reg & 0b00000000000000000000000000000001;
     if (extract == 1)
-        printk("Full Duplex\n");
+        printk_network("Full Duplex\n");
     else
-        printk("Half Duplex\n");
+        printk_network("Half Duplex\n");
     extract = ((uint32_t)(status_reg) >> 1) & 0b00000000000000000000000000000001;
     if (extract == 1)
-        printk("Link Up\n");
+        printk_network("Link Up\n");
     else
-        printk("Link Down\n");
+        printk_network("Link Down\n");
 
     extract = ((uint32_t)(status_reg) >> 3) & 0b00000000000000000000000000000001;
     if (extract == 1)
-        printk("TXOFF\n");
+        printk_network("TXOFF\n");
     else
-        printk("TXON\n");
+        printk_network("TXON\n");
 
     extract = ((uint32_t)(status_reg) >> 5) & 0b00000000000000000000000000000011;
     if (extract == 0)
-        printk("10Mb/s\n");
+        printk_network("10Mb/s\n");
     else if (extract == 1)
-        printk("100Mb/s\n");
+        printk_network("100Mb/s\n");
     else if (extract == 2)
-        printk("1000Mb/s\n");
+        printk_network("1000Mb/s\n");
     else
-        printk("1000Mb/s\n");
+        printk_network("1000Mb/s\n");
 
     extract = ((uint32_t)(status_reg) >> 7) & 0b00000000000000000000000000000011;
     if (extract == 0)
-        printk("AutoDetected: 10Mb/s\n");
+        printk_network("AutoDetected: 10Mb/s\n");
     else if (extract == 1)
-        printk("AutoDetected: 100Mb/s\n");
+        printk_network("AutoDetected: 100Mb/s\n");
     else if (extract == 2)
-        printk("AutoDetected: 1000Mb/s\n");
+        printk_network("AutoDetected: 1000Mb/s\n");
     else
-        printk("AutoDetected: 1000Mb/s\n");
+        printk_network("AutoDetected: 1000Mb/s\n");
 }
 
 void e1000RXInit(E1000 *p_e1000)
@@ -313,12 +309,13 @@ void e1000TXInit(E1000 *p_e1000)
     p_e1000->tx_cur = 0;
     /* Program the Transmit Control Register */
 
-    tctl = e1000ReadCommand(p_e1000, REG_TCTRL);
-    tctl &= ~TCTL_CT;
-    tctl |= TCTL_PSP | E1000_TCTL_RTLC |
-            (TCTL_COLLISION_THRESHOLD << TCTL_CT_SHIFT);
+    // tctl = e1000ReadCommand(p_e1000, REG_TCTRL);
+    // tctl &= ~TCTL_CT;
+    // tctl |= TCTL_PSP | E1000_TCTL_RTLC |
+    //         (TCTL_COLLISION_THRESHOLD << TCTL_CT_SHIFT);
 
-    e1000WriteCommand(p_e1000, REG_TCTRL, tctl);
+    // e1000WriteCommand(p_e1000, REG_TCTRL, tctl);
+    e1000WriteCommand(p_e1000, REG_TCTRL, 0b0110000000000111111000011111010);
     e1000WriteCommand(p_e1000, REG_TIPG, 0x0060200A);
 }
 
@@ -335,12 +332,12 @@ void e1000InterruptHandler(InterruptContext *p_interruptContext)
         }
         else if (status & 0x10)
         {
-            printk("Good threshhold\n");
+            //printk("Good threshhold\n");
             e1000HandleReceive(kernel.e1000);
         }
         else if (status & 0x80)
         {
-            printk("Good threshhold 2\n");
+           // printk("Good threshhold 2\n");
 
             e1000HandleReceive(kernel.e1000);
         }
@@ -375,7 +372,7 @@ void e1000HandleReceive(NetworkDriver *p_networkDriver)
     if (current_head == p_e1000->rx_cur)
         return;
     int counter = 0;
-    printk("handling receive! %d\n", counter++);
+    //printk("handling receive! %d\n", counter++);
     while ((p_e1000->rx_descs[p_e1000->rx_cur]->status & 0x1))
     {
         kernel.pit.packets_received++;
@@ -385,7 +382,7 @@ void e1000HandleReceive(NetworkDriver *p_networkDriver)
         networkPacket.ethernetPacket = (EthernetPacket *)buf;
         networkPacket.packet_size = len;
         current_head = e1000ReadCommand(p_e1000, REG_RXDESCHEAD);
-        printk("current head: %d\n", current_head);
+        //printk("current head: %d\n", current_head);
 
         p_e1000->rx_descs[p_e1000->rx_cur]->status = 0;
         uint16_t old_cur = p_e1000->rx_cur;
@@ -415,9 +412,9 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     }
 
     if (EnablePCIBusMastering(p_pciConfigHeader))
-        printk_network("NIC enablePCIBusMastering: succeeded\n");
+        printk_network("Enabling PCIBusMastering: succeeded\n");
     else
-        printk_network("NIC: enablePCIBusMastering: failed\n");
+        printk_network("Enabling PCIBusMastering: failed\n");
 
     kernel.physicalMemoryManager.params.p_physical_address = p_e1000->mem_base;
     DispatchKernel(&kernel.service_transporter, physical_memory_t, get_virtual_address);
@@ -426,7 +423,7 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     e1000DetectEEProm(p_e1000);
     e1000ReadMACAddress(p_e1000);
 
-    printk_network("Starting Interface \n");
+    printk_network("Starting Interface\n");
     e1000StartLink(p_e1000);
 
     // i believe this is incorrect to have as it slows down the driver!
