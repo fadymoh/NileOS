@@ -29,20 +29,21 @@ void reverseIPSourceAndDestination(ip_header_t * ip_header)
 void processIPPacket (NetworkDriver * p_networkDriver,void * skb)
 {
     ip_header_t * ip_header = getIPPacketFromSKB(skb);
-/*s    printk("IP Header Size : %d\n",ip_header->ihl*4);
-    printk("IP Header Checksum : %d\n",ip_header->check);
-    printk("IP Header Protocol : %d\n",ip_header->protocol);
-    ip_header->check = 0;
-    uint16_t cs = calcsum((uint16_t *)ip_header,ip_header->ihl*4);
-    printk("Calculated Checksum : %d\n",cs);
-    cs = ip_hdr_checksum((uint16_t *)ip_header);
-    printk("ASM Calculated Checksum : %d\n",cs);*/
+    printk("processing IP\n");
+    // printk("IP Header Size : %d\n",ip_header->ihl*4);
+    // printk("IP Header Checksum : %d\n",ip_header->check);
+    // printk("IP Header Protocol : %d\n",ip_header->protocol);
+    // ip_header->check = 0;
+    // uint16_t cs = calcsum((uint16_t *)ip_header,ip_header->ihl*4);
+    // printk("Calculated Checksum : %d\n",cs);
+    // cs = ip_hdr_checksum((uint16_t *)ip_header);
+    // printk("ASM Calculated Checksum : %d\n",cs);
 //    printk("IP Protocol : %d\n",ip_header->protocol);
     //if ( getNetworkDriverByIPAddress((uint8_t *)&ip_header->daddr) == p_networkDriver)
     {
-     //   if ( ip_header->protocol == IP_PACKET_TYPE_ICMP ) processICMPPacket(p_networkDriver,skb);
+       if ( ip_header->protocol == IP_PACKET_TYPE_ICMP ) processICMPPacket(p_networkDriver,skb);
         //else if ( ip_header->protocol == IP_PACKET_TYPE_UDP ) processUDPPacket(p_networkDriver,skb);
-        //else printk ("ip_header->protocol: %d\n",ip_header->protocol);
+        else printk ("ip_header->protocol: %d\n",ip_header->protocol);
     }
     //else printk ("Invalid IP Address for driver: %d\n",ip_header->daddr);
     

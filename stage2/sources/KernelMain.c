@@ -6,7 +6,7 @@
 #include "checksum.h"
 #include "Library.h"
 #include "rtl8139.h"
-#define sectors 4096
+#define sectors 2048
 Kernel kernel;
 InterruptDescriptorTablePointer interruptDescriptorTablePointer;
 
@@ -251,12 +251,20 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ14 - IRQ0, IRQ14);
   mapAPICIRQ(&kernel.apicManager.apics[0], IRQ15 - IRQ0, IRQ15);
   //!read from disk demo
-  kernel.dmaBuffer.enabled = true;
-  uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 512 * sectors + 2);
-  //init_BlockService();
+  uint8_t *buffer = kmalloc(&kernel.memoryAllocator, sizeof(uint8_t) * 15 * sectors + 2);
+  init_BlockService();
   //! main method to test
-  //read_blocks(kernel.ataManager.ataDisks[0], buffer);
-  //printk("\nDONE!\n");
+  kernel.blockService.start_sector = 52825;
+  kernel.blockService.blocks_to_read_number = 10;
+  read_blocks(kernel.ataManager.ataDisks[0], buffer);
+  // kernel.blockService.blocks_to_read_number = 15;
+  // kernel.blockService.start_sector = 52825 + 30 * sectors;
+  read_blocks(kernel.ataManager.ataDisks[0], buffer);
+  // for (int i = 0; i < 512; ++i)
+  // {
+  //   printk("%c", (char)buffer[i]);
+  // }
+  printk("\nDONE!\n");
   //! end of demo
   //TODO: end ata trial 1
 
@@ -309,6 +317,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   e1000Scan();
   enableInterrupts();
   printk("Finished Setting up the Network Driver!\n");
+  printk("gamed\n");
   // //e1000StartLink((E1000 *)kernel.e1000->driver);
 
   // // while (kernel.apicManager.apics[0].pit_counter / 100 <= 6)

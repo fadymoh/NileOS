@@ -305,6 +305,7 @@ SECTIONS\n \
 \tE1000.o (.text)\n\
 \tARP.o (.text)\n\
 \tIP.o (.text)\n\
+\tICMP.o (.text)\n\
 \tEthernet.o (.text)\n\
 \tNetworkDriver.o (.text)\n\
 \tkeyboard.o (.text)\n\

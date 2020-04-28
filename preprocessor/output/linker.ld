@@ -55,6 +55,7 @@ SECTIONS
 	E1000.o (.text)
 	ARP.o (.text)
 	IP.o (.text)
+	ICMP.o (.text)
 	Ethernet.o (.text)
 	NetworkDriver.o (.text)
 	keyboard.o (.text)

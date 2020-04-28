@@ -40,7 +40,7 @@ void pit_fire(InterruptContext *p_interruptContext)
         kernel.apicManager.apics[apic_id].pit_counter++;
         if (kernel.apicManager.apics[apic_id].pit_counter % 100 == 0)
         {
-            printk("Core: %d         Timer Tick: %d\n", apic_id, kernel.apicManager.apics[apic_id].pit_counter);
+           // printk("Core: %d         Timer Tick: %d\n", apic_id, kernel.apicManager.apics[apic_id].pit_counter);
             kernel.pit.ticks++;
         }
         // if (kernel.apicManager.apics[apic_id].pit_counter % 500 == 0)
