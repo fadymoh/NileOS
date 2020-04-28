@@ -23,6 +23,9 @@
 #include "rtl8139.h"
 #include "keyboard.h"
 #include "E1000.h"
+#include "XMLParser.h"
+#include "XQuery.h"
+#include "XMLService.h"
 
 typedef struct 
 {
@@ -66,6 +69,11 @@ typedef struct
     
     //Network
     NetworkDriver* e1000;
+    XMLService xmlService; 
+
+    xml_heap_t * sys_xml_confg;
+
+
     } Kernel;
 
 void switchToUserMode ();

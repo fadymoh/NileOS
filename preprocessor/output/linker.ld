@@ -58,10 +58,14 @@ SECTIONS
 	Ethernet.o (.text)
 	NetworkDriver.o (.text)
 	keyboard.o (.text)
-	hamada_K.o (.text)
-	hamada_U.o (.text)
+	void_ptr_stack.o (.text)
+	XMLParser.o (.text)
+	XQuery.o (.text)
+	XMLService.o (.text)
 	service1_K.o (.text)
 	service1_U.o (.text)
+	hamada_K.o (.text)
+	hamada_U.o (.text)
 
 	Kernel.o (.text)
 		. = ALIGN(4K);

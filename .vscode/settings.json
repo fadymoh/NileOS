@@ -48,6 +48,8 @@
         "apicmanager.h": "c",
         "icmp.h": "c",
         "ethernet.h": "c",
-        "udp.h": "c"
+        "udp.h": "c",
+        "void_ptr_stack.h": "c",
+        "xmlparser.h": "c"
     }
 }

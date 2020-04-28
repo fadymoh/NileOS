@@ -30,3 +30,4 @@ subsystems:
 	$(MAKE) -C sources/interrupts CODE_HOME=$(CODE_HOME)
 
 	$(MAKE) -C sources/ipi CODE_HOME=$(CODE_HOME)
+	$(MAKE) -C sources/xml CODE_HOME=$(CODE_HOME)

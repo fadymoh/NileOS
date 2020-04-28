@@ -13,10 +13,11 @@ typedef enum service_enum_t
     apic_t,
     interruptManager_t,
     ipi_t,
-    sharedMemory_t
+    sharedMemory_t,
     // ata manager
     // network driver
     // block service
+    xmlService_t
 
 } service_enum;
 

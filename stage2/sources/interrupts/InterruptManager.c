@@ -3,7 +3,7 @@
 
 extern Kernel kernel;
 
-void InitializeInterruptManager(InterruptManager *p_console, Service *p_service)
+void InitializeInterruptManager(InterruptManager *p_InterruptManager, Service *p_service)
 {
     // Initialize the InterruptHandlers Objects List
     SetupInterruptDescriptorTable();

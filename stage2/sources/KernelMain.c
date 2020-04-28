@@ -18,6 +18,7 @@ Service apicManagerService;
 Service interruptService;
 Service ipiService;
 Service sharedMemoryService;
+Service XMLParserService;
 
 GlobalDescriptorTablePointer globalDescriptorTablePointer;
 
@@ -321,10 +322,121 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
   // uint32_t status_reg = e1000ReadCommand((E1000 *)kernel.e1000->driver, REG_STATUS);
   // e1000PrintStatus(status_reg);
+
+  
+// SharedMemory *sharedMemory = &(kernel.sharedMemory);
+  // service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
+  // initSharedMemoryService(sharedMemory, &sharedMemoryService);
+  // RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
+
+  XMLService * xmlservice = &(kernel.xmlService);
+  service_init(&XMLParserService, (void *)xmlservice, xmlService_t);
+  initializeXMLService(&XMLParserService);
+  RegisterServiceToKernel(service_transporter, &XMLParserService, xmlService_t);
+
+
+  char path[256] = "cores/core[0]/Role"; 
+  xmlservice->params.ata_core_id = 0;
+  xmlservice->params.sectors_count_to_read = 1;
+  xmlservice->params.sectors_start = 52825;
+  xmlservice->params.tagDirectory = path; 
+  
+
+  DispatchKernel(service_transporter, xmlService_t, ParseFile); 
+  DispatchKernel(&kernel.service_transporter, xmlService_t, GetValueFromTag); 
+
+printk("Finished BSP Kernel Main\n");
+
 }
 
 void userModeDemo()
 {
   switchToUserMode();
   asm volatile("hlt;");
+}
+
+void testXMLParsing()
+{
+
+  
+
+
+
+
+
+  /*
+  printk("Reading System Configuration .....\n");
+  char *config_buffer = (char *)kvalloc(&kernel.memoryAllocator, (1 + 1) * SECTOR_SIZE);
+  memset(config_buffer, 0, (1 + 1) * SECTOR_SIZE);
+  sprintf(config_buffer, "<SystemConfig>\n");
+  //should be a syscall here..but now we use DMA right away. No blocks service optimization needed.
+
+  kernel.dmaBuffer.enabled = true;
+  kernel.dmaBuffer.total_read = 0;
+  //    printk ("1:before readDMADisk: %x\n",inode->ataDisk);
+  while (readDMADisk(kernel.ataManager.ataDisks[0], 52825, config_buffer + strlen(config_buffer), 1, 0, 0) == READ_DMA_FAIL);
+
+
+  kernel.apicManager.apics[0].fired_interrupts[ATA_IPI] = 0;
+  while (kernel.apicManager.apics[0].fired_interrupts[ATA_IPI] == 0)
+  {
+    asm volatile("sti;");
+    asm volatile("hlt;");
+    asm volatile("cli;");
+    sendAPICEOI(&kernel.apicManager.apics[0]);
+    if (kernel.dmaBuffer.total_read == kernel.dmaBuffer.target_read)
+      break;
+  }
+  printk("Out of syscall_read_file loop\n");
+  kernel.apicManager.apics[0].fired_interrupts[ATA_IPI] = 0;
+  kernel.dmaBuffer.enabled = false;
+
+  //end of syscall should be here
+  sprintf(config_buffer + strlen(config_buffer), "</SystemConfig>\n");
+  printk("Configuration read ....\n");
+
+  //for (int i = 0; i <  3 * SECTOR_SIZE ; ++i)
+  //{
+  // printk("%c", (char)config_buffer[i]);
+  //}
+
+  xml_heap_t *xml_heap = (xml_heap_t *)kvalloc(&kernel.memoryAllocator, sizeof(xml_heap_t));
+  xml_heap_init(xml_heap, config_buffer);
+
+  volatile int done = 0;
+
+  done = parse_xml(xml_heap);
+
+  if (done)
+  {
+    kernel.sys_xml_confg = xml_heap;
+    printk("Parsing Successful\n");
+  }
+  else
+  {
+    kernel.sys_xml_confg = NULL;
+    printk("Error parsing XML \n");
+  }
+
+  printk("DONE XML PARSING!\n");
+  printk("attempting to start executing queries\n");
+
+  char q[1024];
+  memset(q, 0, sizeof(q));
+  sprintf(q, "/SystemConfig/cores/core[0]/Role");
+  xml_node_t *xml_node = exec_xquery(q, kernel.sys_xml_confg);
+
+  if (xml_node != NULL){
+    
+   // printk("%s\n", xml_node->content);
+
+  //  if (strcmp(xml_node->content, "ELSE") == NULL){
+      printk("Final: Role: %s\n", xml_node->content);
+   // }
+  }
+
+  printk("Finished executing queries\n");
+
+  */
+
 }

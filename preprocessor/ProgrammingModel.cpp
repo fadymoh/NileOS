@@ -308,6 +308,10 @@ SECTIONS\n \
 \tEthernet.o (.text)\n\
 \tNetworkDriver.o (.text)\n\
 \tkeyboard.o (.text)\n\
+\tvoid_ptr_stack.o (.text)\n\
+\tXMLParser.o (.text)\n\
+\tXQuery.o (.text)\n\
+\tXMLService.o (.text)\n\
 \
 ";
 

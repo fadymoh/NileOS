@@ -19,7 +19,8 @@ cleanDebug:
 
 runvm: boot.flp
 	#qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,model=rtl8139,macaddr=52:54:00:91:46:20
-	qemu-system-x86_64 -m 4096 -smp 2 -hda $(IMAGE)/boot.flp -net dump -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,id=simpleos_net -device e1000,netdev=simpleos_net,id=simpleos_nic
+	qemu-system-x86_64 -m 4096 -smp 2 -hda $(IMAGE)/boot.flp 
+#-net dump -netdev tap,helper=/usr/lib/qemu/qemu-bridge-helper,id=simpleos_net -device e1000,netdev=simpleos_net,id=simpleos_nic
 	#qemu-system-x86_64 -m 8192 -smp 4 -hda $(IMAGE)/boot.flp -net nic,vlan=0,model=rtl8139,macaddr=52:54:00:91:46:f2 -net tap,ifname=virbr0 --enable-kvm
 
 runvbox: boot.flp
@@ -39,7 +40,7 @@ boot.flp: subsystems
 	$(CAT) $(BIN)/bootstage1.bin $(BIN)/bootstage2.bin $(BIN)/stage1.bin $(BIN)/trampoline.bin /dev/zero | $(DD) bs=512 count=61440 of=$(IMAGE)/boot.flp
 	# $(DD) if=$(IMAGE)/ramdisk.img bs=512 seek=25 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=$(BIN)/KernelMain.bin bs=512 seek=51225 of=$(IMAGE)/boot.flp conv=notrunc,noerror
-	$(DD) if=$(BIN)/test.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
+	$(DD) if=$(BIN)/xmltest.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	# $(DD) if=$(BIN)/bosml.bin bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=/dev/zero bs=1 count=1 of=$(IMAGE)/boot.flp conv=sync seek=64026623
 	cp $(IMAGE)/boot.flp $(IMAGE)/boot.raw
