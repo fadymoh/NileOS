@@ -69,7 +69,7 @@ void keyboard_handler(InterruptContext * r)
             ipAddress[0] = 192;
             ipAddress[1] = 168;
             ipAddress[2] = 1;
-            ipAddress[3] = 2;
+            ipAddress[3] = 0;
 
             RequestMACAddress(kernel.e1000, ipAddress);
         }

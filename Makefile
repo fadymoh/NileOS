@@ -41,7 +41,7 @@ boot.flp: subsystems
 	$(DD) if=$(BIN)/KernelMain.bin bs=512 seek=51225 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=$(BIN)/test.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	# $(DD) if=$(BIN)/bosml.bin bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
-	$(DD) if=/dev/zero bs=1 count=1 of=$(IMAGE)/boot.flp conv=sync seek=64026623
+	$(DD) if=/dev/zero bs=1 count=1 of=$(IMAGE)/boot.flp conv=sync seek=122007551
 	cp $(IMAGE)/boot.flp $(IMAGE)/boot.raw
 	rm -rf $(IMAGE)/boot.vdi
 	VBoxManage convertdd $(IMAGE)/boot.raw $(IMAGE)/boot.vdi --format VDI
