@@ -4,6 +4,8 @@ extern Kernel kernel;
 
 extern void IdtHandler(InterruptContext *p_interruptContext)
 {
+    // if(p_interruptContext->interrupt_number != 32)
+    //     printk("Inside IDT HANDLER %d \n", p_interruptContext->interrupt_number);
     disableInterrupts();
     DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
     uint8_t core_id = kernel.apicManager.returns.core_id;
@@ -23,6 +25,9 @@ extern void IdtHandler(InterruptContext *p_interruptContext)
     kernel.interruptManager.params.p_interruptContext = p_interruptContext;
     DispatchKernel(&kernel.service_transporter, interruptManager_t, service_interrupt);
 
-    sendAPICEOI(&kernel.apicManager.apics[core_id]); //do something we don't know yet.
+    sendAPICEOI(&kernel.apicManager.apics[core_id]);
     enableInterrupts();
+
+    // if(p_interruptContext->interrupt_number != 32)
+    //     printk("Inside IDT HANDLER %d\n", p_interruptContext->interrupt_number);
 }

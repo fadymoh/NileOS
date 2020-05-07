@@ -40,7 +40,7 @@ boot.flp: subsystems
 	$(CAT) $(BIN)/bootstage1.bin $(BIN)/bootstage2.bin $(BIN)/stage1.bin $(BIN)/trampoline.bin /dev/zero | $(DD) bs=512 count=61440 of=$(IMAGE)/boot.flp
 	# $(DD) if=$(IMAGE)/ramdisk.img bs=512 seek=25 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=$(BIN)/KernelMain.bin bs=512 seek=51225 of=$(IMAGE)/boot.flp conv=notrunc,noerror
-	$(DD) if=$(BIN)/xmltest.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
+	#$(DD) if=$(BIN)/xmltest.txt bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	# $(DD) if=$(BIN)/bosml.bin bs=512 seek=52825 of=$(IMAGE)/boot.flp conv=notrunc,noerror
 	$(DD) if=/dev/zero bs=1 count=1 of=$(IMAGE)/boot.flp conv=sync seek=122007551
 	cp $(IMAGE)/boot.flp $(IMAGE)/boot.raw
@@ -59,7 +59,25 @@ auc: subsystems auc_ramdisk
 	chmod a+r $(IMAGE)/boot.vdi
 	chown kmsobh:kmsobh $(IMAGE)/boot.vdi
 
-
+runtwinvbox: boot.flp
+	rm -rf $(IMAGE)/boot1.vdi
+	/usr/bin/VBoxManage convertdd $(IMAGE)/boot.raw $(IMAGE)/boot1.vdi --format VDI
+	chmod a+r $(IMAGE)/boot1.vdi
+	chown "$(whoami)" $(IMAGE)/boot1.vdi
+	/usr/bin/vboxmanage storageattach "NileOS" --storagectl "IDE" --device 0 --port 0 --type hdd --medium none
+	#/usr/bin/vboxmanage storageattach "NileOS" --storagectl "IDE" --device 1 --port 0 --type hdd --medium none
+	/usr/bin/VBoxManage closemedium disk $(IMAGE)/boot.vdi
+	#/usr/bin/VBoxManage closemedium disk $(IMAGE)/data.vdi
+	/usr/bin/vboxmanage storageattach "NileOS" --storagectl "IDE" --device 0 --port 0 --type hdd --medium $(IMAGE)/boot.vdi
+	#/usr/bin/vboxmanage storageattach "NileOS" --storagectl "IDE" --device 1 --port 0 --type hdd --medium $(IMAGE)/data.vdi
+	/usr/bin/vboxmanage storageattach "NileOSTwo" --storagectl "IDE" --device 0 --port 0 --type hdd --medium none
+	#/usr/bin/vboxmanage storageattach "NileOSTwo" --storagectl "IDE" --device 1 --port 0 --type hdd --medium none
+	/usr/bin/VBoxManage closemedium disk $(IMAGE)/boot1.vdi
+	#/usr/bin/VBoxManage closemedium disk $(IMAGE)/data1.vdi
+	/usr/bin/vboxmanage storageattach "NileOSTwo" --storagectl "IDE" --device 0 --port 0 --type hdd --medium $(IMAGE)/boot1.vdi
+	#/usr/bin/vboxmanage storageattach "NileOSTwo" --storagectl "IDE" --device 1 --port 0 --type hdd --medium $(IMAGE)/data1.vdi
+	/usr/bin/vboxmanage startvm "NileOS" 
+	/usr/bin/vboxmanage startvm "NileOSTwo" 
 
 subsystems:
 	# Andy

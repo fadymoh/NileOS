@@ -50,6 +50,11 @@
         "ethernet.h": "c",
         "udp.h": "c",
         "void_ptr_stack.h": "c",
-        "xmlparser.h": "c"
+        "xmlparser.h": "c",
+        "base64encoding.h": "c",
+        "numbers.h": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "string": "c"
     }
 }

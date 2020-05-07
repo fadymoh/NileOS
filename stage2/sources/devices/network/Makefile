@@ -9,6 +9,7 @@ main: Ethernet.o \
 		UDP.o \
 		TCP.o \
 		ICMP.o \
+		IPIoE.o \
 
 Ethernet.o: 
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c Ethernet.c -o $(OBJECT)/Ethernet.o
@@ -36,3 +37,6 @@ TCP.o:
 
 ICMP.o: 
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c ICMP.c -o $(OBJECT)/ICMP.o
+
+IPIoE.o: 
+	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c IPIoE.c -o $(OBJECT)/IPIoE.o

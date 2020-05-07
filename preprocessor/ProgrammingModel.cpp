@@ -313,6 +313,9 @@ SECTIONS\n \
 \tXMLParser.o (.text)\n\
 \tXQuery.o (.text)\n\
 \tXMLService.o (.text)\n\
+\tBase64Encoding.o (.text)\n\
+\tIPIoE.o (.text)\n\
+\tmultServ.o (.text)\n\
 \
 ";
 

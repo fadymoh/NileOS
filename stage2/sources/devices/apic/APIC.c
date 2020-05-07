@@ -71,14 +71,20 @@ void initialize_apic(APIC *apic, uint16_t p_apic_id, uint64_t p_local_apic, bool
     apic->wakeup_counter = 0;
     apic->wakeup_apic_id = 0;
 
-    spinlock_init(&apic->ipioe_spinlock);
-    apic->ipioe_auto_replies = false;
-    apic->ipioe_raised = false;
+    // spinlock_init(&apic->ipioe_spinlock);
+    // apic->ipioe_auto_replies = false;
+    // apic->ipioe_raised = false;
     if (!p_bsp)
     {
         uint8_t *code_segment = (uint8_t *)0x200000;
         uint8_t *core_code_segment = (uint8_t *)code_segment + (p_apic_id * 0x200000);
         fast_memcpy(core_code_segment, code_segment, 0x100000);
+
+        apic->worker.is_running = true;
+        apic->worker.queue_index = 0;
+        apic->worker.queue_size = 0;
+        apic->worker.queue_end = 0;
+        spinlock_init(&apic->worker.lock);
     }
     memset(apic->role, 0, 5);
 }

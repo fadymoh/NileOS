@@ -26,6 +26,9 @@
 #include "XMLParser.h"
 #include "XQuery.h"
 #include "XMLService.h"
+#include "numbers.h"
+#include "Base64Encoding.h"
+#include "multServ.h"
 
 typedef struct 
 {
@@ -72,8 +75,10 @@ typedef struct
     XMLService xmlService; 
 
     xml_heap_t * sys_xml_confg;
+    volatile bool down_arrow;
+    volatile bool up_arrow;
 
-
+    MultService multiplyService;
     } Kernel;
 
 void switchToUserMode ();

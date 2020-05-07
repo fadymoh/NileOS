@@ -308,4 +308,6 @@ typedef unsigned __int128 uint128_t;
 
 #define WAKEUP_MAPPER_COMMMAND 0x1
 
+#define MAXIMUM_TAG_LENGTH 50
+
 #endif

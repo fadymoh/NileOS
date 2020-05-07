@@ -19,6 +19,7 @@ Service interruptService;
 Service ipiService;
 Service sharedMemoryService;
 Service XMLParserService;
+Service MultiplyService;
 
 GlobalDescriptorTablePointer globalDescriptorTablePointer;
 
@@ -110,8 +111,120 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // printk("Core %d is about to sleep for %d...\n", core_id, sleep_time);
   //  pit_sleep(sleep_time, 0 ,WAKEUP_IPI, true);
   //  printk("Core %d is now up again...\n", core_id);
-  while (1)
-    ;
+  if (core_id == 1)
+  {
+    while (1)
+    {
+      if (kernel.down_arrow == true)
+      {
+        uint8_t mac[6];
+        mac[0] = 0x08;
+        mac[1] = 0x00;
+        mac[2] = 0x27;
+        mac[3] = 0x24;
+        mac[4] = 0x41;
+        mac[5] = 0xb3;
+        // mac[0] = 0xff;
+        // mac[1] = 0xff;
+        // mac[2] = 0xff;
+        // mac[3] = 0xff;
+        // mac[4] = 0xff;
+        // mac[5] = 0xff;
+        uint16_t sourceCore = 1;
+        uint16_t destinationCore = 2;
+
+        char dataToBeSend[100] = "<FirstValue> 2 </FirstValue> <SecondValue> 2 </SecondValue>";
+        uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, mac, destinationCore, sourceCore, multiplyService_t, GETMult, dataToBeSend, strlen(dataToBeSend));
+        printk("before wait\n");
+        wait_IPIoE_messageId(msgId);
+        printk("after wait\n");
+        IPIoE_Queue_Entry *ipioe_p = workerDequeue(sourceCore);
+        ParseXMLString(ipioe_p->data);
+        Parameter *ret = &kernel.service_transporter.kernel_services[multiplyService_t]->testMethod[GETMult].returns[0];
+        kernel.xmlService.params.tagDirectory = ret->tag;
+        getValueFromTagMessage(&kernel.xmlService);
+        char *parsingResult = kernel.xmlService.returns.value;
+        //printk("Parsing Result: %s\nValue in Bytes: ", parsingResult);
+        uint64_t outLength = 0;
+        uint64_t *decodedResult = base64_decode(parsingResult, strlen(parsingResult), &outLength);
+        // for (int i = 0; i < outLength; i++)
+        //   printk("%d | ", decodedResult[i]);
+        // printk("\nOut Length: %d\n", outLength);
+        printk("The result taken from the xml is: %d\n", *decodedResult);
+        kernel.down_arrow = false;
+      }
+      if (kernel.up_arrow == true)
+      {
+        uint8_t mac[6];
+        mac[0] = 0x08;
+        mac[1] = 0x00;
+        mac[2] = 0x27;
+        mac[3] = 0x0c;
+        mac[4] = 0x1b;
+        mac[5] = 0x93;
+        // mac[0] = 0xff;
+        // mac[1] = 0xff;
+        // mac[2] = 0xff;
+        // mac[3] = 0xff;
+        // mac[4] = 0xff;
+        // mac[5] = 0xff;
+        uint16_t sourceCore = 1;
+        uint16_t destinationCore = 2;
+
+        char dataToBeSend[100] = "<FirstValue> 2 </FirstValue> <SecondValue> 2 </SecondValue>";
+        uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, mac, destinationCore, sourceCore, multiplyService_t, GETMult, dataToBeSend, strlen(dataToBeSend));
+        printk("before wait\n");
+        wait_IPIoE_messageId(msgId);
+        printk("after wait\n");
+        IPIoE_Queue_Entry *ipioe_p = workerDequeue(sourceCore);
+        ParseXMLString(ipioe_p->data);
+        Parameter *ret = &kernel.service_transporter.kernel_services[multiplyService_t]->testMethod[GETMult].returns[0];
+        kernel.xmlService.params.tagDirectory = ret->tag;
+        getValueFromTagMessage(&kernel.xmlService);
+        char *parsingResult = kernel.xmlService.returns.value;
+        // printk("Parsing Result: %s\nValue in Bytes: ", parsingResult);
+        uint64_t outLength = 0;
+        uint64_t *decodedResult = base64_decode(parsingResult, strlen(parsingResult), &outLength);
+        //for (int i = 0; i < outLength; i++)
+        // printk("%d | ", decodedResult[i]);
+        //printk("\nOut Length: %d\n", outLength);
+        printk("The result taken from the xml is: %d\n", *decodedResult);
+        kernel.up_arrow = false;
+      }
+    }
+  }
+  if (core_id == 2)
+  {
+    while (1)
+    {
+      if (kernel.apicManager.apics[core_id].worker.queue_size == 0)
+        wait_IPIoE();
+
+      IPIoE_Queue_Entry *ipioe_p = workerDequeue(core_id);
+
+      // DumpIPIoE_Packet(&ipioe_p->ipioe_p);
+
+      // printk("WOKE UP.. Packet Coming from MAC Address: %y:%y:%y:%y:%y:%y\n",
+      //        ipioe_p->smac[0],
+      //        ipioe_p->smac[1],
+      //        ipioe_p->smac[2],
+      //        ipioe_p->smac[3],
+      //        ipioe_p->smac[4],
+      //        ipioe_p->smac[5]);
+      // printk("WOKE UP.. Packet Going to MAC Address: %y:%y:%y:%y:%y:%y\n",
+      //        ipioe_p->dmac[0],
+      //        ipioe_p->dmac[1],
+      //        ipioe_p->dmac[2],
+      //        ipioe_p->dmac[3],
+      //        ipioe_p->dmac[4],
+      //        ipioe_p->dmac[5]);
+      printk("Core %d received a new IPIoE\n", core_id);
+      // Process the actual thing
+      char *response = DispatchKernelTest(&kernel.service_transporter, ipioe_p->ipioe_p.serviceNumber, ipioe_p->ipioe_p.methodNumber, ipioe_p->data);
+
+      uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, ipioe_p->smac, ipioe_p->ipioe_p.sourceCore, ipioe_p->ipioe_p.destinationCore, 10, 1, response, strlen(response));
+    }
+  }
 }
 
 extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
@@ -135,7 +248,7 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   initializePCIService(pci_manager, &pciService);
   RegisterServiceToKernel(service_transporter, &pciService, pci_t);
 
-  // //Stage 1 Map
+  // Stage 1 Map
   PageMapStage1();
 
   Console *console = &(kernel.console);
@@ -260,6 +373,10 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // kernel.blockService.blocks_to_read_number = 15;
   // kernel.blockService.start_sector = 52825 + 30 * sectors;
   read_blocks(kernel.ataManager.ataDisks[0], buffer);
+
+  // Service 1 Function 1 // int
+  //
+  // int ret = DispatchKernel(st, srv, num, pointer_to_xml);
   // for (int i = 0; i < 512; ++i)
   // {
   //   printk("%c", (char)buffer[i]);
@@ -317,135 +434,58 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   e1000Scan();
   enableInterrupts();
   printk("Finished Setting up the Network Driver!\n");
-  printk("gamed\n");
-  // //e1000StartLink((E1000 *)kernel.e1000->driver);
 
-  // // while (kernel.apicManager.apics[0].pit_counter / 100 <= 6)
-  // //   ;
-
-  // printk("It is 6\n");
-  // //  // e1000StartLink((E1000 *)kernel.e1000->driver);
-  // //  // e1000Scan();
-  // kernel.ipiManager.params.receiverCore_id = 0;
-  // kernel.ipiManager.params.p_irq = 11 + 32;
-  // DispatchKernel(&kernel.service_transporter, ipi_t, send_ipi);
-  // uint32_t status_reg = e1000ReadCommand((E1000 *)kernel.e1000->driver, REG_STATUS);
-  // e1000PrintStatus(status_reg);
-
-  
-// SharedMemory *sharedMemory = &(kernel.sharedMemory);
-  // service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
-  // initSharedMemoryService(sharedMemory, &sharedMemoryService);
-  // RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
-
-  XMLService * xmlservice = &(kernel.xmlService);
+  XMLService *xmlservice = &(kernel.xmlService);
   service_init(&XMLParserService, (void *)xmlservice, xmlService_t);
   initializeXMLService(&XMLParserService);
   RegisterServiceToKernel(service_transporter, &XMLParserService, xmlService_t);
 
+  // char path[256] = "cores/core[0]/Role";
+  // xmlservice->params.ata_core_id = 0;
+  // xmlservice->params.sectors_count_to_read = 1;
+  // xmlservice->params.sectors_start = 52825;
+  // xmlservice->params.tagDirectory = path;
 
-  char path[256] = "cores/core[0]/Role"; 
-  xmlservice->params.ata_core_id = 0;
-  xmlservice->params.sectors_count_to_read = 1;
-  xmlservice->params.sectors_start = 52825;
-  xmlservice->params.tagDirectory = path; 
-  
+  // DispatchKernel(service_transporter, xmlService_t, ParseFile);
+  // DispatchKernel(&kernel.service_transporter, xmlService_t, GetValueFromTag);
 
-  DispatchKernel(service_transporter, xmlService_t, ParseFile); 
-  DispatchKernel(&kernel.service_transporter, xmlService_t, GetValueFromTag); 
+  SharedMemory *sharedMemory = &(kernel.sharedMemory);
+  service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
+  initSharedMemoryService(sharedMemory, &sharedMemoryService);
+  RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
 
-printk("Finished BSP Kernel Main\n");
+  // //DispatchKernel(service_transporter, sharedMemory_t, AllocateSharedMemory)
+  char data[100] = "<numberOfBytes> 8388608 </numberOfBytes>";
+  // data = "<numberOfBytes>10</numberOfBytes>";
+  printk("dispatching the kernel shared memory service\n");
+  DispatchKernelTest(service_transporter, sharedMemory_t, allocatedSharedMemory_t, data);
+  char data2[100] = "<numberOfBytes> 8388608 </numberOfBytes>";
+  DispatchKernelTest(service_transporter, sharedMemory_t, allocatedSharedMemory_t, data2);
 
+  printk("Finished BSP Kernel Main\n");
+  // SharedMemoryDiscoveryService(service_transporter->kernel_services[sharedMemory_t]);
+  // kernel.down_arrow = false;
+  // kernel.up_arrow = false;
+
+  MultService *multiply = &(kernel.multiplyService);
+  service_init(&MultiplyService, (void *)multiply, multiplyService_t);
+  initMultiplyService(multiply, &MultiplyService);
+  RegisterServiceToKernel(service_transporter, &MultiplyService, multiplyService_t);
+  printk("finished registring\n");
+  while (1)
+  {
+    volatile bool hamada = false;
+
+    //printk("tab hena\n");
+    // if (hamada)
+    //   break;
+  }
+  printk("tl3t bara khales\n");
+  ///hamada_func
 }
 
 void userModeDemo()
 {
   switchToUserMode();
   asm volatile("hlt;");
-}
-
-void testXMLParsing()
-{
-
-  
-
-
-
-
-
-  /*
-  printk("Reading System Configuration .....\n");
-  char *config_buffer = (char *)kvalloc(&kernel.memoryAllocator, (1 + 1) * SECTOR_SIZE);
-  memset(config_buffer, 0, (1 + 1) * SECTOR_SIZE);
-  sprintf(config_buffer, "<SystemConfig>\n");
-  //should be a syscall here..but now we use DMA right away. No blocks service optimization needed.
-
-  kernel.dmaBuffer.enabled = true;
-  kernel.dmaBuffer.total_read = 0;
-  //    printk ("1:before readDMADisk: %x\n",inode->ataDisk);
-  while (readDMADisk(kernel.ataManager.ataDisks[0], 52825, config_buffer + strlen(config_buffer), 1, 0, 0) == READ_DMA_FAIL);
-
-
-  kernel.apicManager.apics[0].fired_interrupts[ATA_IPI] = 0;
-  while (kernel.apicManager.apics[0].fired_interrupts[ATA_IPI] == 0)
-  {
-    asm volatile("sti;");
-    asm volatile("hlt;");
-    asm volatile("cli;");
-    sendAPICEOI(&kernel.apicManager.apics[0]);
-    if (kernel.dmaBuffer.total_read == kernel.dmaBuffer.target_read)
-      break;
-  }
-  printk("Out of syscall_read_file loop\n");
-  kernel.apicManager.apics[0].fired_interrupts[ATA_IPI] = 0;
-  kernel.dmaBuffer.enabled = false;
-
-  //end of syscall should be here
-  sprintf(config_buffer + strlen(config_buffer), "</SystemConfig>\n");
-  printk("Configuration read ....\n");
-
-  //for (int i = 0; i <  3 * SECTOR_SIZE ; ++i)
-  //{
-  // printk("%c", (char)config_buffer[i]);
-  //}
-
-  xml_heap_t *xml_heap = (xml_heap_t *)kvalloc(&kernel.memoryAllocator, sizeof(xml_heap_t));
-  xml_heap_init(xml_heap, config_buffer);
-
-  volatile int done = 0;
-
-  done = parse_xml(xml_heap);
-
-  if (done)
-  {
-    kernel.sys_xml_confg = xml_heap;
-    printk("Parsing Successful\n");
-  }
-  else
-  {
-    kernel.sys_xml_confg = NULL;
-    printk("Error parsing XML \n");
-  }
-
-  printk("DONE XML PARSING!\n");
-  printk("attempting to start executing queries\n");
-
-  char q[1024];
-  memset(q, 0, sizeof(q));
-  sprintf(q, "/SystemConfig/cores/core[0]/Role");
-  xml_node_t *xml_node = exec_xquery(q, kernel.sys_xml_confg);
-
-  if (xml_node != NULL){
-    
-   // printk("%s\n", xml_node->content);
-
-  //  if (strcmp(xml_node->content, "ELSE") == NULL){
-      printk("Final: Role: %s\n", xml_node->content);
-   // }
-  }
-
-  printk("Finished executing queries\n");
-
-  */
-
 }

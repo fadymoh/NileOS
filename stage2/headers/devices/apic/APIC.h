@@ -6,7 +6,7 @@
 #include "ClockUtils.h"
 #include "Spinlock.h"
 #include "GlobalDescriptorTablePointer.h"
-
+#include "IPIoE.h"
 #define LAPIC_SVR_APIC_ENABLE 0x100 | 0xff
 
 #define sfence() __asm__ __volatile__("sfence" :: \
@@ -57,9 +57,9 @@ typedef struct
         spinlock_t ipioe_spinlock;
         bool ipioe_auto_replies;
         bool ipioe_raised;
+        Worker worker;
         uint8_t fired_interrupts[256];
         uint8_t role[5];
-
 } APIC;
 
 uint32_t ioapicRead(APIC *apic, uint8_t p_index);

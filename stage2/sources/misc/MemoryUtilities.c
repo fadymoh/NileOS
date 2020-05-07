@@ -79,6 +79,7 @@ void *strcmp(char *p_dest, const char *p_src)
     uint64_t l_dest = strlen(p_dest);
     uint64_t l_src = strlen(p_src);
     uint64_t len = l_dest;
+
     if (l_src < l_dest)
         len = l_src;
     void *result = memcmp(p_dest, p_src, len);

@@ -133,7 +133,7 @@ int parse_xml(xml_heap_t *xml_heap)
                 }
         }
 
-        printk("Finished Parsing XML File\n");
+        //printk("Finished Parsing XML File\n");
         return 1;
 }
 

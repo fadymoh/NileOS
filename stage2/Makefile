@@ -31,3 +31,5 @@ subsystems:
 
 	$(MAKE) -C sources/ipi CODE_HOME=$(CODE_HOME)
 	$(MAKE) -C sources/xml CODE_HOME=$(CODE_HOME)
+	$(MAKE) -C sources/dummyServs CODE_HOME=$(CODE_HOME)
+

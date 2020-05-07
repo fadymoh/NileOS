@@ -40,6 +40,7 @@ typedef struct
 void initializeXMLService(Service *p_service); 
 void parseAFile(void * xmlservice); 
 void getValueFromTag(void * xmlservice);
-
+void getValueFromTagMessage(void * xmlservice_ptr);
+void ParseXMLString(char *  xmlString);
 
 #endif

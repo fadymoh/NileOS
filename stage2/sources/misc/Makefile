@@ -12,7 +12,8 @@ main: MemoryUtilities.o \
     stdio.o \
     printk.o \
     checksum.o \
-    numbers.o
+    numbers.o \
+	Base64Encoding.o
 
 MemoryUtilities.o: 
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c MemoryUtilities.c -o $(OBJECT)/MemoryUtilities.o
@@ -52,3 +53,6 @@ numbers.o:
     
 NetUtils.o:
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c NetUtils.c -o $(OBJECT)/NetUtils.o
+
+Base64Encoding.o:
+	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c Base64Encoding.c -o $(OBJECT)/Base64Encoding.o

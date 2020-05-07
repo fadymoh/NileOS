@@ -63,10 +63,13 @@ SECTIONS
 	XMLParser.o (.text)
 	XQuery.o (.text)
 	XMLService.o (.text)
-	service1_K.o (.text)
-	service1_U.o (.text)
+	Base64Encoding.o (.text)
+	IPIoE.o (.text)
+	multServ.o (.text)
 	hamada_K.o (.text)
 	hamada_U.o (.text)
+	service1_K.o (.text)
+	service1_U.o (.text)
 
 	Kernel.o (.text)
 		. = ALIGN(4K);

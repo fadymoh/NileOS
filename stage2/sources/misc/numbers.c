@@ -19,7 +19,7 @@ uint64_t atoi(const char *str)
     for (; str[i] == ' '; i++)
         ;
 
-    for (; str[i] != '\0'; i++)
+    for (; str[i] != ' '; i++)
     {
         if (str[i] < '0' || str[i] > '9')
             return 0;

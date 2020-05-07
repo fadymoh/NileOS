@@ -31,8 +31,8 @@ void DumpEthernetPacketData(NetworkPacket *packet)
            packet->ethernetPacket->h_dest[3],
            packet->ethernetPacket->h_dest[4],
            packet->ethernetPacket->h_dest[5]);
-    arp_header_t *arp_packet = (arp_header_t *)(((uint64_t)(packet->ethernetPacket)) + ETH_HLEN);
-    DumpARPPacketData(arp_packet);
+    //arp_header_t *arp_packet = (arp_header_t *)(((uint64_t)(packet->ethernetPacket)) + ETH_HLEN);
+    //DumpARPPacketData(arp_packet);
 }
 
 void DumpARPPacketData(arp_header_t *packet)
@@ -76,7 +76,7 @@ void processARPPacket(NetworkDriver *p_networkDriver, void *skb)
 {
     NetworkPacket *networkPacket = (NetworkPacket *)skb;
     arp_header_t *arp_header = getARPPacketFromSKB(skb);
-    printk (">>>>>> Processing arp packet: %d\n",networkPacket->packet_size);
+    printk(">>>>>> Processing arp packet: %d\n", networkPacket->packet_size);
     // arp_header->target_protocol_address
     // if ( p_networkDriver == getNetworkDriverByIPAddress(arp_header->target_protocol_address))
     {

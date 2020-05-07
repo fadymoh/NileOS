@@ -21,5 +21,6 @@ typedef struct
 bool InitServiceTransportLayer(service_transport_kernel *);
 bool RegisterServiceToKernel(service_transport_kernel *, Service *, int);
 bool DispatchKernel(service_transport_kernel *, int service, int method_num);
+char* DispatchKernelTest(service_transport_kernel *services_of_kernel, int service, int method_num, void* location_of_message);
 
 #endif
