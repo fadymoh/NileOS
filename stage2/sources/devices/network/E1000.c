@@ -8,6 +8,16 @@ static uint16_t e1000_models[E1000_MODELS_COUNT] = {E1000_DEV,
                                                     E1000_DEV4};
 extern Kernel kernel;
 
+/*
+ * Function:  e1000WriteCommand 
+ * --------------------
+ *  Writes a 32 bit value to a register
+ *
+ *  p_address: Register Offset
+ *  p_value: 32 bit value to be written
+ *  returns: void
+ *
+ */
 void e1000WriteCommand(E1000 *p_e1000, uint16_t p_address, uint32_t p_value)
 {
     if (p_e1000->bar_type == 0)
@@ -20,6 +30,17 @@ void e1000WriteCommand(E1000 *p_e1000, uint16_t p_address, uint32_t p_value)
         outportl(p_e1000->io_base + 4, p_value);
     }
 }
+
+/*
+ * Function:  e1000ReadCommand 
+ * --------------------
+ *  reads a 32 bit value from a register
+ *
+ *  p_address: Register Offset
+ *  
+ *  returns: value read
+ *
+ */
 uint32_t e1000ReadCommand(E1000 *p_e1000, uint16_t p_address)
 {
     if (p_e1000->bar_type == 0)
@@ -33,6 +54,21 @@ uint32_t e1000ReadCommand(E1000 *p_e1000, uint16_t p_address)
     }
 }
 
+/*
+ * Function:  e1000DetectEEProm 
+ * --------------------
+ *  Detects whether E1000 can read
+ *  from EEProm or not. It does so
+ *  by writing to the EEPROM register
+ *  and reading from the register for
+ *  until a certain timeout. Bool in
+ *  the e1000 data structure is adjusted
+ *  accordingly
+ *  p_address: Register Offset
+ *  
+ *  returns: void
+ *
+ */
 void e1000DetectEEProm(E1000 *p_e1000)
 {
     uint32_t val = 0;
@@ -49,6 +85,16 @@ void e1000DetectEEProm(E1000 *p_e1000)
     }
 }
 
+/*
+ * Function:  e1000EEpromRead 
+ * --------------------
+ *  Reads 2 bytes from the
+ *  EEProm register
+ *  addr: 
+ *  
+ *  returns: data read
+ *
+ */
 uint32_t e1000EEpromRead(E1000 *p_e1000, uint8_t addr)
 {
     uint16_t data = 0;
@@ -69,6 +115,16 @@ uint32_t e1000EEpromRead(E1000 *p_e1000, uint8_t addr)
     return data;
 }
 
+/*
+ * Function:  e1000ReadMACAddress 
+ * --------------------
+ *  Reads the MAC address from the
+ *  EEPROM register location or from
+ *  0x5400 if EEPROM does not exist
+ *
+ *  returns: data read
+ *
+ */
 void e1000ReadMACAddress(E1000 *p_e1000)
 {
     if (p_e1000->eerprom_exists)
@@ -113,6 +169,17 @@ void e1000ReadMACAddress(E1000 *p_e1000)
                    p_e1000->mac[5]);
     return;
 }
+
+/*
+ * Function:  e1000SendPacket 
+ * --------------------
+ *  Sends a packet after adjusting
+ *  the descriptors
+ *  p_data: ethernet packet to be sent
+ *  p_len: payload size
+ *  returns: 
+ *
+ */
 int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t p_len)
 {
     // we need to spinlock in case of concurrency
@@ -140,6 +207,18 @@ int e1000SendPacket(NetworkDriver *p_networkDriver, const void *p_data, uint16_t
     spinlock_unlock(&p_e1000->spinlock);
     return 0;
 }
+
+/*
+ * Function:  e1000Scan 
+ * --------------------
+ *  Goes through the defined E1000
+ *  models given above, and checks
+ *  the pci devices initially discovered
+ *  and initiallizes the driver if found
+ *  
+ *  returns: void
+ *
+ */
 void e1000Scan()
 {
     uint16_t e1000_index = 0;
@@ -176,11 +255,15 @@ void e1000Scan()
     }
 }
 
-void e1000PrintMac(E1000 *p_e1000)
-{
-    printk_network("MAC Address From String: %s\n", p_e1000->mac_str);
-}
-
+/*
+ * Function:  e1000StartLink 
+ * --------------------
+ *  Does the necessary configurations
+ *  per the references intel manual pages
+ *
+ *  returns: void
+ *
+ */
 void e1000StartLink(E1000 *p_e1000)
 {
     uint32_t val;
@@ -201,6 +284,17 @@ void e1000StartLink(E1000 *p_e1000)
     e1000WriteCommand(p_e1000, 0x0170, 0x0);
 }
 
+/*
+ * Function:  e1000PrintStatus 
+ * --------------------
+ *  Prints the status of the driver
+ *  
+ * status_reg: read value from the
+ *             status register
+ *
+ *  returns: void
+ *
+ */
 void e1000PrintStatus(uint32_t status_reg)
 {
     printk_network("e1000 NIC Status:\n");
@@ -242,6 +336,16 @@ void e1000PrintStatus(uint32_t status_reg)
         printk_network("AutoDetected: 1000Mb/s\n");
 }
 
+/*
+ * Function:  e1000RXInit 
+ * --------------------
+ *  Initializes the receive descriptors
+ *
+ *  p_e1000: pointer to the e1000 driver
+ *
+ *  returns: void
+ *
+ */
 void e1000RXInit(E1000 *p_e1000)
 {
     uint8_t *ptr;
@@ -281,6 +385,16 @@ void e1000RXInit(E1000 *p_e1000)
     //e1000WriteCommand(p_e1000, REG_RCTRL, 0x601801A);
 }
 
+/*
+ * Function:  e1000TXInit 
+ * --------------------
+ *  Initializes the transmit descriptors
+ *
+ *  p_e1000: pointer to the e1000 driver
+ *
+ *  returns: void
+ *
+ */
 void e1000TXInit(E1000 *p_e1000)
 {
     uint8_t *ptr;
@@ -319,6 +433,16 @@ void e1000TXInit(E1000 *p_e1000)
     e1000WriteCommand(p_e1000, REG_TIPG, 0x0060200A);
 }
 
+/*
+ * Function:  e1000InterruptHandler 
+ * --------------------
+ *  Handles E1000 interrupts
+ *
+ *  p_interruptContext: pointer to the interrupt context
+ *
+ *  returns: void
+ *
+ */
 void e1000InterruptHandler(InterruptContext *p_interruptContext)
 {
     if (kernel.e1000->type == E1000_TYPE &&
@@ -354,6 +478,16 @@ void e1000InterruptHandler(InterruptContext *p_interruptContext)
     sendAPICEOI(&kernel.apicManager.apics[core_id]);
 }
 
+/*
+ * Function:  e1000EnableInterrupt 
+ * --------------------
+ *  Enables interrupts on the given driver
+ *
+ *  p_e1000: pointer to the e1000 driver
+ *
+ *  returns: void
+ *
+ */
 void e1000EnableInterrupt(E1000 *p_e1000)
 {
     // clearing the Interrupt mask
@@ -363,6 +497,18 @@ void e1000EnableInterrupt(E1000 *p_e1000)
     e1000ReadCommand(p_e1000, REG_ICR);
 }
 
+/*
+ * Function:  e1000EnableInterrupt 
+ * --------------------
+ *  Handles receiving of the packet by
+ *  processing it and sending it to
+ *  processEthernetPacket
+ *  
+ *  p_networkDriver: pointer to the generic driver
+ *
+ *  returns: void
+ *
+ */
 void e1000HandleReceive(NetworkDriver *p_networkDriver)
 {
     // we need to spinlock if latched to more than one APIC
@@ -393,6 +539,18 @@ void e1000HandleReceive(NetworkDriver *p_networkDriver)
     }
 }
 
+/*
+ * Function:  e1000Init 
+ * --------------------
+ *  Handles receiving of the packet by
+ *  processing it and sending it to
+ *  processEthernetPacket
+ *  
+ *  p_pciConfigHeader: pointer to the PCIDevice
+ *
+ *  returns: pointer to the initialized E1000 driver
+ *
+ */
 E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
 {
     E1000 *p_e1000 = (E1000 *)kmalloc(&kernel.memoryAllocator, sizeof(E1000));
@@ -433,25 +591,26 @@ E1000 *e1000Init(PCIDevice *p_pciConfigHeader)
     {
         e1000WriteCommand(p_e1000, 0x5200 + i * 4, 0);
     }
+  
+    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
 
+    int core_id = kernel.apicManager.returns.core_id;
     printk_network("Registering Interrupt\n");
     kernel.interruptManager.params.p_interruptNumber = p_pciConfigHeader->int_line + IRQ0;
     kernel.interruptManager.params.p_interruptHandler = e1000InterruptHandler;
     DispatchKernel(&kernel.service_transporter, interruptManager_t, register_interrupt);
-    printk_network("Wiring Network IRQ: %d to Core: %d\n", p_pciConfigHeader->int_line, 0);
-
+    printk_network("Wiring Network IRQ: %d to Core: %d\n", p_pciConfigHeader->int_line, core_id);
+    
+    printk_network("Setting up RX/TX buffers\n");
     e1000RXInit(p_e1000);
     e1000TXInit(p_e1000);
     p_e1000->int_line = p_pciConfigHeader->int_line + IRQ0;
 
-    DispatchKernel(&kernel.service_transporter, apic_t, get_current_core_id);
-
-    int core_id = kernel.apicManager.returns.core_id;
-    mapAPICIRQ(&kernel.apicManager.apics[0],
+    // should allow here support for having multiple network card!
+    mapAPICIRQ(&kernel.apicManager.apics[core_id],
                p_pciConfigHeader->int_line,
                p_pciConfigHeader->int_line + IRQ0);
     e1000EnableInterrupt(p_e1000);
-    printk_network("Setting up RX/TX buffers\n");
     uint32_t status_reg = e1000ReadCommand(p_e1000, REG_STATUS);
     e1000PrintStatus(status_reg);
 
