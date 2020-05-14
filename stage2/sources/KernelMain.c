@@ -19,7 +19,7 @@ Service interruptService;
 Service ipiService;
 Service sharedMemoryService;
 Service XMLParserService;
-Service MultiplyService;
+Service AckermannFunctionService;
 
 GlobalDescriptorTablePointer globalDescriptorTablePointer;
 
@@ -70,7 +70,7 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
 
   enablePageDirectory((uint64_t) & (kernel.coresPageTables_ptr[kernel.apicManager.returns.core_id]->PGD));
   int core_id = kernel.apicManager.returns.core_id;
-  //printk("Starting up Core # %d\n", core_id);
+  printk("Starting up Core # %d\n", core_id);
 
   kernel.apicManager.params.p_start_stack = p_start_stack;
   kernel.apicManager.params.p_end_stack = p_end_stack;
@@ -124,32 +124,29 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
         mac[3] = 0x24;
         mac[4] = 0x41;
         mac[5] = 0xb3;
-        // mac[0] = 0xff;
-        // mac[1] = 0xff;
-        // mac[2] = 0xff;
-        // mac[3] = 0xff;
-        // mac[4] = 0xff;
-        // mac[5] = 0xff;
+
         uint16_t sourceCore = 1;
         uint16_t destinationCore = 2;
 
-        char dataToBeSend[100] = "<FirstValue> 2 </FirstValue> <SecondValue> 2 </SecondValue>";
-        uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, mac, destinationCore, sourceCore, multiplyService_t, GETMult, dataToBeSend, strlen(dataToBeSend));
+        char dataToBeSend[100] = "<params><FirstValue> 3 </FirstValue><SecondValue> 12 </SecondValue><params>";
+        uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, mac, destinationCore, sourceCore, ackermannFunctionService_t, AckFunction_t, dataToBeSend, strlen(dataToBeSend));
         printk("before wait\n");
         wait_IPIoE_messageId(msgId);
         printk("after wait\n");
         IPIoE_Queue_Entry *ipioe_p = workerDequeue(sourceCore);
+        printk("returned XML: %s\n", ipioe_p->data);
+
         ParseXMLString(ipioe_p->data);
-        Parameter *ret = &kernel.service_transporter.kernel_services[multiplyService_t]->testMethod[GETMult].returns[0];
+        Parameter *ret = &kernel.service_transporter.kernel_services[ackermannFunctionService_t]->testMethod[AckFunction_t].returns[0];
+
         kernel.xmlService.params.tagDirectory = ret->tag;
+
         getValueFromTagMessage(&kernel.xmlService);
         char *parsingResult = kernel.xmlService.returns.value;
-        //printk("Parsing Result: %s\nValue in Bytes: ", parsingResult);
+        printk("Parsing Result: %s\nValue in Bytes: %d\n", parsingResult, strlen(parsingResult));
         uint64_t outLength = 0;
         uint64_t *decodedResult = base64_decode(parsingResult, strlen(parsingResult), &outLength);
-        // for (int i = 0; i < outLength; i++)
-        //   printk("%d | ", decodedResult[i]);
-        // printk("\nOut Length: %d\n", outLength);
+
         printk("The result taken from the xml is: %d\n", *decodedResult);
         kernel.down_arrow = false;
       }
@@ -162,37 +159,71 @@ extern void ap_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
         mac[3] = 0x0c;
         mac[4] = 0x1b;
         mac[5] = 0x93;
-        // mac[0] = 0xff;
-        // mac[1] = 0xff;
-        // mac[2] = 0xff;
-        // mac[3] = 0xff;
-        // mac[4] = 0xff;
-        // mac[5] = 0xff;
+
         uint16_t sourceCore = 1;
         uint16_t destinationCore = 2;
 
-        char dataToBeSend[100] = "<FirstValue> 2 </FirstValue> <SecondValue> 2 </SecondValue>";
-        uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, mac, destinationCore, sourceCore, multiplyService_t, GETMult, dataToBeSend, strlen(dataToBeSend));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        char dataToBeSend[100] = "<params><FirstValue> 3 </FirstValue><SecondValue> 12 </SecondValue><params>";
+        uint16_t msgId = sendIPIoE_Packet(kernel.e1000, IPIoE_OPCODE_REQUEST, mac, 
+                          destinationCore, sourceCore, ackermannFunctionService_t, AckFunction_t,
+                          dataToBeSend, strlen(dataToBeSend));
         printk("before wait\n");
         wait_IPIoE_messageId(msgId);
         printk("after wait\n");
         IPIoE_Queue_Entry *ipioe_p = workerDequeue(sourceCore);
+        printk("returned XML: %s\n", ipioe_p->data);
+
         ParseXMLString(ipioe_p->data);
-        Parameter *ret = &kernel.service_transporter.kernel_services[multiplyService_t]->testMethod[GETMult].returns[0];
+        Parameter *ret = &kernel.service_transporter.kernel_services[ackermannFunctionService_t]
+                          ->testMethod[AckFunction_t].returns[0];
         kernel.xmlService.params.tagDirectory = ret->tag;
+
         getValueFromTagMessage(&kernel.xmlService);
         char *parsingResult = kernel.xmlService.returns.value;
-        // printk("Parsing Result: %s\nValue in Bytes: ", parsingResult);
+        printk("Parsing Result: %s\nValue in Bytes: %d\n", parsingResult, strlen(parsingResult));
         uint64_t outLength = 0;
         uint64_t *decodedResult = base64_decode(parsingResult, strlen(parsingResult), &outLength);
-        //for (int i = 0; i < outLength; i++)
-        // printk("%d | ", decodedResult[i]);
-        //printk("\nOut Length: %d\n", outLength);
+
         printk("The result taken from the xml is: %d\n", *decodedResult);
         kernel.up_arrow = false;
       }
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   if (core_id == 2)
   {
     while (1)
@@ -449,39 +480,60 @@ extern void bsp_kernel_main(uint64_t p_start_stack, uint64_t p_end_stack)
   // DispatchKernel(service_transporter, xmlService_t, ParseFile);
   // DispatchKernel(&kernel.service_transporter, xmlService_t, GetValueFromTag);
 
-  SharedMemory *sharedMemory = &(kernel.sharedMemory);
-  service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
-  initSharedMemoryService(sharedMemory, &sharedMemoryService);
-  RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
+  // SharedMemory *sharedMemory = &(kernel.sharedMemory);
+  // service_init(&sharedMemoryService, (void *)sharedMemory, sharedMemory_t);
+  // initSharedMemoryService(sharedMemory, &sharedMemoryService);
+  // RegisterServiceToKernel(service_transporter, &sharedMemoryService, sharedMemory_t);
 
-  // //DispatchKernel(service_transporter, sharedMemory_t, AllocateSharedMemory)
-  char data[100] = "<numberOfBytes> 8388608 </numberOfBytes>";
-  // data = "<numberOfBytes>10</numberOfBytes>";
-  printk("dispatching the kernel shared memory service\n");
-  DispatchKernelTest(service_transporter, sharedMemory_t, allocatedSharedMemory_t, data);
-  char data2[100] = "<numberOfBytes> 8388608 </numberOfBytes>";
-  DispatchKernelTest(service_transporter, sharedMemory_t, allocatedSharedMemory_t, data2);
+  // // //DispatchKernel(service_transporter, sharedMemory_t, AllocateSharedMemory)
+  // char data[100] = "<params><numberOfBytes> 8388608 </numberOfBytes></params>";
+  // // data = "<numberOfBytes>10</numberOfBytes>";
+  // printk("dispatching the kernel shared memory service\n");
+  // DispatchKernelTest(service_transporter, sharedMemory_t, allocatedSharedMemory_t, data);
+  // char data2[100] = "<params><numberOfBytes> 8388608 </numberOfBytes></params>";
+  // DispatchKernelTest(service_transporter, sharedMemory_t, allocatedSharedMemory_t, data2);
 
   printk("Finished BSP Kernel Main\n");
   // SharedMemoryDiscoveryService(service_transporter->kernel_services[sharedMemory_t]);
   // kernel.down_arrow = false;
   // kernel.up_arrow = false;
 
-  MultService *multiply = &(kernel.multiplyService);
-  service_init(&MultiplyService, (void *)multiply, multiplyService_t);
-  initMultiplyService(multiply, &MultiplyService);
-  RegisterServiceToKernel(service_transporter, &MultiplyService, multiplyService_t);
-  printk("finished registring\n");
-  while (1)
-  {
-    volatile bool hamada = false;
+  AckermannFunction *ackermannFunction = &(kernel.ackermannFunction);
+  service_init(&AckermannFunctionService, (void *)ackermannFunction, ackermannFunctionService_t);
+  initAckermannFunctionService(ackermannFunction, &AckermannFunctionService);
+  RegisterServiceToKernel(service_transporter, &AckermannFunctionService, ackermannFunctionService_t);
+  //AckermannFunctionDiscovery(service_transporter->kernel_services[ackermannFunctionService_t]);
 
-    //printk("tab hena\n");
-    // if (hamada)
-    //   break;
-  }
-  printk("tl3t bara khales\n");
-  ///hamada_func
+  // kernel.HashTable.capacity = 10;
+  // kernel.HashTable.size = 0;
+  // init_array(&kernel.HashTable);
+  // printk("done!\n");
+  // RegistryServiceValue *firstValue = kmalloc(&kernel.memoryAllocator, sizeof(RegistryServiceValue));
+  // firstValue->core_count = 2;
+  // firstValue->coreID[0] = 1;
+  // firstValue->coreID[1] = 2;
+
+  // RegistryServiceValue *secondValue = kmalloc(&kernel.memoryAllocator, sizeof(RegistryServiceValue));
+  // secondValue->core_count = 3;
+  // secondValue->coreID[0] = 4;
+  // secondValue->coreID[1] = 2;
+  // secondValue->coreID[2] = 5;
+
+  // insert(&kernel.HashTable, "Hamada", "192.168.1.0", "08:00:27:0c:1b:93", firstValue); // in case it is out of the lan
+  // insert(&kernel.HashTable, "Hamada", "LOCAL", "08:00:27:24:41:b3", secondValue);      // in case it is out of the lan
+
+  //   printk("current size: %d\n", kernel.HashTable.size);
+  //   insert(&kernel.HashTable, "08:00:27:24:41:b3", secondValue);
+  //   printk("current size: %d\n", kernel.HashTable.size);
+
+  //   display(&kernel.HashTable);
+  //   RegistryServiceValue *node1 = GetElementFromHashTable(&kernel.HashTable, "08:00:27:0c:1b:93");
+  //   RegistryServiceValue *node2 = GetElementFromHashTable(&kernel.HashTable, "08:00:27:24:41:b3");
+
+  //   printk(" value: coreCount: %d", node1->core_count);
+  //   printk(" service: %s \n\n", node1->service);
+  //   printk(" value: coreCount: %d", node2->core_count);
+  //   printk(" service: %s \n\n", node2->service);
 }
 
 void userModeDemo()

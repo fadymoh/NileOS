@@ -21,7 +21,7 @@ typedef enum service_enum_t
     // network driver
     // block service
     xmlService_t,
-    multiplyService_t
+    ackermannFunctionService_t
 
 } service_enum;
 

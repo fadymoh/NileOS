@@ -76,7 +76,7 @@ void processARPPacket(NetworkDriver *p_networkDriver, void *skb)
 {
     NetworkPacket *networkPacket = (NetworkPacket *)skb;
     arp_header_t *arp_header = getARPPacketFromSKB(skb);
-    printk(">>>>>> Processing arp packet: %d\n", networkPacket->packet_size);
+    //printk(">>>>>> Processing arp packet: %d\n", networkPacket->packet_size);
     // arp_header->target_protocol_address
     // if ( p_networkDriver == getNetworkDriverByIPAddress(arp_header->target_protocol_address))
     {
@@ -94,7 +94,7 @@ void processARPPacket(NetworkDriver *p_networkDriver, void *skb)
             // uint32_t myIP = 0x0e02000a;
             // if (memcmp(arp_header->target_protocol_address, &myIP, 4) == NULL)
             {
-                printk("processing arp of my IP Address\n");
+                //printk("processing arp of my IP Address\n");
                 fast_memcpy(networkPacket->ethernetPacket->h_source, ((E1000 *)p_networkDriver->driver)->mac, 6);
                 fast_memcpy(networkPacket->ethernetPacket->h_dest, destinationMACAddress, 6);
 

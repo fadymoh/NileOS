@@ -13,8 +13,9 @@ main: MemoryUtilities.o \
     printk.o \
     checksum.o \
     numbers.o \
-	Base64Encoding.o
-
+	Base64Encoding.o \
+	HashTable.o
+	
 MemoryUtilities.o: 
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c MemoryUtilities.c -o $(OBJECT)/MemoryUtilities.o
 
@@ -56,3 +57,6 @@ NetUtils.o:
 
 Base64Encoding.o:
 	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c Base64Encoding.c -o $(OBJECT)/Base64Encoding.o
+
+HashTable.o:
+	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c HashTable.c -o $(OBJECT)/HashTable.o

@@ -11,7 +11,7 @@ void initGlobalDescriptorTable()
     // Sets the limit and the base of the globalDescriptorTablePointer.
     // The limit is the size of the GDT table and the base of the memory address
     // of the GlobalDescriptorTable object
-    printk("inside IGDTP: %x\n", kernel.globalDescriptorTable[apic_id]);
+    // printk("inside IGDTP: %x\n", kernel.globalDescriptorTable[apic_id]);
 
     kernel.globalDescriptorTablePointer->limit = (sizeof(GlobalDescriptorTableEntry) * GDT_SIZE) - 1;
     kernel.globalDescriptorTablePointer->base = (uintptr_t)&kernel.globalDescriptorTable[apic_id].globalDescriptorTableEntries;

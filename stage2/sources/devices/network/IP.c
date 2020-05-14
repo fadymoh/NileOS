@@ -29,7 +29,7 @@ void reverseIPSourceAndDestination(ip_header_t * ip_header)
 void processIPPacket (NetworkDriver * p_networkDriver,void * skb)
 {
     ip_header_t * ip_header = getIPPacketFromSKB(skb);
-    printk("processing IP\n");
+    //printk("processing IP\n");
     // printk("IP Header Size : %d\n",ip_header->ihl*4);
     // printk("IP Header Checksum : %d\n",ip_header->check);
     // printk("IP Header Protocol : %d\n",ip_header->protocol);

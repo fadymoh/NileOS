@@ -8,7 +8,7 @@ int service_init(Service *service, void *service_to_point_at, int service_name)
 {
     service->service_name = service_name;
     service->service_data = service_to_point_at;
-    if (service_name != sharedMemory_t && service_name != multiplyService_t)
+    if (service_name != sharedMemory_t && service_name != ackermannFunctionService_t)
         service->add_service = add_service;
     else
     {
@@ -46,16 +46,10 @@ int add_service_test(Service *service, testingPtr fnptr, int location, char *nam
 
 void PrintParameter(Parameter *parameter)
 {
-    char *encryptionStatus = ((parameter->encrypted) ? "True" : "False");
-    char *encodedStatus = ((parameter->base64Encoded) ? "True" : "False");
-    char *variableSizeStatus = ((parameter->variableSize) ? "True" : "False");
-    printk("\t\t\t<%s>\n \
-    \t\t\t\t<type> %s </type>\n \
-    \t\t\t\t<encrypted> %s </encrypted>\n \
-    \t\t\t\t<encoded> %s </encoded>\n \
-    \t\t\t\t<variable size> %s </variable size>\n \
-    \t\t\t\t<size of parameter> %d </size of parameter>\n \
-    \t\t\t</%s>\n",
+    char *encryptionStatus = ((parameter->encrypted) ? "T" : "F");
+    char *encodedStatus = ((parameter->base64Encoded) ? "T" : "F");
+    char *variableSizeStatus = ((parameter->variableSize) ? "T" : "F");
+    printk("   <%s>\n    <type> %s </type> <encrypted> %s </encrypted> <encoded> %s </encoded>\n    <variableSize> %s </variableSize> <sizeOfParameter> %d </sizeOfParameter>\n   </%s>\n",
            parameter->tag, parameter->type, encryptionStatus, encodedStatus, variableSizeStatus, parameter->sizeOfParameter, parameter->tag);
 }
 
@@ -140,13 +134,13 @@ char *ConvertTagToXML(int argc, ...)
         for (int i = 0; i < 8; i++)
             printk_network("%d | ", (decodedData)[i]);
         printk_network("\n");
-        sprintf(end, "<%s> ", tag);
-        end += (tagLength + 3);
+        sprintf(end, "<params><%s> ", tag);
+        end += (tagLength + 11);
 
         memcpy(end, encodedData, encodedDataLength);
         end += encodedDataLength;
-        sprintf(end, " </%s>\n", tag);
-        end += (tagLength + 5);
+        sprintf(end, " </%s></params>\n", tag);
+        end += (tagLength + 14);
     }
     *end = 0;
     //sprintf(buffer + strlen(buffer), "\0");

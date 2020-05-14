@@ -55,6 +55,7 @@
         "numbers.h": "c",
         "string_view": "c",
         "initializer_list": "c",
-        "string": "c"
+        "string": "c",
+        "vector": "c"
     }
 }

@@ -1,6 +1,6 @@
 include $(CODE_HOME)/makefile.vars
 
-main: multServ.o
+main: AckermannFunction.o
 	
-multServ.o: 
-	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c multServ.c -o $(OBJECT)/multServ.o
+AckermannFunction.o: 
+	$(GCC) $(DEBUG) $(GCC_FLAGS) $(INCLUDES) -c AckermannFunction.c -o $(OBJECT)/AckermannFunction.o

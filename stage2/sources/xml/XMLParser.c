@@ -139,9 +139,11 @@ int parse_xml(xml_heap_t *xml_heap)
 
 void xml_heap_init(xml_heap_t *xml_heap, char *xml_source)
 {
+        xml_heap->len = strlen(xml_source);
+        //char* xml_source_copy = kmalloc(&kernel.memoryAllocator, xml_heap->len);
+       // fast_memcpy(xml_source_copy, xml_source, xml_heap->len);
         xml_heap->xml_source = xml_source;
         xml_heap->current_node = 0;
         xml_heap->index = 0;
-        xml_heap->len = strlen(xml_source);
         xml_heap->current_content = NULL;
 }

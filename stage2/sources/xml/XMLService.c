@@ -117,7 +117,7 @@ void getValueFromTagMessage(void *xmlservice_ptr)
 
   char q[1024];
   memset(q, 0, sizeof(q));
-  sprintf(q, "/%s", xmlservice->params.tagDirectory);
+  sprintf(q, "params/%s", xmlservice->params.tagDirectory);
   xml_node_t *xml_node = exec_xquery(q, kernel.sys_xml_confg);
 
   if (xml_node != NULL)

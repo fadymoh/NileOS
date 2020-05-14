@@ -28,7 +28,8 @@
 #include "XMLService.h"
 #include "numbers.h"
 #include "Base64Encoding.h"
-#include "multServ.h"
+#include "AckermannFunction.h"
+#include "HashTable.h"
 
 typedef struct 
 {
@@ -78,7 +79,9 @@ typedef struct
     volatile bool down_arrow;
     volatile bool up_arrow;
 
-    MultService multiplyService;
+    AckermannFunction ackermannFunction;
+
+    GlobalHashTable HashTable;
     } Kernel;
 
 void switchToUserMode ();
